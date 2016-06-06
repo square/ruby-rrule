@@ -1,0 +1,4 @@
+.rspec
+*.gem
+*.sublime-project
+*.sublime-workspace
