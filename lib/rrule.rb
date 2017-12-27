@@ -20,8 +20,8 @@ module RRule
   autoload :AllOccurrences, 'rrule/generators/all_occurrences'
   autoload :BySetPosition, 'rrule/generators/by_set_position'
 
-  def self.parse(rrule, options)
-    Rule.new(rrule, options)
+  def self.parse(rrule, **options)
+    Rule.new(rrule, **options)
   end
 
   MAX_YEAR = 9999
