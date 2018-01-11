@@ -10,6 +10,7 @@ module RRule
       @dtstart = Time.at(dtstart.to_i).in_time_zone(tzid)
       @tz = tzid
       @exdate = exdate
+      @options = parse_options
     end
 
     def all
@@ -26,6 +27,8 @@ module RRule
     end
 
     private
+
+    attr_reader :options
 
     def reject_exdates(results)
       results.reject { |date| exdate.include?(date) }
@@ -118,10 +121,6 @@ module RRule
       end
     end
 
-    def options
-      @options ||= parse_options
-    end
-
     def parse_options
       options = { interval: 1, wkst: 1 }
 
@@ -133,11 +132,19 @@ module RRule
         when 'FREQ'
           options[:freq] = value
         when 'COUNT'
-          options[:count] = value.to_i
+          i = begin
+            Integer(value)
+          rescue ArgumentError
+            raise InvalidRRule, "COUNT must be a non-negative integer"
+          end
+          raise InvalidRRule, "COUNT must be a non-negative integer" if i < 0
+          options[:count] = i
         when 'UNTIL'
           options[:until] = Time.parse(value)
         when 'INTERVAL'
-          options[:interval] = value.to_i
+          i = Integer(value) rescue 0
+          raise InvalidRRule, "INTERVAL must be a positive integer" unless i > 0
+          options[:interval] = i
         when 'BYDAY'
           options[:byweekday] = value.split(',').map { |day| Weekday.parse(day) }
         when 'BYSETPOS'

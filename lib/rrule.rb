@@ -25,4 +25,6 @@ module RRule
   end
 
   MAX_YEAR = 9999
+
+  class InvalidRRule < StandardError; end
 end
