@@ -30,6 +30,14 @@ rrule.between(Time.new(2016, 6, 23), Time.new(2016, 6, 24))
 => [2016-06-23 16:45:32 -0700]
 ```
 
+You can limit the number of instances that are returned with the `limit` option:
+
+```ruby
+rrule = RRule::Rule.new('FREQ=DAILY;COUNT=3')
+rrule.all(limit: 2)
+=> [2016-06-23 16:45:32 -0700, 2016-06-24 16:45:32 -0700]
+```
+
 By default the DTSTART of the recurrence is the current time, but this can be overriden with the `dtstart` option:
 
 ```ruby
