@@ -13,17 +13,17 @@ module RRule
       @options = parse_options
     end
 
-    def all
-      reject_exdates(all_until(nil))
+    def all(limit: nil)
+      reject_exdates(all_until(limit: limit))
     end
 
-    def between(start_date, end_date)
+    def between(start_date, end_date, limit: nil)
       # This removes all sub-second and floors it to the second level.
       # Sub-second level calculations breaks a lot of assumptions in this
       # library and rounding it may also cause unexpected inequalities.
       floored_start_date = Time.at(start_date.to_i)
       floored_end_date = Time.at(end_date.to_i)
-      reject_exdates(all_until(floored_end_date).reject { |instance| instance < floored_start_date })
+      reject_exdates(all_until(end_date: floored_end_date, limit: limit).reject { |instance| instance < floored_start_date })
     end
 
     private
@@ -34,7 +34,7 @@ module RRule
       results.reject { |date| exdate.include?(date) }
     end
 
-    def all_until(end_date)
+    def all_until(end_date: nil, limit: nil)
       result = []
 
       context = Context.new(options, dtstart, tz)
@@ -115,6 +115,8 @@ module RRule
               result.push(this_result)
             end
           end
+
+          return result if limit && result.size == limit
         end
 
         frequency.advance

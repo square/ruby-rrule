@@ -22,6 +22,21 @@ describe RRule::Rule do
       ])
     end
 
+    it 'returns the correct result with an rrule of FREQ=DAILY;COUNT=10 and a limit' do
+      rrule = 'FREQ=DAILY;COUNT=10'
+      dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.all(limit: 5)).to match_array([
+        Time.parse('Tue Sep  2 06:00:00 PDT 1997'),
+        Time.parse('Wed Sep  3 06:00:00 PDT 1997'),
+        Time.parse('Thu Sep  4 06:00:00 PDT 1997'),
+        Time.parse('Fri Sep  5 06:00:00 PDT 1997'),
+        Time.parse('Sat Sep  6 06:00:00 PDT 1997')
+      ])
+    end
+
     it 'returns the correct result with an rrule of FREQ=DAILY;UNTIL=19971224T000000Z' do
       rrule = 'FREQ=DAILY;UNTIL=19971224T000000Z'
       dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
@@ -1704,6 +1719,21 @@ describe RRule::Rule do
         Time.parse('Sat Oct 18 06:00:00 PDT 1997'),
         Time.parse('Mon Oct 20 06:00:00 PDT 1997'),
         Time.parse('Wed Oct 22 06:00:00 PDT 1997')
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=DAILY;INTERVAL=2 and a limit' do
+      rrule = 'FREQ=DAILY;INTERVAL=2'
+      dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.between(Time.parse('Tue Sep  2 06:00:00 PDT 1997'), Time.parse('Wed Oct 22 06:00:00 PDT 1997'), limit: 5)).to match_array([
+        Time.parse('Tue Sep  2 06:00:00 PDT 1997'),
+        Time.parse('Thu Sep  4 06:00:00 PDT 1997'),
+        Time.parse('Sat Sep  6 06:00:00 PDT 1997'),
+        Time.parse('Mon Sep  8 06:00:00 PDT 1997'),
+        Time.parse('Wed Sep 10 06:00:00 PDT 1997')
       ])
     end
 
