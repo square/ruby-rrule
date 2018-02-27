@@ -1,47 +1,33 @@
 module RRule
   class Rule
-    attr_reader :rrule, :dtstart, :tz, :exdate
+    include Enumerable
+
+    attr_reader :dtstart, :tz, :exdate
 
     def initialize(rrule, dtstart: Time.now, tzid: 'UTC', exdate: [])
-      @rrule = rrule
-      # This removes all sub-second and floors it to the second level.
-      # Sub-second level calculations breaks a lot of assumptions in this
-      # library and rounding it may also cause unexpected inequalities.
-      @dtstart = Time.at(dtstart.to_i).in_time_zone(tzid)
+      @dtstart = floor_to_seconds(dtstart).in_time_zone(tzid)
       @tz = tzid
       @exdate = exdate
-      @options = parse_options
+      @options = parse_options(rrule)
     end
 
     def all(limit: nil)
-      reject_exdates(all_until(limit: limit))
+      all_until(limit: limit)
     end
 
     def between(start_date, end_date, limit: nil)
-      # This removes all sub-second and floors it to the second level.
-      # Sub-second level calculations breaks a lot of assumptions in this
-      # library and rounding it may also cause unexpected inequalities.
-      floored_start_date = Time.at(start_date.to_i)
-      floored_end_date = Time.at(end_date.to_i)
-      reject_exdates(all_until(end_date: floored_end_date, limit: limit).reject { |instance| instance < floored_start_date })
+      floored_start_date = floor_to_seconds(start_date)
+      floored_end_date = floor_to_seconds(end_date)
+      all_until(end_date: floored_end_date, limit: limit).reject { |instance| instance < floored_start_date }
     end
 
-    private
-
-    attr_reader :options
-
-    def reject_exdates(results)
-      results.reject { |date| exdate.include?(date) }
-    end
-
-    def all_until(end_date: nil, limit: nil)
-      result = []
+    def each
+      return enum_for(:each) unless block_given?
 
       context = Context.new(options, dtstart, tz)
       context.rebuild(dtstart.year, dtstart.month)
 
       timeset = options[:timeset]
-      total = 0
       count = options[:count]
 
       filters = []
@@ -84,7 +70,7 @@ module RRule
       end
 
       loop do
-        return result if frequency.current_date.year > MAX_YEAR
+        return if frequency.current_date.year > MAX_YEAR
 
         possible_days_of_year = frequency.possible_days
 
@@ -93,40 +79,44 @@ module RRule
         end
 
         results_with_time = generator.combine_dates_and_times(possible_days_of_year, timeset)
-        results_with_time.sort.each do |this_result|
-          if end_date
-            if this_result > end_date
-              return result
-            end
-          end
-
-          if options[:until]
-            if this_result > options[:until]
-              return result
-            end
-            result.push(this_result)
-          elsif this_result >= dtstart
-            total += 1
-            if options[:count]
-              count -= 1
-              result.push(this_result)
-              return result if count == 0
-            else
-              result.push(this_result)
-            end
-          end
-
-          return result if limit && result.size == limit
+        results_with_time.each do |this_result|
+          next if this_result < dtstart
+          return if options[:until] && this_result > options[:until]
+          return if count && (count -= 1) < 0
+          yield this_result unless exdate.include?(this_result)
         end
 
         frequency.advance
       end
     end
 
-    def parse_options
+    def next
+      enumerator.next
+    end
+
+    private
+
+    attr_reader :options
+
+    def floor_to_seconds(date)
+      # This removes all sub-second and floors it to the second level.
+      # Sub-second level calculations breaks a lot of assumptions in this
+      # library and rounding it may also cause unexpected inequalities.
+      Time.at(date.to_i)
+    end
+
+    def enumerator
+      @enumerator ||= to_enum
+    end
+
+    def all_until(end_date: MAX_DATE, limit: nil)
+      limit ? take(limit) : take_while { |date| date <= end_date }
+    end
+
+    def parse_options(rule)
       options = { interval: 1, wkst: 1 }
 
-      params = @rrule.split(';')
+      params = rule.split(';')
       params.each do |param|
         option, value = param.split('=')
 
