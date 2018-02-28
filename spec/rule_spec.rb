@@ -1,6 +1,35 @@
 require 'spec_helper'
 
 describe RRule::Rule do
+  describe '#next' do
+    it 'can sequentially return values' do
+      rrule = 'FREQ=DAILY;COUNT=10'
+      dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+      expect(rrule.next).to eql Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+      expect(rrule.next).to eql Time.parse('Wed Sep  3 06:00:00 PDT 1997')
+      expect(rrule.next).to eql Time.parse('Thu Sep  4 06:00:00 PDT 1997')
+    end
+  end
+
+  describe '#take' do
+    it 'can return the next N instances' do
+      rrule = 'FREQ=DAILY;COUNT=10'
+      dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.take(3)).to match_array([
+        Time.parse('Tue Sep  2 06:00:00 PDT 1997'),
+        Time.parse('Wed Sep  3 06:00:00 PDT 1997'),
+        Time.parse('Thu Sep  4 06:00:00 PDT 1997')
+      ])
+    end
+  end
+
   describe '#all' do
     it 'returns the correct result with an rrule of FREQ=DAILY;COUNT=10' do
       rrule = 'FREQ=DAILY;COUNT=10'
@@ -1683,8 +1712,8 @@ describe RRule::Rule do
         Time.parse('Mon Aug 29 19:00:00 PDT 2016')
       ])
     end
-
   end
+
   describe '#between' do
     it 'returns the correct result with an rrule of FREQ=DAILY;INTERVAL=2' do
       rrule = 'FREQ=DAILY;INTERVAL=2'
@@ -1988,10 +2017,13 @@ describe RRule::Rule do
       dtstart = Time.parse('Thu Jan 28 17:00:00 PST 2016').in_time_zone(timezone)
 
       rrule = RRule.parse(rrule, dtstart: dtstart, tzid: timezone)
-      expect(rrule.between(Time.parse('Tue May 24 14:34:59 PDT 2016'), Time.parse('Sun Jul 24 14:35:09 PDT 2016'))).to match_array([
-                                                                                                                               Time.parse('Thu Jun 16 17:00:00 PDT 2016'),
-                                                                                                                               Time.parse('Thu Jul 14 17:00:00 PDT 2016')
-                                                                                                                           ])
+      expect(rrule.between(
+        Time.parse('Tue May 24 14:34:59 PDT 2016'),
+        Time.parse('Sun Jul 24 14:35:09 PDT 2016')
+      )).to match_array([
+        Time.parse('Thu Jun 16 17:00:00 PDT 2016'),
+        Time.parse('Thu Jul 14 17:00:00 PDT 2016')
+      ])
     end
 
     it 'returns the correct result with a date start right on the year border' do

@@ -25,6 +25,7 @@ module RRule
   end
 
   MAX_YEAR = 9999
+  MAX_DATE = DateTime.new(MAX_YEAR)
 
   class InvalidRRule < StandardError; end
 end
