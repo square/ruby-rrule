@@ -8,6 +8,7 @@ module RRule
   autoload :Frequency, 'rrule/frequencies/frequency'
   autoload :Daily, 'rrule/frequencies/daily'
   autoload :Weekly, 'rrule/frequencies/weekly'
+  autoload :SimpleWeekly, 'rrule/frequencies/simple_weekly'
   autoload :Monthly, 'rrule/frequencies/monthly'
   autoload :Yearly, 'rrule/frequencies/yearly'
 

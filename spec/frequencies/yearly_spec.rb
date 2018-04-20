@@ -13,7 +13,7 @@ describe RRule::Yearly do
   before(:each) { context.rebuild(1997, 1) }
 
   describe '#possible_days' do
-    subject { described_class.new(context).possible_days }
+    subject { described_class.new(context, nil, nil, nil).possible_days }
 
     context 'in a non leap year' do
       before(:each) { context.rebuild(1997, 1) }
@@ -29,7 +29,7 @@ describe RRule::Yearly do
   end
 
   describe '#advance' do
-    subject { described_class.new(context).advance }
+    subject { described_class.new(context, nil, nil, nil).advance }
 
     context 'on the first day of the year' do
       let(:date) { Date.new(1997, 1, 1)}

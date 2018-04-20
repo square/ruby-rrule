@@ -31,18 +31,6 @@ module RRule
       count = options[:count]
 
       filters = []
-
-      frequency = case options[:freq]
-      when 'DAILY'
-        Daily.new(context)
-      when 'WEEKLY'
-        Weekly.new(context)
-      when 'MONTHLY'
-        Monthly.new(context)
-      when 'YEARLY'
-        Yearly.new(context)
-      end
-
       if options[:bymonth]
         filters.push(ByMonth.new(options[:bymonth], context))
       end
@@ -69,24 +57,17 @@ module RRule
         generator = AllOccurrences.new(context)
       end
 
+      frequency = Frequency.for_options(options).new(context, filters, generator, timeset)
+
       loop do
         return if frequency.current_date.year > MAX_YEAR
 
-        possible_days_of_year = frequency.possible_days
-
-        possible_days_of_year.each_with_index do |day_index, i|
-          possible_days_of_year[i] = nil if filters.any? { |filter| filter.reject?(day_index) }
-        end
-
-        results_with_time = generator.combine_dates_and_times(possible_days_of_year, timeset)
-        results_with_time.each do |this_result|
+        frequency.next_occurrences.each do |this_result|
           next if this_result < dtstart
           return if options[:until] && this_result > options[:until]
           return if count && (count -= 1) < 0
           yield this_result unless exdate.include?(this_result)
         end
-
-        frequency.advance
       end
     end
 
@@ -164,6 +145,7 @@ module RRule
         when 'MONTHLY'
           options[:bymonthday] = [dtstart.day]
         when 'WEEKLY'
+          options[:simple_weekly] = true
           options[:byweekday] = [Weekday.new(dtstart.wday)]
         end
       end
