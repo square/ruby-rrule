@@ -4,11 +4,13 @@ module RRule
 
     attr_reader :dtstart, :tz, :exdate
 
-    def initialize(rrule, dtstart: Time.now, tzid: 'UTC', exdate: [])
+    def initialize(rrule, dtstart: Time.now, tzid: 'UTC', exdate: [], max_year: nil)
       @dtstart = floor_to_seconds(dtstart).in_time_zone(tzid)
       @tz = tzid
       @exdate = exdate
       @options = parse_options(rrule)
+      @max_year = max_year || 9999
+      @max_date = DateTime.new(@max_year)
     end
 
     def all(limit: nil)
@@ -70,7 +72,7 @@ module RRule
       end
 
       loop do
-        return if frequency.current_date.year > MAX_YEAR
+        return if frequency.current_date.year > max_year
 
         possible_days_of_year = frequency.possible_days
 
@@ -96,7 +98,7 @@ module RRule
 
     private
 
-    attr_reader :options
+    attr_reader :options, :max_year, :max_date
 
     def floor_to_seconds(date)
       # This removes all sub-second and floors it to the second level.
@@ -109,7 +111,7 @@ module RRule
       @enumerator ||= to_enum
     end
 
-    def all_until(end_date: MAX_DATE, limit: nil)
+    def all_until(end_date: max_date, limit: nil)
       limit ? take(limit) : take_while { |date| date <= end_date }
     end
 
