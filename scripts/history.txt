@@ -1,0 +1,5 @@
+Benchmarking rules in version 0.3.0
+                           user     system      total        real
+FREQ=WEEKLY            7.190000   0.040000   7.230000 (  7.242336)
+FREQ=WEEKLY;BYDAY=WE  12.770000   0.070000  12.840000 ( 12.857210)
+
