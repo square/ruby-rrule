@@ -5,7 +5,7 @@ include Benchmark
 rules_to_benchmark = ['FREQ=WEEKLY', 'FREQ=WEEKLY;BYDAY=WE']
 rrule_version = '0.3.0'
 
-puts "Benchmarking rules in version #{rrule_version}\n"
+puts "Benchmarking rules in version #{rrule_version}: 1000 expansions over one month\n"
 Benchmark.benchmark(CAPTION, rules_to_benchmark.map(&:size).max, FORMAT) do |bm|
   rules_to_benchmark.each do |rule|
     rrule = RRule.parse(rule, dtstart: Time.parse('Wed Jan 30 09:00:00 PST 2013'), tzid: 'America/Chicago')
