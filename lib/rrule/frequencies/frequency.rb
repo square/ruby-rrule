@@ -42,7 +42,7 @@ module RRule
         Daily
       when 'WEEKLY'
         if options[:simple_weekly] && !options[:bymonth]
-          SimpleWeekly
+          SimpleWeekly # simplified and faster version if we don't need to deal with filtering
         else
           Weekly
         end

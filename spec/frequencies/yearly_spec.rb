@@ -6,7 +6,7 @@ describe RRule::Yearly do
     RRule::Context.new(
         { interval: interval, wkst: 1 },
         date,
-        'UTC'
+        'America/Los_Angeles'
     )
   end
   let(:filters) { [RRule::ByMonth.new([date.month], context), RRule::ByMonthDay.new([date.day], context)] }
@@ -19,35 +19,35 @@ describe RRule::Yearly do
     subject(:frequency) { described_class.new(context, filters, generator, timeset) }
 
     context 'on the first day of the year' do
-      let(:date) { Time.utc(1997, 1, 1) }
+      let(:date) { Time.zone.local(1997, 1, 1) }
 
       it 'returns the next three years' do
-        expect(frequency.next_occurrences).to eql [Time.utc(1997, 1, 1)]
-        expect(frequency.next_occurrences).to eql [Time.utc(1998, 1, 1)]
-        expect(frequency.next_occurrences).to eql [Time.utc(1999, 1, 1)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 1, 1)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1998, 1, 1)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1999, 1, 1)]
       end
     end
 
     context 'on the last day of February in a leap year' do
-      let(:date) { Time.utc(2000, 2, 29) }
+      let(:date) { Time.zone.local(2000, 2, 29) }
 
       it 'skips non-leap years' do
-        expect(frequency.next_occurrences).to eql [Time.utc(2000, 2, 29)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(2000, 2, 29)]
         expect(frequency.next_occurrences).to eql []
         expect(frequency.next_occurrences).to eql []
         expect(frequency.next_occurrences).to eql []
-        expect(frequency.next_occurrences).to eql [Time.utc(2004, 2, 29)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(2004, 2, 29)]
       end
     end
 
     context 'with an interval of two' do
       let(:interval) { 2 }
-      let(:date) { Time.utc(1997, 1, 1) }
+      let(:date) { Time.zone.local(1997, 1, 1) }
 
       it 'returns every other year' do
-        expect(frequency.next_occurrences).to eql [Time.utc(1997, 1, 1)]
-        expect(frequency.next_occurrences).to eql [Time.utc(1999, 1, 1)]
-        expect(frequency.next_occurrences).to eql [Time.utc(2001, 1, 1)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 1, 1)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1999, 1, 1)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(2001, 1, 1)]
       end
     end
   end
