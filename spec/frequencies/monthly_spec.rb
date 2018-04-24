@@ -1,57 +1,63 @@
 require 'spec_helper'
 
 describe RRule::Monthly do
+  let(:interval) { 1 }
   let(:context) do
     RRule::Context.new(
-        { interval: 1 },
+        { interval: interval },
         date,
         'America/Los_Angeles'
     )
   end
+  let(:filters) { [RRule::ByMonthDay.new([date.day], context)] }
+  let(:generator) { RRule::AllOccurrences.new(context) }
+  let(:timeset) { [{ hour: date.hour, minute: date.min, second: date.sec }] }
 
-  before(:each) { context.rebuild(1997, 1) }
+  before { context.rebuild(date.year, date.month) }
 
-  describe '#possible_days' do
-    subject { described_class.new(context).possible_days }
+  describe '#next_occurrences' do
+    subject(:frequency) { described_class.new(context, filters, generator, timeset) }
 
-    context 'on the first day of the year' do
-      let(:date) { Date.new(1997, 1, 1)}
+    context 'with an interval of one' do
+      let(:date) { Time.zone.local(1997, 1, 1) }
 
-      it { is_expected.to eql (0..30).to_a }
+      it 'returns sequential months' do
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 1, 1)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 2, 1)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 3, 1)]
+      end
     end
 
-    context 'on a day in the first month' do
-      let(:date) { Date.new(1997, 1, 25)}
+    context 'with an interval of two' do
+      let(:interval) { 2 }
+      let(:date) { Time.zone.local(1997, 1, 1) }
 
-      it { is_expected.to eql (0..30).to_a }
-    end
-
-    context 'on a day in the next month' do
-      let(:date) { Date.new(1997, 2, 25)}
-
-      it { is_expected.to eql (31..58).to_a }
-    end
-  end
-
-  describe '#advance' do
-    subject { described_class.new(context).advance }
-
-    context 'on the first day of the year' do
-      let(:date) { Date.new(1997, 1, 1)}
-
-      it { is_expected.to eql date + 1.month }
+      it 'returns every other month' do
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 1, 1)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 3, 1)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 5, 1)]
+      end
     end
 
     context 'on the last day of February' do
-      let(:date) { Date.new(1997, 2, 28)}
+      let(:date) { Time.zone.local(1997, 2, 28) }
 
-      it { is_expected.to eql date + 1.month }
+      it 'returns the next three months' do
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 2, 28)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 3, 28)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 4, 28)]
+      end
     end
 
     context 'on the last day of the year' do
-      let(:date) { Date.new(1997, 12, 31)}
+      let(:date) { Time.zone.local(1997, 12, 31) }
 
-      it { is_expected.to eql date + 1.month }
+      it 'returns empty arrays for periods with no matching occurrences' do
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 12, 31)]
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1998, 1, 31)]
+        expect(frequency.next_occurrences).to eql []
+        expect(frequency.next_occurrences).to eql [Time.zone.local(1998, 3, 31)]
+      end
     end
   end
 end
