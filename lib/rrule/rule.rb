@@ -160,5 +160,9 @@ module RRule
 
       options
     end
+
+    def count_or_interval_present?
+      options[:count].present? || (options[:interval].present? && options[:interval] > 1)
+    end
   end
 end
