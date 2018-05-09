@@ -1979,7 +1979,7 @@ describe RRule::Rule do
       ])
     end
 
-    it 'returns the correct result with an rrule of FREQ=DAILY;COUNT=7 when the range extends beyond the end of the recurrence' do
+    it 'returns the correct result with an rrule of FREQ=DAILY;COUNT=7 when the range extends beyond the end of the recurrence (run out of COUNT before the range ends)' do
       rrule ='FREQ=DAILY;COUNT=7'
       dtstart = Time.parse('Thu Feb  6 16:00:00 PST 2014')
       timezone = 'America/Los_Angeles'
