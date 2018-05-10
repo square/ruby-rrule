@@ -1,26 +1,15 @@
 module RRule
-  class BySetPosition
-    attr_reader :by_set_positions, :context
+  class BySetPosition < Generator
+    attr_reader :by_set_positions
 
     def initialize(by_set_positions, context)
       @by_set_positions = by_set_positions
-      @context = context
+      super(context)
     end
 
     def combine_dates_and_times(dayset, timeset)
       valid_dates(dayset).flat_map do |date|
-        timeset.map do |time|
-          Time.use_zone(context.tz) do
-            Time.zone.local(
-                date.year,
-                date.month,
-                date.day,
-                time[:hour],
-                time[:minute],
-                time[:second]
-            )
-          end
-        end
+        process_timeset(date, timeset)
       end
     end
 
