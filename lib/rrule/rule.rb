@@ -120,6 +120,12 @@ module RRule
           i = Integer(value) rescue 0
           raise InvalidRRule, "INTERVAL must be a positive integer" unless i > 0
           options[:interval] = i
+        when 'BYHOUR'
+          options[:byhour] = value.split(',').compact.map(&:to_i)
+        when 'BYMINUTE'
+          options[:byminute] = value.split(',').compact.map(&:to_i)
+        when 'BYSECOND'
+          options[:bysecond] = value.split(',').compact.map(&:to_i)
         when 'BYDAY'
           options[:byweekday] = value.split(',').map { |day| Weekday.parse(day) }
         when 'BYSETPOS'
@@ -156,7 +162,7 @@ module RRule
         options[:byweekday], options[:bynweekday] = options[:byweekday].partition { |wday| wday.ordinal.nil? }
       end
 
-      options[:timeset] = [{ hour: dtstart.hour, minute: dtstart.min, second: dtstart.sec }]
+      options[:timeset] = [{ hour: (options[:byhour].presence || dtstart.hour), minute: (options[:byminute].presence || dtstart.min), second: (options[:bysecond].presence || dtstart.sec) }]
 
       options
     end

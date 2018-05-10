@@ -1715,6 +1715,25 @@ describe RRule::Rule do
   end
 
   describe '#between' do
+    it 'returns the correct result with an rrule of FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU' do
+      rrule = "FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU"
+      dtstart = DateTime.parse("2018-02-04 04:00:00 +1000")
+      timezone = 'Brisbane'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.between(Time.parse('Sun, 08 Apr 2018 00:00:00 +0000'), Time.parse('Fri, 08 Jun 2018 23:59:59 +0000'))).to match_array([
+        Time.parse('Sun, 08 Apr 2018 23:59:59 +1000'),
+        Time.parse('Sun, 15 Apr 2018 23:59:59 +1000'),
+        Time.parse('Sun, 22 Apr 2018 23:59:59 +1000'),
+        Time.parse('Sun, 29 Apr 2018 23:59:59 +1000'),
+        Time.parse('Sun, 06 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 13 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 20 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 27 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 03 Jun 2018 23:59:59 +1000'),
+      ])
+    end
+
     it 'returns the correct result with an rrule of FREQ=DAILY;INTERVAL=2' do
       rrule = 'FREQ=DAILY;INTERVAL=2'
       dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
@@ -2046,6 +2065,69 @@ describe RRule::Rule do
       end_time = Time.parse('Wed Aug 31 21:59:59 PDT 2016')
       expect(rule.between(start_time, end_time)).to eql([expected_instance])
     end
+  end
+
+  it 'returns the correct result with an rrule of FREQ=WEEKLY;BYMONTH=1,3;COUNT=4;BYHOUR=2' do
+    rrule = 'FREQ=WEEKLY;BYMONTH=1,3;COUNT=4;BYHOUR=2'
+    dtstart = Time.parse('Tue Sep  2 09:00:00 PDT 1997')
+    timezone = 'America/Los_Angeles'
+
+    rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+    expect(rrule.all).to match_array([
+      Time.parse('Tue Jan  6 02:00:00 PST 1998'),
+      Time.parse('Tue Jan 13 02:00:00 PST 1998'),
+      Time.parse('Tue Jan 20 02:00:00 PST 1998'),
+      Time.parse('Tue Jan 27 02:00:00 PST 1998')
+    ])
+  end
+
+  it 'returns the correct result with an rrule of FREQ=WEEKLY;BYMONTH=1,3;COUNT=4;BYHOUR=2;BYMINUTE=44' do
+    rrule = 'FREQ=WEEKLY;BYMONTH=1,3;COUNT=4;BYHOUR=2;BYMINUTE=44'
+    dtstart = Time.parse('Tue Sep  2 09:00:00 PDT 1997')
+    timezone = 'America/Los_Angeles'
+
+    rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+    expect(rrule.all).to match_array([
+      Time.parse('Tue Jan  6 02:44:00 PST 1998'),
+      Time.parse('Tue Jan 13 02:44:00 PST 1998'),
+      Time.parse('Tue Jan 20 02:44:00 PST 1998'),
+      Time.parse('Tue Jan 27 02:44:00 PST 1998')
+    ])
+  end
+
+  it 'returns the correct result with an rrule of FREQ=WEEKLY;BYMONTH=1,3;COUNT=24;BYHOUR=2,4,6;BYMINUTE=33,22' do
+    rrule = 'FREQ=WEEKLY;BYMONTH=1,3;COUNT=24;BYHOUR=2,4,6;BYMINUTE=33,22'
+    dtstart = Time.parse('Tue Sep  2 09:23:42 PDT 1997')
+    timezone = 'America/Los_Angeles'
+
+    rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+    expect(rrule.all).to match_array([
+      Time.parse('Tue Jan  6 02:22:42 PST 1998'),
+      Time.parse('Tue Jan  6 02:33:42 PST 1998'),
+      Time.parse('Tue Jan  6 04:22:42 PST 1998'),
+      Time.parse('Tue Jan  6 04:33:42 PST 1998'),
+      Time.parse('Tue Jan  6 06:22:42 PST 1998'),
+      Time.parse('Tue Jan  6 06:33:42 PST 1998'),
+      Time.parse('Tue Jan 13 02:22:42 PST 1998'),
+      Time.parse('Tue Jan 13 02:33:42 PST 1998'),
+      Time.parse('Tue Jan 13 04:22:42 PST 1998'),
+      Time.parse('Tue Jan 13 04:33:42 PST 1998'),
+      Time.parse('Tue Jan 13 06:22:42 PST 1998'),
+      Time.parse('Tue Jan 13 06:33:42 PST 1998'),
+      Time.parse('Tue Jan 20 02:22:42 PST 1998'),
+      Time.parse('Tue Jan 20 02:33:42 PST 1998'),
+      Time.parse('Tue Jan 20 04:22:42 PST 1998'),
+      Time.parse('Tue Jan 20 04:33:42 PST 1998'),
+      Time.parse('Tue Jan 20 06:22:42 PST 1998'),
+      Time.parse('Tue Jan 20 06:33:42 PST 1998'),
+      Time.parse('Tue Jan 27 02:22:42 PST 1998'),
+      Time.parse('Tue Jan 27 02:33:42 PST 1998'),
+      Time.parse('Tue Jan 27 04:22:42 PST 1998'),
+      Time.parse('Tue Jan 27 04:33:42 PST 1998'),
+      Time.parse('Tue Jan 27 06:22:42 PST 1998'),
+      Time.parse('Tue Jan 27 06:33:42 PST 1998')
+    ])
   end
 
   describe 'validation' do
