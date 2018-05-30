@@ -50,6 +50,8 @@ module RRule
         Monthly
       when 'YEARLY'
         Yearly
+      else
+        raise InvalidRRule, "Valid FREQ value is required"
       end
     end
 

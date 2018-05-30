@@ -9,6 +9,7 @@ module RRule
       @tz = tzid
       @exdate = exdate
       @options = parse_options(rrule)
+      @frequency_type = Frequency.for_options(options)
       @max_year = max_year || 9999
       @max_date = DateTime.new(@max_year)
     end
@@ -59,7 +60,7 @@ module RRule
         generator = AllOccurrences.new(context)
       end
 
-      frequency = Frequency.for_options(options).new(context, filters, generator, timeset)
+      frequency = frequency_type.new(context, filters, generator, timeset)
 
       loop do
         return if frequency.current_date.year > max_year
@@ -79,7 +80,7 @@ module RRule
 
     private
 
-    attr_reader :options, :max_year, :max_date
+    attr_reader :options, :max_year, :max_date, :frequency_type
 
     def floor_to_seconds(date)
       # This removes all sub-second and floors it to the second level.
