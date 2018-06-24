@@ -39,10 +39,10 @@ module RRule
             end
           end
         end
-
-        @last_year = year
-        @last_month = month
       end
+
+      @last_year = year
+      @last_month = month
     end
 
     def year_length_in_days
