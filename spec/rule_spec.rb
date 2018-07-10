@@ -2049,6 +2049,14 @@ describe RRule::Rule do
   end
 
   describe 'validation' do
+    it 'raises RRule::InvalidRRule if FREQ is not provided' do
+      expect { RRule::Rule.new('') }.to raise_error(RRule::InvalidRRule)
+      expect { RRule::Rule.new('FREQ=') }.to raise_error(RRule::InvalidRRule)
+      expect { RRule::Rule.new('FREQ=FOO') }.to raise_error(RRule::InvalidRRule)
+      expect { RRule::Rule.new('COUNT=1') }.to raise_error(RRule::InvalidRRule)
+      expect { RRule::Rule.new('FREQ=FOO;COUNT=1') }.to raise_error(RRule::InvalidRRule)
+    end
+
     it 'raises RRule::InvalidRRule if INTERVAL is not a positive integer' do
       dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
       timezone = 'America/New_York'
