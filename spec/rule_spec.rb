@@ -30,9 +30,9 @@ describe RRule::Rule do
     end
   end
 
-  describe "iterating with a floor_date" do
-    describe "No COUNT or INTERVAL > 1" do
-      it "uses the floor_date provided when iterating" do
+  describe 'iterating with a floor_date' do
+    describe 'No COUNT or INTERVAL > 1' do
+      it 'uses the floor_date provided when iterating' do
         rrule = 'FREQ=DAILY'
         dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
         timezone = 'America/New_York'
@@ -49,8 +49,8 @@ describe RRule::Rule do
       end
     end
 
-    describe "COUNT present" do
-      it "starts at dtstart when iterating" do
+    describe 'COUNT present' do
+      it 'starts at dtstart when iterating' do
         rrule = 'FREQ=DAILY;COUNT=10'
         dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
         timezone = 'America/New_York'
@@ -67,8 +67,8 @@ describe RRule::Rule do
       end
     end
 
-    describe "INTERVAL present" do
-      it "starts at dtstart when iterating" do
+    describe 'INTERVAL present' do
+      it 'starts at dtstart when iterating' do
         rrule = 'FREQ=DAILY;INTERVAL=10'
         dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
         timezone = 'America/New_York'
@@ -85,8 +85,8 @@ describe RRule::Rule do
       end
     end
 
-    describe "INTERVAL AND COUNT present" do
-      it "starts at dtstart when iterating" do
+    describe 'INTERVAL AND COUNT present' do
+      it 'starts at dtstart when iterating' do
         rrule = 'FREQ=DAILY;INTERVAL=10;COUNT=5'
         dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
         timezone = 'America/New_York'
@@ -1789,6 +1789,25 @@ describe RRule::Rule do
   end
 
   describe '#between' do
+    it 'returns the correct result with an rrule of FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU' do
+      rrule = 'FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU'
+      dtstart = DateTime.parse('2018-02-04 04:00:00 +1000')
+      timezone = 'Brisbane'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.between(Time.parse('Sun, 08 Apr 2018 00:00:00 +0000'), Time.parse('Fri, 08 Jun 2018 23:59:59 +0000'))).to match_array([
+        Time.parse('Sun, 08 Apr 2018 23:59:59 +1000'),
+        Time.parse('Sun, 15 Apr 2018 23:59:59 +1000'),
+        Time.parse('Sun, 22 Apr 2018 23:59:59 +1000'),
+        Time.parse('Sun, 29 Apr 2018 23:59:59 +1000'),
+        Time.parse('Sun, 06 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 13 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 20 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 27 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 03 Jun 2018 23:59:59 +1000'),
+      ])
+    end
+
     it 'returns the correct result with an rrule of FREQ=DAILY;INTERVAL=2' do
       rrule = 'FREQ=DAILY;INTERVAL=2'
       dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
@@ -2076,7 +2095,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 06:00:00 PST 1997'),
         Time.parse('Wed Sep  3 06:00:00 PST 1997'),
-        Time.parse('Thu Sep  4 06:00:00 PST 1997"'),
+        Time.parse('Thu Sep  4 06:00:00 PST 1997'),
         Time.parse('Sat Sep  6 06:00:00 PST 1997'),
         Time.parse('Sun Sep  7 06:00:00 PST 1997'),
         Time.parse('Tue Sep  9 06:00:00 PST 1997'),
@@ -2122,9 +2141,9 @@ describe RRule::Rule do
     end
 
 
-    describe "iterating with a floor_date" do
-      describe "No COUNT or INTERVAL > 1" do
-        it "still limits to the given range" do
+    describe 'iterating with a floor_date' do
+      describe 'No COUNT or INTERVAL > 1' do
+        it 'still limits to the given range' do
           rrule = 'FREQ=DAILY'
           dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
           timezone = 'America/New_York'
@@ -2142,8 +2161,8 @@ describe RRule::Rule do
         end
       end
 
-      describe "COUNT present" do
-        it "still limits to the given range" do
+      describe 'COUNT present' do
+        it 'still limits to the given range' do
           rrule = 'FREQ=DAILY;COUNT=10'
           dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
           timezone = 'America/New_York'
@@ -2161,8 +2180,8 @@ describe RRule::Rule do
         end
       end
 
-      describe "INTERVAL present" do
-        it "still limits to the given range" do
+      describe 'INTERVAL present' do
+        it 'still limits to the given range' do
           rrule = 'FREQ=DAILY;INTERVAL=10'
           dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
           timezone = 'America/New_York'
@@ -2180,8 +2199,8 @@ describe RRule::Rule do
         end
       end
 
-      describe "INTERVAL AND COUNT present" do
-        it "still limits to the given range" do
+      describe 'INTERVAL AND COUNT present' do
+        it 'still limits to the given range' do
           rrule = 'FREQ=DAILY;INTERVAL=10;COUNT=5'
           dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
           timezone = 'America/New_York'
