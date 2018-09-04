@@ -39,10 +39,10 @@ module RRule
             end
           end
         end
-
-        @last_year = year
-        @last_month = month
       end
+
+      @last_year = year
+      @last_month = month
     end
 
     def year_length_in_days
@@ -82,7 +82,7 @@ module RRule
     end
 
     def negative_week_number_by_day_of_year
-      @negative_month_day_by_day_of_year ||= days_in_year.map { |day| day.cweek - Date.new(day.cwyear, 12, 28).cweek - 1 }
+      @negative_week_number_by_day_of_year ||= days_in_year.map { |day| day.cweek - Date.new(day.cwyear, 12, 28).cweek - 1 }
     end
 
     def elapsed_days_in_year_by_month
