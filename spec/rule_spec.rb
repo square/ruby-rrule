@@ -30,6 +30,80 @@ describe RRule::Rule do
     end
   end
 
+  describe 'iterating with a floor_date' do
+    describe 'No COUNT or INTERVAL > 1' do
+      it 'uses the floor_date provided when iterating' do
+        rrule = 'FREQ=DAILY'
+        dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+        timezone = 'America/New_York'
+
+        rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+        floor_date = Time.parse('Mon Sep  3 06:00:00 PDT 2018')
+
+        expect(rrule.each(floor_date: floor_date).take(3)).to match_array([
+          Time.parse('Tue Sep  3 06:00:00 PDT 2018'),
+          Time.parse('Wed Sep  4 06:00:00 PDT 2018'),
+          Time.parse('Thu Sep  5 06:00:00 PDT 2018')
+        ])
+      end
+    end
+
+    describe 'COUNT present' do
+      it 'starts at dtstart when iterating' do
+        rrule = 'FREQ=DAILY;COUNT=10'
+        dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+        timezone = 'America/New_York'
+
+        rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+        floor_date = Time.parse('Mon Sep  3 06:00:00 PDT 2018')
+
+        expect(rrule.each(floor_date: floor_date).take(3)).to match_array([
+          Time.parse('Tue Sep  2 06:00:00 PDT 1997'),
+          Time.parse('Wed Sep  3 06:00:00 PDT 1997'),
+          Time.parse('Thu Sep  4 06:00:00 PDT 1997'),
+        ])
+      end
+    end
+
+    describe 'INTERVAL present' do
+      it 'starts at dtstart when iterating' do
+        rrule = 'FREQ=DAILY;INTERVAL=10'
+        dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+        timezone = 'America/New_York'
+
+        rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+        floor_date = Time.parse('Mon Sep  3 06:00:00 PDT 2018')
+
+        expect(rrule.each(floor_date: floor_date).take(3)).to match_array([
+          Time.parse('Tue Sep  2 06:00:00 PDT 1997'),
+          Time.parse('Fri Sep 12 06:00:00 PDT 1997'),
+          Time.parse('Mon Sep 22 06:00:00 PDT 1997'),
+        ])
+      end
+    end
+
+    describe 'INTERVAL AND COUNT present' do
+      it 'starts at dtstart when iterating' do
+        rrule = 'FREQ=DAILY;INTERVAL=10;COUNT=5'
+        dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+        timezone = 'America/New_York'
+
+        rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+        floor_date = Time.parse('Mon Sep  3 06:00:00 PDT 2018')
+
+        expect(rrule.each(floor_date: floor_date).take(3)).to match_array([
+          Time.parse('Tue Sep  2 06:00:00 PDT 1997'),
+          Time.parse('Fri Sep 12 06:00:00 PDT 1997'),
+          Time.parse('Mon Sep 22 06:00:00 PDT 1997'),
+        ])
+      end
+    end
+  end
+
   describe '#all' do
     it 'returns the correct result with an rrule of FREQ=DAILY;COUNT=10' do
       rrule = 'FREQ=DAILY;COUNT=10'
@@ -1716,8 +1790,8 @@ describe RRule::Rule do
 
   describe '#between' do
     it 'returns the correct result with an rrule of FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU' do
-      rrule = "FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU"
-      dtstart = DateTime.parse("2018-02-04 04:00:00 +1000")
+      rrule = 'FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU'
+      dtstart = DateTime.parse('2018-02-04 04:00:00 +1000')
       timezone = 'Brisbane'
 
       rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
@@ -1998,7 +2072,7 @@ describe RRule::Rule do
       ])
     end
 
-    it 'returns the correct result with an rrule of FREQ=DAILY;COUNT=7 when the range extends beyond the end of the recurrence' do
+    it 'returns the correct result with an rrule of FREQ=DAILY;COUNT=7 when the range extends beyond the end of the recurrence (run out of COUNT before the range ends)' do
       rrule ='FREQ=DAILY;COUNT=7'
       dtstart = Time.parse('Thu Feb  6 16:00:00 PST 2014')
       timezone = 'America/Los_Angeles'
@@ -2021,7 +2095,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 06:00:00 PST 1997'),
         Time.parse('Wed Sep  3 06:00:00 PST 1997'),
-        Time.parse('Thu Sep  4 06:00:00 PST 1997"'),
+        Time.parse('Thu Sep  4 06:00:00 PST 1997'),
         Time.parse('Sat Sep  6 06:00:00 PST 1997'),
         Time.parse('Sun Sep  7 06:00:00 PST 1997'),
         Time.parse('Tue Sep  9 06:00:00 PST 1997'),
@@ -2064,6 +2138,85 @@ describe RRule::Rule do
       expected_instance = Time.parse('Wed Aug 31 09:00:00 PDT 2016')
       end_time = Time.parse('Wed Aug 31 21:59:59 PDT 2016')
       expect(rule.between(start_time, end_time)).to eql([expected_instance])
+    end
+
+
+    describe 'iterating with a floor_date' do
+      describe 'No COUNT or INTERVAL > 1' do
+        it 'still limits to the given range' do
+          rrule = 'FREQ=DAILY'
+          dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+          timezone = 'America/New_York'
+
+          rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+          start_time = Time.parse('Mon Sep  3 06:00:00 PDT 2018')
+          end_time   = Time.parse('Thu Sep  10 06:00:00 PDT 2018')
+
+          expect(rrule.between(start_time, end_time).take(3)).to match_array([
+            Time.parse('Tue Sep  3 06:00:00 PDT 2018'),
+            Time.parse('Wed Sep  4 06:00:00 PDT 2018'),
+            Time.parse('Thu Sep  5 06:00:00 PDT 2018')
+          ])
+        end
+      end
+
+      describe 'COUNT present' do
+        it 'still limits to the given range' do
+          rrule = 'FREQ=DAILY;COUNT=10'
+          dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+          timezone = 'America/New_York'
+
+          rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+          start_time = Time.parse('Wed Sep  3 06:00:00 PDT 1997')
+          end_time   = Time.parse('Thu Sep  10 06:00:00 PDT 2018')
+
+          expect(rrule.between(start_time, end_time).take(3)).to match_array([
+            Time.parse('Tue Sep  3 06:00:00 PDT 1997'),
+            Time.parse('Wed Sep  4 06:00:00 PDT 1997'),
+            Time.parse('Thu Sep  5 06:00:00 PDT 1997'),
+          ])
+        end
+      end
+
+      describe 'INTERVAL present' do
+        it 'still limits to the given range' do
+          rrule = 'FREQ=DAILY;INTERVAL=10'
+          dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+          timezone = 'America/New_York'
+
+          rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+          start_time = Time.parse('Wed Sep  3 06:00:00 PDT 1997')
+          end_time   = Time.parse('Thu Sep  30 06:00:00 PDT 2018')
+
+          expect(rrule.between(start_time, end_time).take(3)).to match_array([
+            Time.parse('Tue Sep 12 06:00:00 PDT 1997'),
+            Time.parse('Fri Sep 22 06:00:00 PDT 1997'),
+            Time.parse('Mon Oct 02 06:00:00 PDT 1997'),
+          ])
+        end
+      end
+
+      describe 'INTERVAL AND COUNT present' do
+        it 'still limits to the given range' do
+          rrule = 'FREQ=DAILY;INTERVAL=10;COUNT=5'
+          dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+          timezone = 'America/New_York'
+
+          rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+          start_time = Time.parse('Wed Sep  3 06:00:00 PDT 1997')
+          end_time   = Time.parse('Thu Sep  30 06:00:00 PDT 2018')
+
+          expect(rrule.between(start_time, end_time).take(3)).to match_array([
+            Time.parse('Tue Sep 12 06:00:00 PDT 1997'),
+            Time.parse('Fri Sep 22 06:00:00 PDT 1997'),
+            Time.parse('Mon Oct 02 06:00:00 PDT 1997'),
+          ])
+        end
+      end
     end
   end
 

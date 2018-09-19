@@ -21,14 +21,19 @@ module RRule
     def between(start_date, end_date, limit: nil)
       floored_start_date = floor_to_seconds(start_date)
       floored_end_date = floor_to_seconds(end_date)
-      all_until(end_date: floored_end_date, limit: limit).reject { |instance| instance < floored_start_date }
+      all_until(start_date: floored_start_date, end_date: floored_end_date, limit: limit).reject { |instance| instance < floored_start_date }
     end
 
-    def each
-      return enum_for(:each) unless block_given?
+    def each(floor_date: nil)
+      floor_date ||= dtstart
+      # If we have a COUNT or INTERVAL option, we have to start at dtstart, because those are relative to dtstart
+      if count_or_interval_present?
+        floor_date = dtstart
+      end
 
+      return enum_for(:each, floor_date: floor_date) unless block_given?
       context = Context.new(options, dtstart, tz)
-      context.rebuild(dtstart.year, dtstart.month)
+      context.rebuild(floor_date.year, floor_date.month)
 
       timeset = options[:timeset]
       count = options[:count]
@@ -60,13 +65,14 @@ module RRule
         generator = AllOccurrences.new(context)
       end
 
-      frequency = frequency_type.new(context, filters, generator, timeset)
+      frequency = Frequency.for_options(options).new(context, filters, generator, timeset, start_date: floor_date)
 
       loop do
         return if frequency.current_date.year > max_year
 
         frequency.next_occurrences.each do |this_result|
           next if this_result < dtstart
+          next if floor_date.present? && this_result < floor_date
           return if options[:until] && this_result > options[:until]
           return if count && (count -= 1) < 0
           yield this_result unless exdate.include?(this_result)
@@ -93,8 +99,8 @@ module RRule
       @enumerator ||= to_enum
     end
 
-    def all_until(end_date: max_date, limit: nil)
-      limit ? take(limit) : take_while { |date| date <= end_date }
+    def all_until(start_date: nil, end_date: max_date, limit: nil)
+      limit ? take(limit) : each(floor_date: start_date).take_while { |date| date <= end_date }
     end
 
     def parse_options(rule)
@@ -166,6 +172,10 @@ module RRule
       options[:timeset] = [{ hour: (options[:byhour].presence || dtstart.hour), minute: (options[:byminute].presence || dtstart.min), second: (options[:bysecond].presence || dtstart.sec) }]
 
       options
+    end
+
+    def count_or_interval_present?
+      options[:count].present? || (options[:interval].present? && options[:interval] > 1)
     end
   end
 end

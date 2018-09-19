@@ -2,9 +2,9 @@ module RRule
   class Frequency
     attr_reader :current_date, :filters, :generator, :timeset
 
-    def initialize(context, filters, generator, timeset)
+    def initialize(context, filters, generator, timeset, start_date: nil)
       @context = context
-      @current_date = context.dtstart
+      @current_date = start_date.presence || context.dtstart
       @filters = filters
       @generator = generator
       @timeset = timeset
