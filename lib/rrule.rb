@@ -18,6 +18,7 @@ module RRule
   autoload :ByYearDay, 'rrule/filters/by_year_day'
   autoload :ByMonthDay, 'rrule/filters/by_month_day'
 
+  autoload :Generator, 'rrule/generators/generator'
   autoload :AllOccurrences, 'rrule/generators/all_occurrences'
   autoload :BySetPosition, 'rrule/generators/by_set_position'
 

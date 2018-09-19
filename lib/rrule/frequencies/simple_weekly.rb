@@ -4,7 +4,7 @@ module RRule
       correct_current_date_if_needed
       this_occurrence = current_date
       @current_date += context.options[:interval].weeks
-      [this_occurrence]
+      generator.process_timeset(this_occurrence, timeset)
     end
 
     def correct_current_date_if_needed

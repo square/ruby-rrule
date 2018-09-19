@@ -2220,6 +2220,69 @@ describe RRule::Rule do
     end
   end
 
+  it 'returns the correct result with an rrule of FREQ=WEEKLY;BYMONTH=1,3;COUNT=4;BYHOUR=2' do
+    rrule = 'FREQ=WEEKLY;BYMONTH=1,3;COUNT=4;BYHOUR=2'
+    dtstart = Time.parse('Tue Sep  2 09:00:00 PDT 1997')
+    timezone = 'America/Los_Angeles'
+
+    rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+    expect(rrule.all).to match_array([
+      Time.parse('Tue Jan  6 02:00:00 PST 1998'),
+      Time.parse('Tue Jan 13 02:00:00 PST 1998'),
+      Time.parse('Tue Jan 20 02:00:00 PST 1998'),
+      Time.parse('Tue Jan 27 02:00:00 PST 1998')
+    ])
+  end
+
+  it 'returns the correct result with an rrule of FREQ=WEEKLY;BYMONTH=1,3;COUNT=4;BYHOUR=2;BYMINUTE=44' do
+    rrule = 'FREQ=WEEKLY;BYMONTH=1,3;COUNT=4;BYHOUR=2;BYMINUTE=44'
+    dtstart = Time.parse('Tue Sep  2 09:00:00 PDT 1997')
+    timezone = 'America/Los_Angeles'
+
+    rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+    expect(rrule.all).to match_array([
+      Time.parse('Tue Jan  6 02:44:00 PST 1998'),
+      Time.parse('Tue Jan 13 02:44:00 PST 1998'),
+      Time.parse('Tue Jan 20 02:44:00 PST 1998'),
+      Time.parse('Tue Jan 27 02:44:00 PST 1998')
+    ])
+  end
+
+  it 'returns the correct result with an rrule of FREQ=WEEKLY;BYMONTH=1,3;COUNT=24;BYHOUR=2,4,6;BYMINUTE=33,22' do
+    rrule = 'FREQ=WEEKLY;BYMONTH=1,3;COUNT=24;BYHOUR=2,4,6;BYMINUTE=33,22'
+    dtstart = Time.parse('Tue Sep  2 09:23:42 PDT 1997')
+    timezone = 'America/Los_Angeles'
+
+    rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+    expect(rrule.all).to match_array([
+      Time.parse('Tue Jan  6 02:22:42 PST 1998'),
+      Time.parse('Tue Jan  6 02:33:42 PST 1998'),
+      Time.parse('Tue Jan  6 04:22:42 PST 1998'),
+      Time.parse('Tue Jan  6 04:33:42 PST 1998'),
+      Time.parse('Tue Jan  6 06:22:42 PST 1998'),
+      Time.parse('Tue Jan  6 06:33:42 PST 1998'),
+      Time.parse('Tue Jan 13 02:22:42 PST 1998'),
+      Time.parse('Tue Jan 13 02:33:42 PST 1998'),
+      Time.parse('Tue Jan 13 04:22:42 PST 1998'),
+      Time.parse('Tue Jan 13 04:33:42 PST 1998'),
+      Time.parse('Tue Jan 13 06:22:42 PST 1998'),
+      Time.parse('Tue Jan 13 06:33:42 PST 1998'),
+      Time.parse('Tue Jan 20 02:22:42 PST 1998'),
+      Time.parse('Tue Jan 20 02:33:42 PST 1998'),
+      Time.parse('Tue Jan 20 04:22:42 PST 1998'),
+      Time.parse('Tue Jan 20 04:33:42 PST 1998'),
+      Time.parse('Tue Jan 20 06:22:42 PST 1998'),
+      Time.parse('Tue Jan 20 06:33:42 PST 1998'),
+      Time.parse('Tue Jan 27 02:22:42 PST 1998'),
+      Time.parse('Tue Jan 27 02:33:42 PST 1998'),
+      Time.parse('Tue Jan 27 04:22:42 PST 1998'),
+      Time.parse('Tue Jan 27 04:33:42 PST 1998'),
+      Time.parse('Tue Jan 27 06:22:42 PST 1998'),
+      Time.parse('Tue Jan 27 06:33:42 PST 1998')
+    ])
+  end
+
   describe 'validation' do
     it 'raises RRule::InvalidRRule if FREQ is not provided' do
       expect { RRule::Rule.new('') }.to raise_error(RRule::InvalidRRule)
