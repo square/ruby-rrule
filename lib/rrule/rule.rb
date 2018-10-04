@@ -138,7 +138,7 @@ module RRule
         when 'BYSETPOS'
           options[:bysetpos] = value.split(',').map(&:to_i)
         when 'WKST'
-          options[:wkst] = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'].index(value)
+          options[:wkst] = RRule::WEEKDAYS.index(value)
         when 'BYMONTH'
           options[:bymonth] = value.split(',').compact.map(&:to_i)
         when 'BYMONTHDAY'

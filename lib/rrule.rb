@@ -22,6 +22,8 @@ module RRule
   autoload :AllOccurrences, 'rrule/generators/all_occurrences'
   autoload :BySetPosition, 'rrule/generators/by_set_position'
 
+  WEEKDAYS = %w[SU MO TU WE TH FR SA].freeze
+
   def self.parse(rrule, **options)
     Rule.new(rrule, **options)
   end

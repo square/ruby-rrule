@@ -32,10 +32,6 @@ module RRule
       end
     end
 
-    def possible_days
-      fail NotImplementedError
-    end
-
     def self.for_options(options)
       case options[:freq]
       when 'DAILY'
@@ -61,10 +57,6 @@ module RRule
 
     def same_month(first_date, second_date)
       first_date.month == second_date.month && first_date.year == second_date.year
-    end
-
-    def advance_by
-      fail NotImplementedError
     end
   end
 end
