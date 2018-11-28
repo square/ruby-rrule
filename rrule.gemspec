@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'rrule'
-  s.version = '0.4.0'
+  s.version = '0.4.1'
   s.date = '2018-04-24'
   s.summary = 'RRule expansion'
   s.description = 'A gem for expanding dates according to the RRule specification'

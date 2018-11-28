@@ -1789,6 +1789,24 @@ describe RRule::Rule do
   end
 
   describe '#between' do
+    context 'server env timezone is different from the passed timezone' do
+      around do |example|
+        old_tz = ENV['TZ']
+        ENV['TZ'] = 'UTC'
+        example.run
+        ENV['TZ'] = old_tz
+      end
+
+      it 'works when the day in the given timezone is different from the day in the server timezone' do
+        # any time from 17:00 to 23:59:59 broke old code, test all hours of the day
+        0.upto(23) do |hour|
+          dtstart = Time.new(2018, 7, 1, hour, 0, 0, '-07:00')
+          rrule = RRule::Rule.new('FREQ=WEEKLY', dtstart: dtstart, tzid: 'America/Los_Angeles')
+          expect(rrule.between(dtstart, dtstart + 1.second)).to eq([dtstart])
+        end
+      end
+    end
+
     it 'returns the correct result with an rrule of FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU' do
       rrule = 'FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU'
       dtstart = DateTime.parse('2018-02-04 04:00:00 +1000')
