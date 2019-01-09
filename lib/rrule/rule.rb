@@ -5,8 +5,8 @@ module RRule
     attr_reader :dtstart, :tz, :exdate
 
     def initialize(rrule, dtstart: Time.now, tzid: 'UTC', exdate: [], max_year: nil)
-      @dtstart = floor_to_seconds(dtstart).in_time_zone(tzid)
       @tz = tzid
+      @dtstart = floor_to_seconds_in_timezone(dtstart)
       @exdate = exdate
       @options = parse_options(rrule)
       @frequency_type = Frequency.for_options(options)
@@ -19,8 +19,8 @@ module RRule
     end
 
     def between(start_date, end_date, limit: nil)
-      floored_start_date = floor_to_seconds(start_date)
-      floored_end_date = floor_to_seconds(end_date)
+      floored_start_date = floor_to_seconds_in_timezone(start_date)
+      floored_end_date = floor_to_seconds_in_timezone(end_date)
       all_until(start_date: floored_start_date, end_date: floored_end_date, limit: limit).reject { |instance| instance < floored_start_date }
     end
 
@@ -88,11 +88,11 @@ module RRule
 
     attr_reader :options, :max_year, :max_date, :frequency_type
 
-    def floor_to_seconds(date)
+    def floor_to_seconds_in_timezone(date)
       # This removes all sub-second and floors it to the second level.
       # Sub-second level calculations breaks a lot of assumptions in this
       # library and rounding it may also cause unexpected inequalities.
-      Time.at(date.to_i)
+      Time.at(date.to_i).in_time_zone(tz)
     end
 
     def enumerator

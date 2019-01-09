@@ -13,7 +13,13 @@ Gem::Specification.new do |s|
   s.email = 'rmitchell@squareup.com'
   s.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   s.require_paths = ['lib']
-  s.homepage = 'http://rubygems.org/gems/rrule'
+  s.homepage = 'https://rubygems.org/gems/rrule'
+  s.metadata = {
+    'homepage' => 'https://rubygems.org/gems/rrule',
+    'source_code_uri' => 'https://github.com/square/ruby-rrule',
+    'bug_tracker_uri' => 'https://github.com/square/ruby-rrule/issues',
+    'changelog_uri' => 'https://github.com/square/ruby-rrule/blob/master/CHANGELOG.md'
+  }
 
   s.required_ruby_version = '>= 2.3.0'
   s.add_runtime_dependency 'activesupport', '>= 4.1'
