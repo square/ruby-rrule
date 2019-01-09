@@ -9,7 +9,13 @@ Gem::Specification.new do |s|
   s.files = `git ls-files`.split($/)
   s.test_files = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths = ['lib']
-  s.homepage = 'http://rubygems.org/gems/rrule'
+  s.homepage = 'https://rubygems.org/gems/rrule'
+  s.metadata = {
+    'homepage' => 'https://rubygems.org/gems/rrule',
+    'source_code_uri' => 'https://github.com/square/ruby-rrule',
+    'bug_tracker_uri' => 'https://github.com/square/ruby-rrule/issues',
+    'changelog_uri' => 'https://github.com/square/ruby-rrule/blob/master/CHANGELOG.md'
+  }
 
   # Since Ruby 1.9.2, Time implementation uses a signed 63 bit integer, Bignum
   # or Rational. This enables Time to finally work with years after 2038 which
