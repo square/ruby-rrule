@@ -102,6 +102,26 @@ describe RRule::Rule do
         ])
       end
     end
+
+    describe 'floor_date < dtstart' do
+      it 'starts at dtstart when iterating' do
+        rrule = 'FREQ=DAILY'
+        dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+        timezone = 'America/New_York'
+
+        rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+        floor_date = Time.parse('Sun Sep  1 06:00:00 PDT 0097')
+
+        Timeout.timeout(2) do
+          expect(rrule.each(floor_date: floor_date).take(3)).to match_array([
+            Time.parse('Tue Sep  2 06:00:00 PDT 1997'),
+            Time.parse('Wed Sep  3 06:00:00 PDT 1997'),
+            Time.parse('Thu Sep  4 06:00:00 PDT 1997'),
+          ])
+        end
+      end
+    end
   end
 
   describe '#all' do
