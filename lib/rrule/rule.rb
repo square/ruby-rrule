@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RRule
   class Rule
     include Enumerable
@@ -26,9 +28,7 @@ module RRule
 
     def each(floor_date: nil)
       # If we have a COUNT or INTERVAL option, we have to start at dtstart, because those are relative to dtstart
-      if count_or_interval_present? || floor_date.nil? || dtstart > floor_date
-        floor_date = dtstart
-      end
+      floor_date = dtstart if count_or_interval_present? || floor_date.nil? || dtstart > floor_date
 
       return enum_for(:each, floor_date: floor_date) unless block_given?
       context = Context.new(options, dtstart, tz)
@@ -38,30 +38,20 @@ module RRule
       count = options[:count]
 
       filters = []
-      if options[:bymonth]
-        filters.push(ByMonth.new(options[:bymonth], context))
-      end
+      filters.push(ByMonth.new(options[:bymonth], context)) if options[:bymonth]
 
-      if options[:byweekno]
-        filters.push(ByWeekNumber.new(options[:byweekno], context))
-      end
+      filters.push(ByWeekNumber.new(options[:byweekno], context)) if options[:byweekno]
 
-      if options[:byweekday]
-        filters.push(ByWeekDay.new(options[:byweekday], context))
-      end
+      filters.push(ByWeekDay.new(options[:byweekday], context)) if options[:byweekday]
 
-      if options[:byyearday]
-        filters.push(ByYearDay.new(options[:byyearday], context))
-      end
+      filters.push(ByYearDay.new(options[:byyearday], context)) if options[:byyearday]
 
-      if options[:bymonthday]
-        filters.push(ByMonthDay.new(options[:bymonthday], context))
-      end
+      filters.push(ByMonthDay.new(options[:bymonthday], context)) if options[:bymonthday]
 
-      if options[:bysetpos]
-        generator = BySetPosition.new(options[:bysetpos], context)
+      generator = if options[:bysetpos]
+        BySetPosition.new(options[:bysetpos], context)
       else
-        generator = AllOccurrences.new(context)
+        AllOccurrences.new(context)
       end
 
       frequency = Frequency.for_options(options).new(context, filters, generator, timeset, start_date: floor_date)
@@ -116,15 +106,15 @@ module RRule
           i = begin
             Integer(value)
           rescue ArgumentError
-            raise InvalidRRule, "COUNT must be a non-negative integer"
+            raise InvalidRRule, 'COUNT must be a non-negative integer'
           end
-          raise InvalidRRule, "COUNT must be a non-negative integer" if i < 0
+          raise InvalidRRule, 'COUNT must be a non-negative integer' if i < 0
           options[:count] = i
         when 'UNTIL'
           options[:until] = Time.parse(value)
         when 'INTERVAL'
           i = Integer(value) rescue 0
-          raise InvalidRRule, "INTERVAL must be a positive integer" unless i > 0
+          raise InvalidRRule, 'INTERVAL must be a positive integer' unless i > 0
           options[:interval] = i
         when 'BYHOUR'
           options[:byhour] = value.split(',').compact.map(&:to_i)
@@ -149,12 +139,10 @@ module RRule
         end
       end
 
-      if !(options[:byweekno] || options[:byyearday] || options[:bymonthday] || options[:byweekday])
+      unless options[:byweekno] || options[:byyearday] || options[:bymonthday] || options[:byweekday]
         case options[:freq]
         when 'YEARLY'
-          unless options[:bymonth]
-            options[:bymonth] = [dtstart.month]
-          end
+          options[:bymonth] = [dtstart.month] unless options[:bymonth]
           options[:bymonthday] = [dtstart.day]
         when 'MONTHLY'
           options[:bymonthday] = [dtstart.day]
@@ -164,9 +152,7 @@ module RRule
         end
       end
 
-      unless options[:byweekday].nil?
-        options[:byweekday], options[:bynweekday] = options[:byweekday].partition { |wday| wday.ordinal.nil? }
-      end
+      options[:byweekday], options[:bynweekday] = options[:byweekday].partition { |wday| wday.ordinal.nil? } unless options[:byweekday].nil?
 
       options[:timeset] = [{ hour: (options[:byhour].presence || dtstart.hour), minute: (options[:byminute].presence || dtstart.min), second: (options[:bysecond].presence || dtstart.sec) }]
 

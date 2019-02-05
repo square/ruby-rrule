@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe RRule::Rule do
@@ -25,7 +27,7 @@ describe RRule::Rule do
       expect(rrule.take(3)).to match_array([
         Time.parse('Tue Sep  2 06:00:00 PDT 1997'),
         Time.parse('Wed Sep  3 06:00:00 PDT 1997'),
-        Time.parse('Thu Sep  4 06:00:00 PDT 1997')
+        Time.parse('Thu Sep  4 06:00:00 PDT 1997'),
       ])
     end
   end
@@ -44,7 +46,7 @@ describe RRule::Rule do
         expect(rrule.each(floor_date: floor_date).take(3)).to match_array([
           Time.parse('Tue Sep  3 06:00:00 PDT 2018'),
           Time.parse('Wed Sep  4 06:00:00 PDT 2018'),
-          Time.parse('Thu Sep  5 06:00:00 PDT 2018')
+          Time.parse('Thu Sep  5 06:00:00 PDT 2018'),
         ])
       end
     end
@@ -141,7 +143,7 @@ describe RRule::Rule do
         Time.parse('Mon Sep  8 06:00:00 PDT 1997'),
         Time.parse('Tue Sep  9 06:00:00 PDT 1997'),
         Time.parse('Wed Sep 10 06:00:00 PDT 1997'),
-        Time.parse('Thu Sep 11 06:00:00 PDT 1997')
+        Time.parse('Thu Sep 11 06:00:00 PDT 1997'),
       ])
     end
 
@@ -156,7 +158,7 @@ describe RRule::Rule do
         Time.parse('Wed Sep  3 06:00:00 PDT 1997'),
         Time.parse('Thu Sep  4 06:00:00 PDT 1997'),
         Time.parse('Fri Sep  5 06:00:00 PDT 1997'),
-        Time.parse('Sat Sep  6 06:00:00 PDT 1997')
+        Time.parse('Sat Sep  6 06:00:00 PDT 1997'),
       ])
     end
 
@@ -279,7 +281,7 @@ describe RRule::Rule do
         Time.parse('Sat Dec 20 06:00:00 PST 1997'),
         Time.parse('Sun Dec 21 06:00:00 PST 1997'),
         Time.parse('Mon Dec 22 06:00:00 PST 1997'),
-        Time.parse('Tue Dec 23 06:00:00 PST 1997')
+        Time.parse('Tue Dec 23 06:00:00 PST 1997'),
       ])
     end
 
@@ -294,7 +296,7 @@ describe RRule::Rule do
         Time.parse('Fri Sep 12 06:00:00 PDT 1997'),
         Time.parse('Mon Sep 22 06:00:00 PDT 1997'),
         Time.parse('Thu Oct  2 06:00:00 PDT 1997'),
-        Time.parse('Sun Oct 12 06:00:00 PDT 1997')
+        Time.parse('Sun Oct 12 06:00:00 PDT 1997'),
       ])
     end
 
@@ -397,7 +399,7 @@ describe RRule::Rule do
         Time.parse('Fri Jan 28 06:00:00 PST 2000'),
         Time.parse('Sat Jan 29 06:00:00 PST 2000'),
         Time.parse('Sun Jan 30 06:00:00 PST 2000'),
-        Time.parse('Mon Jan 31 06:00:00 PST 2000')
+        Time.parse('Mon Jan 31 06:00:00 PST 2000'),
       ])
     end
 
@@ -500,7 +502,7 @@ describe RRule::Rule do
         Time.parse('Fri Jan 28 06:00:00 PST 2000'),
         Time.parse('Sat Jan 29 06:00:00 PST 2000'),
         Time.parse('Sun Jan 30 06:00:00 PST 2000'),
-        Time.parse('Mon Jan 31 06:00:00 PST 2000')
+        Time.parse('Mon Jan 31 06:00:00 PST 2000'),
       ])
     end
 
@@ -520,7 +522,7 @@ describe RRule::Rule do
         Time.parse('Tue Oct 14 06:00:00 PDT 1997'),
         Time.parse('Tue Oct 21 06:00:00 PDT 1997'),
         Time.parse('Tue Oct 28 06:00:00 PST 1997'),
-        Time.parse('Tue Nov  4 06:00:00 PST 1997')
+        Time.parse('Tue Nov  4 06:00:00 PST 1997'),
       ])
     end
 
@@ -547,7 +549,7 @@ describe RRule::Rule do
         Time.parse('Tue Dec  2 06:00:00 PST 1997'),
         Time.parse('Tue Dec  9 06:00:00 PST 1997'),
         Time.parse('Tue Dec 16 06:00:00 PST 1997'),
-        Time.parse('Tue Dec 23 06:00:00 PST 1997')
+        Time.parse('Tue Dec 23 06:00:00 PST 1997'),
       ])
     end
 
@@ -567,7 +569,7 @@ describe RRule::Rule do
         Time.parse('Tue Sep 23 06:00:00 PDT 1997'),
         Time.parse('Thu Sep 25 06:00:00 PDT 1997'),
         Time.parse('Tue Sep 30 06:00:00 PDT 1997'),
-        Time.parse('Thu Oct  2 06:00:00 PDT 1997')
+        Time.parse('Thu Oct  2 06:00:00 PDT 1997'),
       ])
     end
 
@@ -587,7 +589,7 @@ describe RRule::Rule do
         Time.parse('Tue Sep 23 06:00:00 PDT 1997'),
         Time.parse('Thu Sep 25 06:00:00 PDT 1997'),
         Time.parse('Tue Sep 30 06:00:00 PDT 1997'),
-        Time.parse('Thu Oct  2 06:00:00 PDT 1997')
+        Time.parse('Thu Oct  2 06:00:00 PDT 1997'),
       ])
     end
 
@@ -622,7 +624,7 @@ describe RRule::Rule do
         Time.parse('Mon Dec  8 06:00:00 PST 1997'),
         Time.parse('Wed Dec 10 06:00:00 PST 1997'),
         Time.parse('Fri Dec 12 06:00:00 PST 1997'),
-        Time.parse('Mon Dec 22 06:00:00 PST 1997')
+        Time.parse('Mon Dec 22 06:00:00 PST 1997'),
       ])
     end
 
@@ -640,7 +642,7 @@ describe RRule::Rule do
         Time.parse('Tue Sep 30 06:00:00 PDT 1997'),
         Time.parse('Thu Oct  2 06:00:00 PDT 1997'),
         Time.parse('Tue Oct 14 06:00:00 PDT 1997'),
-        Time.parse('Thu Oct 16 06:00:00 PDT 1997')
+        Time.parse('Thu Oct 16 06:00:00 PDT 1997'),
       ])
     end
 
@@ -660,7 +662,7 @@ describe RRule::Rule do
         Time.parse('Fri Mar  6 06:00:00 PST 1998'),
         Time.parse('Fri Apr  3 06:00:00 PST 1998'),
         Time.parse('Fri May  1 06:00:00 PDT 1998'),
-        Time.parse('Fri Jun  5 06:00:00 PDT 1998')
+        Time.parse('Fri Jun  5 06:00:00 PDT 1998'),
       ])
     end
 
@@ -674,7 +676,7 @@ describe RRule::Rule do
         Time.parse('Fri Sep  5 06:00:00 PDT 1997'),
         Time.parse('Fri Oct  3 06:00:00 PDT 1997'),
         Time.parse('Fri Nov  7 06:00:00 PST 1997'),
-        Time.parse('Fri Dec  5 06:00:00 PST 1997')
+        Time.parse('Fri Dec  5 06:00:00 PST 1997'),
       ])
     end
 
@@ -694,7 +696,7 @@ describe RRule::Rule do
         Time.parse('Sun Mar  1 06:00:00 PST 1998'),
         Time.parse('Sun Mar 29 06:00:00 PST 1998'),
         Time.parse('Sun May  3 06:00:00 PDT 1998'),
-        Time.parse('Sun May 31 06:00:00 PDT 1998')
+        Time.parse('Sun May 31 06:00:00 PDT 1998'),
       ])
     end
 
@@ -710,7 +712,7 @@ describe RRule::Rule do
         Time.parse('Mon Nov 17 06:00:00 PST 1997'),
         Time.parse('Mon Dec 22 06:00:00 PST 1997'),
         Time.parse('Mon Jan 19 06:00:00 PST 1998'),
-        Time.parse('Mon Feb 16 06:00:00 PST 1998')
+        Time.parse('Mon Feb 16 06:00:00 PST 1998'),
       ])
     end
 
@@ -730,7 +732,7 @@ describe RRule::Rule do
         Time.parse('Tue Dec  2 06:00:00 PST 1997'),
         Time.parse('Mon Dec 15 06:00:00 PST 1997'),
         Time.parse('Fri Jan  2 06:00:00 PST 1998'),
-        Time.parse('Thu Jan 15 06:00:00 PST 1998')
+        Time.parse('Thu Jan 15 06:00:00 PST 1998'),
       ])
     end
 
@@ -750,7 +752,7 @@ describe RRule::Rule do
         Time.parse('Wed Dec 31 06:00:00 PST 1997'),
         Time.parse('Thu Jan  1 06:00:00 PST 1998'),
         Time.parse('Sat Jan 31 06:00:00 PST 1998'),
-        Time.parse('Sun Feb  1 06:00:00 PST 1998')
+        Time.parse('Sun Feb  1 06:00:00 PST 1998'),
       ])
     end
 
@@ -770,7 +772,7 @@ describe RRule::Rule do
         Time.parse('Wed Mar 10 06:00:00 PST 1999'),
         Time.parse('Thu Mar 11 06:00:00 PST 1999'),
         Time.parse('Fri Mar 12 06:00:00 PST 1999'),
-        Time.parse('Sat Mar 13 06:00:00 PST 1999')
+        Time.parse('Sat Mar 13 06:00:00 PST 1999'),
       ])
     end
 
@@ -790,7 +792,7 @@ describe RRule::Rule do
         Time.parse('Sat Jun 10 06:00:00 PDT 2000'),
         Time.parse('Mon Jul 10 06:00:00 PDT 2000'),
         Time.parse('Sun Jun 10 06:00:00 PDT 2001'),
-        Time.parse('Tue Jul 10 06:00:00 PDT 2001')
+        Time.parse('Tue Jul 10 06:00:00 PDT 2001'),
       ])
     end
 
@@ -810,7 +812,7 @@ describe RRule::Rule do
         Time.parse('Sat Mar 10 06:00:00 PST 2001'),
         Time.parse('Fri Jan 10 06:00:00 PST 2003'),
         Time.parse('Mon Feb 10 06:00:00 PST 2003'),
-        Time.parse('Mon Mar 10 06:00:00 PST 2003')
+        Time.parse('Mon Mar 10 06:00:00 PST 2003'),
       ])
     end
 
@@ -830,7 +832,7 @@ describe RRule::Rule do
         Time.parse('Wed Jan  1 06:00:00 PST 2003'),
         Time.parse('Thu Apr 10 06:00:00 PDT 2003'),
         Time.parse('Sat Jul 19 06:00:00 PDT 2003'),
-        Time.parse('Sun Jan  1 06:00:00 PST 2006')
+        Time.parse('Sun Jan  1 06:00:00 PST 2006'),
       ])
     end
 
@@ -846,7 +848,7 @@ describe RRule::Rule do
         Time.parse('Fri Nov 13 06:00:00 PST 1998'),
         Time.parse('Fri Aug 13 06:00:00 PDT 1999'),
         Time.parse('Fri Oct 13 06:00:00 PDT 2000'),
-        Time.parse('Fri Apr 13 06:00:00 PDT 2001')
+        Time.parse('Fri Apr 13 06:00:00 PDT 2001'),
       ])
     end
 
@@ -859,7 +861,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Thu Sep  4 06:00:00 PDT 1997'),
         Time.parse('Tue Oct  7 06:00:00 PDT 1997'),
-        Time.parse('Thu Nov  6 06:00:00 PST 1997')
+        Time.parse('Thu Nov  6 06:00:00 PST 1997'),
       ])
     end
 
@@ -873,7 +875,7 @@ describe RRule::Rule do
         Time.parse('Tue Aug  5 06:00:00 PDT 1997'),
         Time.parse('Sun Aug 10 06:00:00 PDT 1997'),
         Time.parse('Tue Aug 19 06:00:00 PDT 1997'),
-        Time.parse('Sun Aug 24 06:00:00 PDT 1997')
+        Time.parse('Sun Aug 24 06:00:00 PDT 1997'),
       ])
     end
 
@@ -887,7 +889,7 @@ describe RRule::Rule do
         Time.parse('Tue Aug  5 06:00:00 PDT 1997'),
         Time.parse('Sun Aug 17 06:00:00 PDT 1997'),
         Time.parse('Tue Aug 19 06:00:00 PDT 1997'),
-        Time.parse('Sun Aug 31 06:00:00 PDT 1997')
+        Time.parse('Sun Aug 31 06:00:00 PDT 1997'),
       ])
     end
 
@@ -902,7 +904,7 @@ describe RRule::Rule do
         Time.parse('Tue Jan 30 06:00:00 PST 2007'),
         Time.parse('Thu Feb 15 06:00:00 PST 2007'),
         Time.parse('Thu Mar 15 06:00:00 PDT 2007'),
-        Time.parse('Fri Mar 30 06:00:00 PDT 2007')
+        Time.parse('Fri Mar 30 06:00:00 PDT 2007'),
       ])
     end
 
@@ -915,7 +917,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Wed Sep  3 09:00:00 PDT 1997'),
-        Time.parse('Thu Sep  4 09:00:00 PDT 1997')
+        Time.parse('Thu Sep  4 09:00:00 PDT 1997'),
       ])
     end
 
@@ -929,7 +931,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan  1 09:00:00 PST 1998'),
         Time.parse('Fri Jan  2 09:00:00 PST 1998'),
         Time.parse('Sat Jan  3 09:00:00 PST 1998'),
-        Time.parse('Sun Jan  4 09:00:00 PST 1998')
+        Time.parse('Sun Jan  4 09:00:00 PST 1998'),
       ])
     end
 
@@ -943,7 +945,7 @@ describe RRule::Rule do
         Time.parse('Mon Jan  5 09:00:00 PST 1998'),
         Time.parse('Wed Jan  7 09:00:00 PST 1998'),
         Time.parse('Thu Mar  5 09:00:00 PST 1998'),
-        Time.parse('Sat Mar  7 09:00:00 PST 1998')
+        Time.parse('Sat Mar  7 09:00:00 PST 1998'),
       ])
     end
 
@@ -957,7 +959,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan  1 09:00:00 PST 1998'),
         Time.parse('Tue Mar  3 09:00:00 PST 1998'),
         Time.parse('Thu Mar  1 09:00:00 PST 2001'),
-        Time.parse('Tue Jan  1 09:00:00 PST 2002')
+        Time.parse('Tue Jan  1 09:00:00 PST 2002'),
       ])
     end
 
@@ -971,7 +973,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan  1 09:00:00 PST 1998'),
         Time.parse('Tue Jan  6 09:00:00 PST 1998'),
         Time.parse('Thu Jan  8 09:00:00 PST 1998'),
-        Time.parse('Tue Jan 13 09:00:00 PST 1998')
+        Time.parse('Tue Jan 13 09:00:00 PST 1998'),
       ])
     end
 
@@ -985,7 +987,7 @@ describe RRule::Rule do
         Time.parse('Wed Sep  3 09:00:00 PDT 1997'),
         Time.parse('Wed Oct  1 09:00:00 PDT 1997'),
         Time.parse('Fri Oct  3 09:00:00 PDT 1997'),
-        Time.parse('Sat Nov  1 09:00:00 PST 1997')
+        Time.parse('Sat Nov  1 09:00:00 PST 1997'),
       ])
     end
 
@@ -999,7 +1001,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan  1 09:00:00 PST 1998'),
         Time.parse('Tue Feb  3 09:00:00 PST 1998'),
         Time.parse('Tue Mar  3 09:00:00 PST 1998'),
-        Time.parse('Tue Sep  1 09:00:00 PDT 1998')
+        Time.parse('Tue Sep  1 09:00:00 PDT 1998'),
       ])
     end
 
@@ -1012,7 +1014,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Thu Sep  4 09:00:00 PDT 1997'),
-        Time.parse('Tue Sep  9 09:00:00 PDT 1997')
+        Time.parse('Tue Sep  9 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1025,7 +1027,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Thu Sep  4 09:00:00 PDT 1997'),
-        Time.parse('Sat Sep  6 09:00:00 PDT 1997')
+        Time.parse('Sat Sep  6 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1038,7 +1040,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Wed Dec  3 09:00:00 PST 1997'),
-        Time.parse('Thu Mar  5 09:00:00 PST 1998')
+        Time.parse('Thu Mar  5 09:00:00 PST 1998'),
       ])
     end
 
@@ -1060,7 +1062,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Thu Oct  2 09:00:00 PDT 1997'),
-        Time.parse('Sun Nov  2 09:00:00 PST 1997')
+        Time.parse('Sun Nov  2 09:00:00 PST 1997'),
       ])
     end
 
@@ -1074,7 +1076,7 @@ describe RRule::Rule do
         Time.parse('Fri Jan  2 09:00:00 PST 1998'),
         Time.parse('Mon Mar  2 09:00:00 PST 1998'),
         Time.parse('Sat Jan  2 09:00:00 PST 1999'),
-        Time.parse('Tue Mar  2 09:00:00 PST 1999')
+        Time.parse('Tue Mar  2 09:00:00 PST 1999'),
       ])
     end
 
@@ -1088,7 +1090,7 @@ describe RRule::Rule do
         Time.parse('Mon Jan  5 09:00:00 PST 1998'),
         Time.parse('Wed Jan  7 09:00:00 PST 1998'),
         Time.parse('Thu Mar  5 09:00:00 PST 1998'),
-        Time.parse('Sat Mar  7 09:00:00 PST 1998')
+        Time.parse('Sat Mar  7 09:00:00 PST 1998'),
       ])
     end
 
@@ -1102,7 +1104,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan  1 09:00:00 PST 1998'),
         Time.parse('Tue Mar  3 09:00:00 PST 1998'),
         Time.parse('Thu Mar  1 09:00:00 PST 2001'),
-        Time.parse('Tue Jan  1 09:00:00 PST 2002')
+        Time.parse('Tue Jan  1 09:00:00 PST 2002'),
       ])
     end
 
@@ -1116,7 +1118,7 @@ describe RRule::Rule do
         Time.parse('Tue Jan  6 09:00:00 PST 1998'),
         Time.parse('Thu Jan 29 09:00:00 PST 1998'),
         Time.parse('Tue Mar  3 09:00:00 PST 1998'),
-        Time.parse('Thu Mar 26 09:00:00 PST 1998')
+        Time.parse('Thu Mar 26 09:00:00 PST 1998'),
       ])
     end
 
@@ -1130,7 +1132,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan 15 09:00:00 PST 1998'),
         Time.parse('Tue Jan 20 09:00:00 PST 1998'),
         Time.parse('Thu Mar 12 09:00:00 PST 1998'),
-        Time.parse('Tue Mar 17 09:00:00 PST 1998')
+        Time.parse('Tue Mar 17 09:00:00 PST 1998'),
       ])
     end
 
@@ -1144,7 +1146,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan  1 09:00:00 PST 1998'),
         Time.parse('Tue Jan  6 09:00:00 PST 1998'),
         Time.parse('Thu Jan  8 09:00:00 PST 1998'),
-        Time.parse('Tue Jan 13 09:00:00 PST 1998')
+        Time.parse('Tue Jan 13 09:00:00 PST 1998'),
       ])
     end
 
@@ -1158,7 +1160,7 @@ describe RRule::Rule do
         Time.parse('Wed Sep  3 09:00:00 PDT 1997'),
         Time.parse('Wed Oct  1 09:00:00 PDT 1997'),
         Time.parse('Fri Oct  3 09:00:00 PDT 1997'),
-        Time.parse('Sat Nov  1 09:00:00 PST 1997')
+        Time.parse('Sat Nov  1 09:00:00 PST 1997'),
       ])
     end
 
@@ -1172,7 +1174,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan  1 09:00:00 PST 1998'),
         Time.parse('Tue Feb  3 09:00:00 PST 1998'),
         Time.parse('Tue Mar  3 09:00:00 PST 1998'),
-        Time.parse('Tue Sep  1 09:00:00 PDT 1998')
+        Time.parse('Tue Sep  1 09:00:00 PDT 1998'),
       ])
     end
 
@@ -1185,7 +1187,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Thu Sep 25 09:00:00 PDT 1997'),
-        Time.parse('Tue Oct  7 09:00:00 PDT 1997')
+        Time.parse('Tue Oct  7 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1199,7 +1201,7 @@ describe RRule::Rule do
         Time.parse('Thu Sep 11 09:00:00 PDT 1997'),
         Time.parse('Tue Sep 16 09:00:00 PDT 1997'),
         Time.parse('Thu Oct 16 09:00:00 PDT 1997'),
-        Time.parse('Tue Oct 21 09:00:00 PDT 1997')
+        Time.parse('Tue Oct 21 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1212,7 +1214,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Thu Sep  4 09:00:00 PDT 1997'),
-        Time.parse('Tue Sep  9 09:00:00 PDT 1997')
+        Time.parse('Tue Sep  9 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1225,7 +1227,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Sun Nov  2 09:00:00 PST 1997'),
-        Time.parse('Fri Jan  2 09:00:00 PST 1998')
+        Time.parse('Fri Jan  2 09:00:00 PST 1998'),
       ])
     end
 
@@ -1238,7 +1240,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Tue Mar  2 09:00:00 PST 1999'),
-        Time.parse('Sat Sep  2 09:00:00 PDT 2000')
+        Time.parse('Sat Sep  2 09:00:00 PDT 2000'),
       ])
     end
 
@@ -1249,7 +1251,7 @@ describe RRule::Rule do
 
       rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
       expect(rrule.all).to match_array([
-        Time.parse('Mon Sep  1 10:00:00 PDT 1997')
+        Time.parse('Mon Sep  1 10:00:00 PDT 1997'),
       ])
     end
 
@@ -1262,7 +1264,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Wed Sep  3 09:00:00 PDT 1997'),
-        Time.parse('Thu Sep  4 09:00:00 PDT 1997')
+        Time.parse('Thu Sep  4 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1275,7 +1277,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Wed Sep  3 09:00:00 PDT 1997'),
-        Time.parse('Thu Sep  4 09:00:00 PDT 1997')
+        Time.parse('Thu Sep  4 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1286,7 +1288,7 @@ describe RRule::Rule do
 
       rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
       expect(rrule.all).to match_array([
-        Time.parse('Tue Sep  2 09:00:00 PDT 1997')
+        Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1299,7 +1301,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Tue Sep  9 09:00:00 PDT 1997'),
-        Time.parse('Tue Sep 16 09:00:00 PDT 1997')
+        Time.parse('Tue Sep 16 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1313,7 +1315,7 @@ describe RRule::Rule do
         Time.parse('Tue Jan  6 09:00:00 PST 1998'),
         Time.parse('Tue Jan 13 09:00:00 PST 1998'),
         Time.parse('Tue Jan 20 09:00:00 PST 1998'),
-        Time.parse('Tue Jan 27 09:00:00 PST 1998')
+        Time.parse('Tue Jan 27 09:00:00 PST 1998'),
       ])
     end
 
@@ -1327,7 +1329,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan  1 09:00:00 PST 1998'),
         Time.parse('Tue Jan  6 09:00:00 PST 1998'),
         Time.parse('Thu Jan  8 09:00:00 PST 1998'),
-        Time.parse('Tue Jan 13 09:00:00 PST 1998')
+        Time.parse('Tue Jan 13 09:00:00 PST 1998'),
       ])
     end
 
@@ -1340,7 +1342,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Thu Sep  4 09:00:00 PDT 1997'),
-        Time.parse('Tue Sep  9 09:00:00 PDT 1997')
+        Time.parse('Tue Sep  9 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1353,7 +1355,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Tue Sep 16 09:00:00 PDT 1997'),
-        Time.parse('Tue Sep 30 09:00:00 PDT 1997')
+        Time.parse('Tue Sep 30 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1366,7 +1368,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Tue Jan 20 09:00:00 PST 1998'),
-        Time.parse('Tue Jun  9 09:00:00 PDT 1998')
+        Time.parse('Tue Jun  9 09:00:00 PDT 1998'),
       ])
     end
 
@@ -1379,7 +1381,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Sun Sep  7 09:00:00 PDT 1997'),
-        Time.parse('Tue Sep 16 09:00:00 PDT 1997')
+        Time.parse('Tue Sep 16 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1392,7 +1394,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Sun Sep 14 09:00:00 PDT 1997'),
-        Time.parse('Tue Sep 16 09:00:00 PDT 1997')
+        Time.parse('Tue Sep 16 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1405,7 +1407,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Wed Sep  2 09:00:00 PDT 1998'),
-        Time.parse('Thu Sep  2 09:00:00 PDT 1999')
+        Time.parse('Thu Sep  2 09:00:00 PDT 1999'),
       ])
     end
 
@@ -1419,7 +1421,7 @@ describe RRule::Rule do
         Time.parse('Fri Jan  2 09:00:00 PST 1998'),
         Time.parse('Mon Mar  2 09:00:00 PST 1998'),
         Time.parse('Sat Jan  2 09:00:00 PST 1999'),
-        Time.parse('Tue Mar  2 09:00:00 PST 1999')
+        Time.parse('Tue Mar  2 09:00:00 PST 1999'),
       ])
     end
 
@@ -1433,7 +1435,7 @@ describe RRule::Rule do
         Time.parse('Mon Jan  5 09:00:00 PST 1998'),
         Time.parse('Wed Jan  7 09:00:00 PST 1998'),
         Time.parse('Thu Mar  5 09:00:00 PST 1998'),
-        Time.parse('Sat Mar  7 09:00:00 PST 1998')
+        Time.parse('Sat Mar  7 09:00:00 PST 1998'),
       ])
     end
 
@@ -1447,7 +1449,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan  1 09:00:00 PST 1998'),
         Time.parse('Tue Mar  3 09:00:00 PST 1998'),
         Time.parse('Thu Mar  1 09:00:00 PST 2001'),
-        Time.parse('Tue Jan  1 09:00:00 PST 2002')
+        Time.parse('Tue Jan  1 09:00:00 PST 2002'),
       ])
     end
 
@@ -1461,7 +1463,7 @@ describe RRule::Rule do
         Time.parse('Tue Jan  6 09:00:00 PST 1998'),
         Time.parse('Thu Jan 29 09:00:00 PST 1998'),
         Time.parse('Tue Mar  3 09:00:00 PST 1998'),
-        Time.parse('Thu Mar 26 09:00:00 PST 1998')
+        Time.parse('Thu Mar 26 09:00:00 PST 1998'),
       ])
     end
 
@@ -1475,7 +1477,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan 15 09:00:00 PST 1998'),
         Time.parse('Tue Jan 20 09:00:00 PST 1998'),
         Time.parse('Thu Mar 12 09:00:00 PST 1998'),
-        Time.parse('Tue Mar 17 09:00:00 PST 1998')
+        Time.parse('Tue Mar 17 09:00:00 PST 1998'),
       ])
     end
 
@@ -1489,7 +1491,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan  1 09:00:00 PST 1998'),
         Time.parse('Tue Jan  6 09:00:00 PST 1998'),
         Time.parse('Thu Jan  8 09:00:00 PST 1998'),
-        Time.parse('Tue Jan 13 09:00:00 PST 1998')
+        Time.parse('Tue Jan 13 09:00:00 PST 1998'),
       ])
     end
 
@@ -1503,7 +1505,7 @@ describe RRule::Rule do
         Time.parse('Wed Sep  3 09:00:00 PDT 1997'),
         Time.parse('Wed Oct  1 09:00:00 PDT 1997'),
         Time.parse('Fri Oct  3 09:00:00 PDT 1997'),
-        Time.parse('Sat Nov  1 09:00:00 PST 1997')
+        Time.parse('Sat Nov  1 09:00:00 PST 1997'),
       ])
     end
 
@@ -1517,7 +1519,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan  1 09:00:00 PST 1998'),
         Time.parse('Tue Feb  3 09:00:00 PST 1998'),
         Time.parse('Tue Mar  3 09:00:00 PST 1998'),
-        Time.parse('Tue Sep  1 09:00:00 PDT 1998')
+        Time.parse('Tue Sep  1 09:00:00 PDT 1998'),
       ])
     end
 
@@ -1531,7 +1533,7 @@ describe RRule::Rule do
         Time.parse('Thu Dec 25 09:00:00 PST 1997'),
         Time.parse('Tue Jan  6 09:00:00 PST 1998'),
         Time.parse('Thu Dec 31 09:00:00 PST 1998'),
-        Time.parse('Tue Jan  5 09:00:00 PST 1999')
+        Time.parse('Tue Jan  5 09:00:00 PST 1999'),
       ])
     end
 
@@ -1545,7 +1547,7 @@ describe RRule::Rule do
         Time.parse('Thu Dec 11 09:00:00 PST 1997'),
         Time.parse('Tue Jan 20 09:00:00 PST 1998'),
         Time.parse('Thu Dec 17 09:00:00 PST 1998'),
-        Time.parse('Tue Jan 19 09:00:00 PST 1999')
+        Time.parse('Tue Jan 19 09:00:00 PST 1999'),
       ])
     end
 
@@ -1558,7 +1560,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Thu Sep  4 09:00:00 PDT 1997'),
-        Time.parse('Tue Sep  9 09:00:00 PDT 1997')
+        Time.parse('Tue Sep  9 09:00:00 PDT 1997'),
       ])
     end
 
@@ -1572,7 +1574,7 @@ describe RRule::Rule do
         Time.parse('Mon May 11 09:00:00 PDT 1998'),
         Time.parse('Tue May 12 09:00:00 PDT 1998'),
         Time.parse('Wed May 13 09:00:00 PDT 1998'),
-        Time.parse('Thu May 14 09:00:00 PDT 1998')
+        Time.parse('Thu May 14 09:00:00 PDT 1998'),
       ])
     end
 
@@ -1586,7 +1588,7 @@ describe RRule::Rule do
         Time.parse('Mon Dec 29 09:00:00 PST 1997'),
         Time.parse('Mon Jan  4 09:00:00 PST 1999'),
         Time.parse('Mon Jan  3 09:00:00 PST 2000'),
-        Time.parse('Mon Jan  1 09:00:00 PST 2001')
+        Time.parse('Mon Jan  1 09:00:00 PST 2001'),
       ])
     end
 
@@ -1600,7 +1602,7 @@ describe RRule::Rule do
         Time.parse('Mon Dec 28 09:00:00 PST 1998'),
         Time.parse('Mon Dec 27 09:00:00 PST 2004'),
         Time.parse('Mon Dec 28 09:00:00 PST 2009'),
-        Time.parse('Mon Dec 28 09:00:00 PST 2015')
+        Time.parse('Mon Dec 28 09:00:00 PST 2015'),
       ])
     end
 
@@ -1614,7 +1616,7 @@ describe RRule::Rule do
         Time.parse('Sun Dec 28 09:00:00 PST 1997'),
         Time.parse('Sun Dec 27 09:00:00 PST 1998'),
         Time.parse('Sun Jan  2 09:00:00 PST 2000'),
-        Time.parse('Sun Dec 31 09:00:00 PST 2000')
+        Time.parse('Sun Dec 31 09:00:00 PST 2000'),
       ])
     end
 
@@ -1628,7 +1630,7 @@ describe RRule::Rule do
         Time.parse('Sun Dec 28 09:00:00 PST 1997'),
         Time.parse('Sun Jan  3 09:00:00 PST 1999'),
         Time.parse('Sun Jan  2 09:00:00 PST 2000'),
-        Time.parse('Sun Dec 31 09:00:00 PST 2000')
+        Time.parse('Sun Dec 31 09:00:00 PST 2000'),
       ])
     end
 
@@ -1643,7 +1645,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan  1 09:00:00 PST 1998'),
         Time.parse('Fri Apr 10 09:00:00 PDT 1998'),
         Time.parse('Sun Jul 19 09:00:00 PDT 1998'),
-        Time.parse('Thu Dec 31 09:00:00 PST 1998')
+        Time.parse('Thu Dec 31 09:00:00 PST 1998'),
       ])
     end
 
@@ -1658,7 +1660,7 @@ describe RRule::Rule do
         Time.parse('Thu Jan  1 09:00:00 PST 1998'),
         Time.parse('Fri Apr 10 09:00:00 PDT 1998'),
         Time.parse('Sun Jul 19 09:00:00 PDT 1998'),
-        Time.parse('Thu Dec 31 09:00:00 PST 1998')
+        Time.parse('Thu Dec 31 09:00:00 PST 1998'),
       ])
     end
 
@@ -1671,7 +1673,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Thu Sep  2 09:00:00 PDT 1999'),
-        Time.parse('Sun Sep  2 09:00:00 PDT 2001')
+        Time.parse('Sun Sep  2 09:00:00 PDT 2001'),
       ])
     end
 
@@ -1686,7 +1688,7 @@ describe RRule::Rule do
       expect(rrule.all).to match_array([
         Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
         Time.parse('Mon Sep  2 09:00:00 PDT 2097'),
-        Time.parse('Sat Sep  2 09:00:00 PDT 2197')
+        Time.parse('Sat Sep  2 09:00:00 PDT 2197'),
       ])
     end
 
@@ -1803,7 +1805,7 @@ describe RRule::Rule do
         Time.parse('Mon Aug  8 19:00:00 PDT 2016'),
         Time.parse('Mon Aug 15 19:00:00 PDT 2016'),
         Time.parse('Mon Aug 22 19:00:00 PDT 2016'),
-        Time.parse('Mon Aug 29 19:00:00 PDT 2016')
+        Time.parse('Mon Aug 29 19:00:00 PDT 2016'),
       ])
     end
   end
@@ -1878,7 +1880,7 @@ describe RRule::Rule do
         Time.parse('Thu Oct 16 06:00:00 PDT 1997'),
         Time.parse('Sat Oct 18 06:00:00 PDT 1997'),
         Time.parse('Mon Oct 20 06:00:00 PDT 1997'),
-        Time.parse('Wed Oct 22 06:00:00 PDT 1997')
+        Time.parse('Wed Oct 22 06:00:00 PDT 1997'),
       ])
     end
 
@@ -1893,7 +1895,7 @@ describe RRule::Rule do
         Time.parse('Thu Sep  4 06:00:00 PDT 1997'),
         Time.parse('Sat Sep  6 06:00:00 PDT 1997'),
         Time.parse('Mon Sep  8 06:00:00 PDT 1997'),
-        Time.parse('Wed Sep 10 06:00:00 PDT 1997')
+        Time.parse('Wed Sep 10 06:00:00 PDT 1997'),
       ])
     end
 
@@ -1916,7 +1918,7 @@ describe RRule::Rule do
         Time.parse('Tue Jan  6 06:00:00 PST 1998'),
         Time.parse('Tue Jan 20 06:00:00 PST 1998'),
         Time.parse('Tue Feb  3 06:00:00 PST 1998'),
-        Time.parse('Tue Feb 17 06:00:00 PST 1998')
+        Time.parse('Tue Feb 17 06:00:00 PST 1998'),
       ])
     end
 
@@ -1932,7 +1934,7 @@ describe RRule::Rule do
         Time.parse('Fri Nov 28 06:00:00 PST 1997'),
         Time.parse('Mon Dec 29 06:00:00 PST 1997'),
         Time.parse('Thu Jan 29 06:00:00 PST 1998'),
-        Time.parse('Thu Feb 26 06:00:00 PST 1998')
+        Time.parse('Thu Feb 26 06:00:00 PST 1998'),
       ])
     end
 
@@ -1960,7 +1962,7 @@ describe RRule::Rule do
         Time.parse('Tue Mar 10 06:00:00 PST 1998'),
         Time.parse('Tue Mar 17 06:00:00 PST 1998'),
         Time.parse('Tue Mar 24 06:00:00 PST 1998'),
-        Time.parse('Tue Mar 31 06:00:00 PST 1998')
+        Time.parse('Tue Mar 31 06:00:00 PST 1998'),
       ])
     end
 
@@ -1973,7 +1975,7 @@ describe RRule::Rule do
       expect(rrule.between(Time.parse('Mon May 19 06:00:00 PDT 1997'), Time.parse('Mon May 17 06:00:00 PDT 1999'))).to match_array([
         Time.parse('Mon May 19 06:00:00 PDT 1997'),
         Time.parse('Mon May 18 06:00:00 PDT 1998'),
-        Time.parse('Mon May 17 06:00:00 PDT 1999')
+        Time.parse('Mon May 17 06:00:00 PDT 1999'),
       ])
     end
 
@@ -1986,7 +1988,7 @@ describe RRule::Rule do
       expect(rrule.between(Time.parse('Mon May 12 06:00:00 PDT 1997'), Time.parse('Mon May 17 06:00:00 PDT 1999'))).to match_array([
         Time.parse('Mon May 12 06:00:00 PDT 1997'),
         Time.parse('Mon May 11 06:00:00 PDT 1998'),
-        Time.parse('Mon May 17 06:00:00 PDT 1999')
+        Time.parse('Mon May 17 06:00:00 PDT 1999'),
       ])
     end
 
@@ -2007,7 +2009,7 @@ describe RRule::Rule do
         Time.parse('Thu Mar  4 06:00:00 PST 1999'),
         Time.parse('Thu Mar 11 06:00:00 PST 1999'),
         Time.parse('Thu Mar 18 06:00:00 PST 1999'),
-        Time.parse('Thu Mar 25 06:00:00 PST 1999')
+        Time.parse('Thu Mar 25 06:00:00 PST 1999'),
       ])
     end
 
@@ -2056,7 +2058,7 @@ describe RRule::Rule do
         Time.parse('Thu Aug  5 06:00:00 PDT 1999'),
         Time.parse('Thu Aug 12 06:00:00 PDT 1999'),
         Time.parse('Thu Aug 19 06:00:00 PDT 1999'),
-        Time.parse('Thu Aug 26 06:00:00 PDT 1999')
+        Time.parse('Thu Aug 26 06:00:00 PDT 1999'),
       ])
     end
 
@@ -2076,7 +2078,7 @@ describe RRule::Rule do
         Time.parse('Sat Mar  7 06:00:00 PST 1998'),
         Time.parse('Sat Apr 11 06:00:00 PDT 1998'),
         Time.parse('Sat May  9 06:00:00 PDT 1998'),
-        Time.parse('Sat Jun 13 06:00:00 PDT 1998')
+        Time.parse('Sat Jun 13 06:00:00 PDT 1998'),
       ])
     end
 
@@ -2089,7 +2091,7 @@ describe RRule::Rule do
       expect(rrule.between(Time.parse('Tue Nov  5 06:00:00 PST 1996'), Time.parse('Tue Nov  2 06:00:00 PST 2004'))).to match_array([
         Time.parse('Tue Nov  5 06:00:00 PST 1996'),
         Time.parse('Tue Nov  7 06:00:00 PST 2000'),
-        Time.parse('Tue Nov  2 06:00:00 PST 2004')
+        Time.parse('Tue Nov  2 06:00:00 PST 2004'),
       ])
     end
 
@@ -2106,7 +2108,7 @@ describe RRule::Rule do
         Time.parse('Tue Dec 30 06:00:00 PST 1997'),
         Time.parse('Thu Jan 29 06:00:00 PST 1998'),
         Time.parse('Thu Feb 26 06:00:00 PST 1998'),
-        Time.parse('Mon Mar 30 06:00:00 PST 1998')
+        Time.parse('Mon Mar 30 06:00:00 PST 1998'),
       ])
     end
 
@@ -2120,7 +2122,7 @@ describe RRule::Rule do
         Time.parse('Sun Feb  9 16:00:00 PST 2014'),
         Time.parse('Mon Feb 10 16:00:00 PST 2014'),
         Time.parse('Tue Feb 11 16:00:00 PST 2014'),
-        Time.parse('Wed Feb 12 16:00:00 PST 2014')
+        Time.parse('Wed Feb 12 16:00:00 PST 2014'),
       ])
     end
 
@@ -2138,7 +2140,7 @@ describe RRule::Rule do
         Time.parse('Sun Sep  7 06:00:00 PST 1997'),
         Time.parse('Tue Sep  9 06:00:00 PST 1997'),
         Time.parse('Wed Sep 10 06:00:00 PST 1997'),
-        Time.parse('Thu Sep 11 06:00:00 PST 1997')
+        Time.parse('Thu Sep 11 06:00:00 PST 1997'),
       ])
     end
 
@@ -2153,7 +2155,7 @@ describe RRule::Rule do
         Time.parse('Sun Jul 24 14:35:09 PDT 2016')
       )).to match_array([
         Time.parse('Thu Jun 16 17:00:00 PDT 2016'),
-        Time.parse('Thu Jul 14 17:00:00 PDT 2016')
+        Time.parse('Thu Jul 14 17:00:00 PDT 2016'),
       ])
     end
 
@@ -2194,7 +2196,7 @@ describe RRule::Rule do
           expect(rrule.between(start_time, end_time).take(3)).to match_array([
             Time.parse('Tue Sep  3 06:00:00 PDT 2018'),
             Time.parse('Wed Sep  4 06:00:00 PDT 2018'),
-            Time.parse('Thu Sep  5 06:00:00 PDT 2018')
+            Time.parse('Thu Sep  5 06:00:00 PDT 2018'),
           ])
         end
       end
@@ -2269,7 +2271,7 @@ describe RRule::Rule do
       Time.parse('Tue Jan  6 02:00:00 PST 1998'),
       Time.parse('Tue Jan 13 02:00:00 PST 1998'),
       Time.parse('Tue Jan 20 02:00:00 PST 1998'),
-      Time.parse('Tue Jan 27 02:00:00 PST 1998')
+      Time.parse('Tue Jan 27 02:00:00 PST 1998'),
     ])
   end
 
@@ -2283,7 +2285,7 @@ describe RRule::Rule do
       Time.parse('Tue Jan  6 02:44:00 PST 1998'),
       Time.parse('Tue Jan 13 02:44:00 PST 1998'),
       Time.parse('Tue Jan 20 02:44:00 PST 1998'),
-      Time.parse('Tue Jan 27 02:44:00 PST 1998')
+      Time.parse('Tue Jan 27 02:44:00 PST 1998'),
     ])
   end
 
@@ -2317,7 +2319,7 @@ describe RRule::Rule do
       Time.parse('Tue Jan 27 04:22:42 PST 1998'),
       Time.parse('Tue Jan 27 04:33:42 PST 1998'),
       Time.parse('Tue Jan 27 06:22:42 PST 1998'),
-      Time.parse('Tue Jan 27 06:33:42 PST 1998')
+      Time.parse('Tue Jan 27 06:33:42 PST 1998'),
     ])
   end
 

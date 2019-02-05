@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RRule
   class BySetPosition < Generator
     attr_reader :by_set_positions

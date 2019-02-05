@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe RRule::Weekday do
@@ -26,7 +28,7 @@ describe RRule::Weekday do
       let(:weekday_string) { '-3TU' }
 
       it 'parses correctly' do
-        expect(weekday.ordinal).to eql -3
+        expect(weekday.ordinal).to eql(-3)
         expect(weekday.index).to eql 2
       end
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RRule
   class Daily < Frequency
     def possible_days
