@@ -25,9 +25,8 @@ module RRule
     end
 
     def each(floor_date: nil)
-      floor_date ||= dtstart
       # If we have a COUNT or INTERVAL option, we have to start at dtstart, because those are relative to dtstart
-      if count_or_interval_present?
+      if count_or_interval_present? || floor_date.nil? || dtstart > floor_date
         floor_date = dtstart
       end
 
