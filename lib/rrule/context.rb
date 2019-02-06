@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RRule
   class Context
     attr_reader :options, :dtstart, :tz, :day_of_year_mask, :year
@@ -17,14 +19,14 @@ module RRule
         possible_date_ranges = []
         if options[:freq] == 'YEARLY'
           if options[:bymonth]
-            options[:bymonth].each do |month|
-              possible_date_ranges.push(elapsed_days_in_year_by_month[(month - 1)..(month)])
+            options[:bymonth].each do |mon|
+              possible_date_ranges.push(elapsed_days_in_year_by_month[(mon - 1)..mon])
             end
           else
             possible_date_ranges = [[0, year_length_in_days]]
           end
         elsif options[:freq] == 'MONTHLY'
-          possible_date_ranges = [elapsed_days_in_year_by_month[(month - 1)..(month)]]
+          possible_date_ranges = [elapsed_days_in_year_by_month[(month - 1)..month]]
         end
 
         unless possible_date_ranges.empty?

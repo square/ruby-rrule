@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '../lib/'))
 require 'rrule'
-include Benchmark
+require 'benchmark'
 
 rules_to_benchmark = ['FREQ=WEEKLY', 'FREQ=WEEKLY;BYDAY=WE']
 rrule_version = '0.3.0'

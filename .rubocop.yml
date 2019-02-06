@@ -1,0 +1,25 @@
+AllCops:
+  TargetRubyVersion: 2.3
+
+Layout:
+  Enabled: false
+
+Lint/NonLocalExitFromIterator:
+  Enabled: false
+
+Metrics:
+  Enabled: false
+
+Naming:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+Style/MultilineBlockChain:
+  Enabled: false
+Style/NumericPredicate:
+  Enabled: false
+Style/RescueModifier:
+  Enabled: false
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma

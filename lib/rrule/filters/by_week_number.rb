@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RRule
   class ByWeekNumber
     def initialize(by_week_numbers, context)
