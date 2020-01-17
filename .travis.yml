@@ -6,3 +6,10 @@ rvm:
   - 2.5.3
   - 2.6.0
   - ruby-head
+
+gemfile:
+  - gemfiles/activesupport_2.3_LTS.gemfile
+  - gemfiles/activesupport_3.gemfile
+  - gemfiles/activesupport_4.gemfile
+  - gemfiles/activesupport_5.gemfile
+  - gemfiles/activesupport_6.gemfile
