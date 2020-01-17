@@ -1,0 +1,85 @@
+PATH
+  remote: ..
+  specs:
+    rrule (0.4.2)
+      activesupport
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (6.0.2.1)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+      zeitwerk (~> 2.2)
+    appraisal (2.2.0)
+      bundler
+      rake
+      thor (>= 0.14.0)
+    ast (2.4.0)
+    byebug (11.0.1)
+    coderay (1.1.2)
+    concurrent-ruby (1.1.5)
+    diff-lcs (1.3)
+    i18n (1.8.2)
+      concurrent-ruby (~> 1.0)
+    jaro_winkler (1.5.4)
+    method_source (0.9.2)
+    minitest (5.14.0)
+    parallel (1.19.1)
+    parser (2.7.0.2)
+      ast (~> 2.4.0)
+    powerpack (0.1.2)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry-byebug (3.7.0)
+      byebug (~> 11.0)
+      pry (~> 0.10)
+    rainbow (3.0.0)
+    rake (13.0.1)
+    rspec (3.9.0)
+      rspec-core (~> 3.9.0)
+      rspec-expectations (~> 3.9.0)
+      rspec-mocks (~> 3.9.0)
+    rspec-core (3.9.1)
+      rspec-support (~> 3.9.1)
+    rspec-expectations (3.9.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-mocks (3.9.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-support (3.9.2)
+    rubocop (0.63.1)
+      jaro_winkler (~> 1.5.1)
+      parallel (~> 1.10)
+      parser (>= 2.5, != 2.5.1.1)
+      powerpack (~> 0.1)
+      rainbow (>= 2.2.2, < 4.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (~> 1.4.0)
+    ruby-progressbar (1.10.1)
+    thor (1.0.1)
+    thread_safe (0.3.6)
+    tzinfo (1.2.6)
+      thread_safe (~> 0.1)
+    unicode-display_width (1.4.1)
+    zeitwerk (2.2.2)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activesupport (>= 6)
+  appraisal
+  pry
+  pry-byebug
+  rake
+  rrule!
+  rspec (~> 3.8)
+  rubocop (= 0.63.1)
+
+BUNDLED WITH
+   2.0.2
