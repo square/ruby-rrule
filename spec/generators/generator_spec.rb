@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe RRule::Generator do
@@ -18,7 +20,7 @@ describe RRule::Generator do
   before(:each) { context.rebuild(1997, 1) }
 
   describe '#process_timeset' do
-    describe "single timeset" do
+    describe 'single timeset' do
       subject { described_class.new(context).process_timeset(date, timeset)}
 
       context 'with a timeset with only 1 set' do
@@ -83,7 +85,7 @@ describe RRule::Generator do
     end
   end
 
-  describe "multiple timesets" do
+  describe 'multiple timesets' do
     subject { described_class.new(context).process_timeset(date, timeset)}
 
       context 'with multiple timsets' do
@@ -103,7 +105,7 @@ describe RRule::Generator do
           Time.parse('Wed Jan  1 20:30:15 PST 1997'),
           Time.parse('Wed Jan  1 20:30:45 PST 1997'),
           Time.parse('Wed Jan  1 18:22:20 PST 1997'),
-          Time.parse('Wed Jan  1 18:45:20 PST 1997')
+          Time.parse('Wed Jan  1 18:45:20 PST 1997'),
         ] }
       end
   end

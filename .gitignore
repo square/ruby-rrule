@@ -1,4 +1,6 @@
+Gemfile.lock
 .rspec
 *.gem
 *.sublime-project
 *.sublime-workspace
+Gemfile.lock

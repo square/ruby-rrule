@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RRule
   class SimpleWeekly < Frequency
     def next_occurrences
@@ -8,15 +10,13 @@ module RRule
     end
 
     def correct_current_date_if_needed
-      if context.options[:byweekday].present?
-        target_wday = context.options[:byweekday].first.index
+      target_wday = if context.options[:byweekday].present?
+        context.options[:byweekday].first.index
       else
-        target_wday = context.dtstart.wday
+        context.dtstart.wday
       end
 
-      while @current_date.wday != target_wday
-        @current_date = @current_date + 1.day
-      end
+      @current_date += 1.day while @current_date.wday != target_wday
     end
   end
 end

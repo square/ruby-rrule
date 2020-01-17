@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RRule
   class Yearly < Frequency
     def possible_days

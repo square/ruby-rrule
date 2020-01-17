@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RRule
   class AllOccurrences < Generator
     def combine_dates_and_times(dayset, timeset)

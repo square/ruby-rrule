@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RRule
   class Context
     attr_reader :options, :dtstart, :tz, :day_of_year_mask, :year
@@ -17,14 +19,14 @@ module RRule
         possible_date_ranges = []
         if options[:freq] == 'YEARLY'
           if options[:bymonth]
-            options[:bymonth].each do |month|
-              possible_date_ranges.push(elapsed_days_in_year_by_month[(month - 1)..(month)])
+            options[:bymonth].each do |mon|
+              possible_date_ranges.push(elapsed_days_in_year_by_month[(mon - 1)..mon])
             end
           else
             possible_date_ranges = [[0, year_length_in_days]]
           end
         elsif options[:freq] == 'MONTHLY'
-          possible_date_ranges = [elapsed_days_in_year_by_month[(month - 1)..(month)]]
+          possible_date_ranges = [elapsed_days_in_year_by_month[(month - 1)..month]]
         end
 
         unless possible_date_ranges.empty?
@@ -39,10 +41,10 @@ module RRule
             end
           end
         end
-
-        @last_year = year
-        @last_month = month
       end
+
+      @last_year = year
+      @last_month = month
     end
 
     def year_length_in_days
@@ -82,7 +84,7 @@ module RRule
     end
 
     def negative_week_number_by_day_of_year
-      @negative_month_day_by_day_of_year ||= days_in_year.map { |day| day.cweek - Date.new(day.cwyear, 12, 28).cweek - 1 }
+      @negative_week_number_by_day_of_year ||= days_in_year.map { |day| day.cweek - Date.new(day.cwyear, 12, 28).cweek - 1 }
     end
 
     def elapsed_days_in_year_by_month

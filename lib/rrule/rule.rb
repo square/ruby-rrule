@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RRule
   class Rule
     include Enumerable
@@ -5,10 +7,11 @@ module RRule
     attr_reader :dtstart, :tz, :exdate
 
     def initialize(rrule, dtstart: Time.now, tzid: 'UTC', exdate: [], max_year: nil)
-      @dtstart = floor_to_seconds(dtstart).in_time_zone(tzid)
       @tz = tzid
+      @dtstart = floor_to_seconds_in_timezone(dtstart)
       @exdate = exdate
       @options = parse_options(rrule)
+      @frequency_type = Frequency.for_options(options)
       @max_year = max_year || 9999
       @max_date = DateTime.new(@max_year)
     end
@@ -18,17 +21,14 @@ module RRule
     end
 
     def between(start_date, end_date, limit: nil)
-      floored_start_date = floor_to_seconds(start_date)
-      floored_end_date = floor_to_seconds(end_date)
+      floored_start_date = floor_to_seconds_in_timezone(start_date)
+      floored_end_date = floor_to_seconds_in_timezone(end_date)
       all_until(start_date: floored_start_date, end_date: floored_end_date, limit: limit).reject { |instance| instance < floored_start_date }
     end
 
     def each(floor_date: nil)
-      floor_date ||= dtstart
       # If we have a COUNT or INTERVAL option, we have to start at dtstart, because those are relative to dtstart
-      if count_or_interval_present?
-        floor_date = dtstart
-      end
+      floor_date = dtstart if count_or_interval_present? || floor_date.nil? || dtstart > floor_date
 
       return enum_for(:each, floor_date: floor_date) unless block_given?
       context = Context.new(options, dtstart, tz)
@@ -38,30 +38,20 @@ module RRule
       count = options[:count]
 
       filters = []
-      if options[:bymonth]
-        filters.push(ByMonth.new(options[:bymonth], context))
-      end
+      filters.push(ByMonth.new(options[:bymonth], context)) if options[:bymonth]
 
-      if options[:byweekno]
-        filters.push(ByWeekNumber.new(options[:byweekno], context))
-      end
+      filters.push(ByWeekNumber.new(options[:byweekno], context)) if options[:byweekno]
 
-      if options[:byweekday]
-        filters.push(ByWeekDay.new(options[:byweekday], context))
-      end
+      filters.push(ByWeekDay.new(options[:byweekday], context)) if options[:byweekday]
 
-      if options[:byyearday]
-        filters.push(ByYearDay.new(options[:byyearday], context))
-      end
+      filters.push(ByYearDay.new(options[:byyearday], context)) if options[:byyearday]
 
-      if options[:bymonthday]
-        filters.push(ByMonthDay.new(options[:bymonthday], context))
-      end
+      filters.push(ByMonthDay.new(options[:bymonthday], context)) if options[:bymonthday]
 
-      if options[:bysetpos]
-        generator = BySetPosition.new(options[:bysetpos], context)
+      generator = if options[:bysetpos]
+        BySetPosition.new(options[:bysetpos], context)
       else
-        generator = AllOccurrences.new(context)
+        AllOccurrences.new(context)
       end
 
       frequency = Frequency.for_options(options).new(context, filters, generator, timeset, start_date: floor_date)
@@ -85,13 +75,13 @@ module RRule
 
     private
 
-    attr_reader :options, :max_year, :max_date
+    attr_reader :options, :max_year, :max_date, :frequency_type
 
-    def floor_to_seconds(date)
+    def floor_to_seconds_in_timezone(date)
       # This removes all sub-second and floors it to the second level.
       # Sub-second level calculations breaks a lot of assumptions in this
       # library and rounding it may also cause unexpected inequalities.
-      Time.at(date.to_i)
+      Time.at(date.to_i).in_time_zone(tz)
     end
 
     def enumerator
@@ -116,15 +106,15 @@ module RRule
           i = begin
             Integer(value)
           rescue ArgumentError
-            raise InvalidRRule, "COUNT must be a non-negative integer"
+            raise InvalidRRule, 'COUNT must be a non-negative integer'
           end
-          raise InvalidRRule, "COUNT must be a non-negative integer" if i < 0
+          raise InvalidRRule, 'COUNT must be a non-negative integer' if i < 0
           options[:count] = i
         when 'UNTIL'
           options[:until] = Time.parse(value)
         when 'INTERVAL'
           i = Integer(value) rescue 0
-          raise InvalidRRule, "INTERVAL must be a positive integer" unless i > 0
+          raise InvalidRRule, 'INTERVAL must be a positive integer' unless i > 0
           options[:interval] = i
         when 'BYHOUR'
           options[:byhour] = value.split(',').compact.map(&:to_i)
@@ -137,7 +127,7 @@ module RRule
         when 'BYSETPOS'
           options[:bysetpos] = value.split(',').map(&:to_i)
         when 'WKST'
-          options[:wkst] = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'].index(value)
+          options[:wkst] = RRule::WEEKDAYS.index(value)
         when 'BYMONTH'
           options[:bymonth] = value.split(',').compact.map(&:to_i)
         when 'BYMONTHDAY'
@@ -149,12 +139,10 @@ module RRule
         end
       end
 
-      if !(options[:byweekno] || options[:byyearday] || options[:bymonthday] || options[:byweekday])
+      unless options[:byweekno] || options[:byyearday] || options[:bymonthday] || options[:byweekday]
         case options[:freq]
         when 'YEARLY'
-          unless options[:bymonth]
-            options[:bymonth] = [dtstart.month]
-          end
+          options[:bymonth] = [dtstart.month] unless options[:bymonth]
           options[:bymonthday] = [dtstart.day]
         when 'MONTHLY'
           options[:bymonthday] = [dtstart.day]
@@ -164,9 +152,7 @@ module RRule
         end
       end
 
-      unless options[:byweekday].nil?
-        options[:byweekday], options[:bynweekday] = options[:byweekday].partition { |wday| wday.ordinal.nil? }
-      end
+      options[:byweekday], options[:bynweekday] = options[:byweekday].partition { |wday| wday.ordinal.nil? } unless options[:byweekday].nil?
 
       options[:timeset] = [{ hour: (options[:byhour].presence || dtstart.hour), minute: (options[:byminute].presence || dtstart.min), second: (options[:bysecond].presence || dtstart.sec) }]
 

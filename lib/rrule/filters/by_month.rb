@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RRule
   class ByMonth
     def initialize(by_months, context)

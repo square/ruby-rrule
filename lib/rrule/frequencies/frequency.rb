@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RRule
   class Frequency
     attr_reader :current_date, :filters, :generator, :timeset
@@ -12,9 +14,7 @@ module RRule
 
     def advance
       @current_date = current_date.advance(advance_by).tap do |new_date|
-        unless same_month(current_date, new_date)
-          context.rebuild(new_date.year, new_date.month)
-        end
+        context.rebuild(new_date.year, new_date.month) unless same_month(current_date, new_date)
       end
     end
 
@@ -32,10 +32,6 @@ module RRule
       end
     end
 
-    def possible_days
-      fail NotImplementedError
-    end
-
     def self.for_options(options)
       case options[:freq]
       when 'DAILY'
@@ -50,6 +46,8 @@ module RRule
         Monthly
       when 'YEARLY'
         Yearly
+      else
+        raise InvalidRRule, 'Valid FREQ value is required'
       end
     end
 
@@ -59,10 +57,6 @@ module RRule
 
     def same_month(first_date, second_date)
       first_date.month == second_date.month && first_date.year == second_date.year
-    end
-
-    def advance_by
-      fail NotImplementedError
     end
   end
 end

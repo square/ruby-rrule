@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/all'
 
 module RRule
@@ -21,6 +23,8 @@ module RRule
   autoload :Generator, 'rrule/generators/generator'
   autoload :AllOccurrences, 'rrule/generators/all_occurrences'
   autoload :BySetPosition, 'rrule/generators/by_set_position'
+
+  WEEKDAYS = %w[SU MO TU WE TH FR SA].freeze
 
   def self.parse(rrule, **options)
     Rule.new(rrule, **options)

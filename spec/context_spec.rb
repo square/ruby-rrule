@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe RRule::Context do
@@ -111,10 +113,10 @@ describe RRule::Context do
 
       it 'maps the month day of the year to the month number' do
         expect(negative_month_day_by_day_of_year.length).to eql 366 + 7 # 7 padding days
-        expect(negative_month_day_by_day_of_year[0]).to eql -31
-        expect(negative_month_day_by_day_of_year[1]).to eql -30
-        expect(negative_month_day_by_day_of_year[59]).to eql -1
-        expect(negative_month_day_by_day_of_year[365]).to eql -1
+        expect(negative_month_day_by_day_of_year[0]).to eql(-31)
+        expect(negative_month_day_by_day_of_year[1]).to eql(-30)
+        expect(negative_month_day_by_day_of_year[59]).to eql(-1)
+        expect(negative_month_day_by_day_of_year[365]).to eql(-1)
       end
     end
 
@@ -123,10 +125,10 @@ describe RRule::Context do
 
       it 'maps the month day of the year to the month number' do
         expect(negative_month_day_by_day_of_year.length).to eql 365 + 7 # 7 padding days
-        expect(negative_month_day_by_day_of_year[0]).to eql -31
-        expect(negative_month_day_by_day_of_year[1]).to eql -30
-        expect(negative_month_day_by_day_of_year[59]).to eql -31
-        expect(negative_month_day_by_day_of_year[364]).to eql -1
+        expect(negative_month_day_by_day_of_year[0]).to eql(-31)
+        expect(negative_month_day_by_day_of_year[1]).to eql(-30)
+        expect(negative_month_day_by_day_of_year[59]).to eql(-31)
+        expect(negative_month_day_by_day_of_year[364]).to eql(-1)
       end
     end
   end
@@ -174,7 +176,7 @@ describe RRule::Context do
       before(:each) { context.rebuild(1997, 1) }
 
       it 'is part of the current calendar-week-based year' do
-        expect(negative_week_number_by_day_of_year[0]).to eql -52
+        expect(negative_week_number_by_day_of_year[0]).to eql(-52)
       end
     end
 
@@ -182,7 +184,7 @@ describe RRule::Context do
       before(:each) { context.rebuild(1999, 1) }
 
       it 'is part of the previous calendar-week-based year' do
-        expect(negative_week_number_by_day_of_year[0]).to eql -1
+        expect(negative_week_number_by_day_of_year[0]).to eql(-1)
       end
     end
 
@@ -190,7 +192,7 @@ describe RRule::Context do
       before(:each) { context.rebuild(1999, 1) }
 
       it 'is part of the current calendar-week-based year' do
-        expect(negative_week_number_by_day_of_year[364]).to eql -1
+        expect(negative_week_number_by_day_of_year[364]).to eql(-1)
       end
     end
 
@@ -198,7 +200,7 @@ describe RRule::Context do
       before(:each) { context.rebuild(1997, 1) }
 
       it 'is part of the next calendar-week-based year' do
-        expect(negative_week_number_by_day_of_year[364]).to eql -53
+        expect(negative_week_number_by_day_of_year[364]).to eql(-53)
       end
     end
   end
