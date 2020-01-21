@@ -3,17 +3,18 @@ appraise "activesupport-2.3-LTS" do
 end
 
 appraise "activesupport-3" do
-  gem "activesupport", ">= 3"
+  gem "activesupport", "~> 3"
+  gem "tzinfo"
 end
 
 appraise "activesupport-4" do
-  gem "activesupport", ">= 4"
+  gem "activesupport", "~> 4"
 end
 
 appraise "activesupport-5" do
-  gem "activesupport", ">= 5"
+  gem "activesupport", "~> 5"
 end
 
 appraise "activesupport-6" do
-  gem "activesupport", ">= 6"
+  gem "activesupport", "~> 6"
 end

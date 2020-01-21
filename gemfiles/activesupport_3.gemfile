@@ -6,7 +6,8 @@ gem "pry"
 gem "rake"
 gem "rspec", "~> 3.8"
 gem "rubocop", "0.63.1"
-gem "activesupport", ">= 3"
+gem "activesupport", "~> 3"
+gem "tzinfo"
 
 platforms :mri do
   gem "pry-byebug"

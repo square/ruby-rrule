@@ -7,18 +7,17 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (6.0.2.1)
+    activesupport (5.2.4.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-      zeitwerk (~> 2.2)
     appraisal (2.2.0)
       bundler
       rake
       thor (>= 0.14.0)
     ast (2.4.0)
-    byebug (11.0.1)
+    byebug (11.1.0)
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
     diff-lcs (1.3)
@@ -66,13 +65,12 @@ GEM
     tzinfo (1.2.6)
       thread_safe (~> 0.1)
     unicode-display_width (1.4.1)
-    zeitwerk (2.2.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (>= 5)
+  activesupport (~> 5)
   appraisal
   pry
   pry-byebug
