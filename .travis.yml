@@ -15,4 +15,5 @@ gemfile:
   - gemfiles/activesupport_6.gemfile
 
 before_install:
+  - yes | gem update --system --force
   - gem install bundler
