@@ -1,7 +1,8 @@
 AllCops:
   TargetRubyVersion: 2.4
   Exclude:
-    - 'gemfiles/vendor/**/*'
+    - 'gemfiles/**/*'
+    - Appraisals
 
 Layout:
   Enabled: false
