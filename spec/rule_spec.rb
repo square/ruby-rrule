@@ -1677,18 +1677,18 @@ describe RRule::Rule do
       ])
     end
 
-    # Ruby's Time class only properly handles years up to 2038, and so gives an incorrect
-    # offset for the last two occurrences here.
-    xit 'returns the correct result with an rrule of FREQ=YEARLY;COUNT=3;INTERVAL=100' do
+    # At time of writing IANA timezone data was only available up until the year 2050
+    # hence we perform these calculations in UTC in order to avoid problems
+    # with periods of daylight savings time
+    it 'returns the correct result with an rrule of FREQ=YEARLY;COUNT=3;INTERVAL=100' do
       rrule = 'FREQ=YEARLY;COUNT=3;INTERVAL=100'
-      dtstart = Time.parse('Tue Sep  2 09:00:00 PDT 1997')
-      timezone = 'America/Los_Angeles'
+      dtstart = Time.parse('Tue Sep  2 09:00:00 UTC 1997')
 
-      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart)
       expect(rrule.all).to match_array([
-        Time.parse('Tue Sep  2 09:00:00 PDT 1997'),
-        Time.parse('Mon Sep  2 09:00:00 PDT 2097'),
-        Time.parse('Sat Sep  2 09:00:00 PDT 2197'),
+        Time.parse('Tue Sep  2 09:00:00 UTC 1997'),
+        Time.parse('Mon Sep  2 09:00:00 UTC 2097'),
+        Time.parse('Sat Sep  2 09:00:00 UTC 2197'),
       ])
     end
 
