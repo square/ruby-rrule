@@ -1831,7 +1831,7 @@ describe RRule::Rule do
 
     it 'returns the correct result with an rrule of FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU' do
       rrule = 'FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU'
-      dtstart = DateTime.parse('2018-02-04 04:00:00 +1000')
+      dtstart = Time.parse('2018-02-04 04:00:00 +1000')
       timezone = 'Brisbane'
 
       rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
@@ -2321,6 +2321,140 @@ describe RRule::Rule do
       Time.parse('Tue Jan 27 06:22:42 PST 1998'),
       Time.parse('Tue Jan 27 06:33:42 PST 1998'),
     ])
+  end
+
+  context 'when DTSTART is a Date' do
+    it 'returns the correct result with an rrule of FREQ=DAILY;COUNT=10 and a limit' do
+      rrule = 'FREQ=DAILY;COUNT=10'
+      dtstart = Date.parse('Tue Sep  2 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.all(limit: 5)).to match_array([
+        Date.parse('Tue Sep  2 1997'),
+        Date.parse('Wed Sep  3 1997'),
+        Date.parse('Thu Sep  4 1997'),
+        Date.parse('Fri Sep  5 1997'),
+        Date.parse('Sat Sep  6 1997'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=MONTHLY;UNTIL=19971224;BYDAY=1FR' do
+      rrule = 'FREQ=MONTHLY;UNTIL=19971224;BYDAY=1FR'
+      dtstart = Date.parse('Fri Sep  5 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.all).to match_array([
+        Date.parse('Fri Sep  5 1997'),
+        Date.parse('Fri Oct  3 1997'),
+        Date.parse('Fri Nov  7 1997'),
+        Date.parse('Fri Dec  5 1997'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=YEARLY;UNTIL=20000131;BYMONTH=1;BYDAY=SU,MO,TU,WE,TH,FR,SA' do
+      rrule = 'FREQ=YEARLY;UNTIL=20000131;BYMONTH=1;BYDAY=SU,MO,TU,WE,TH,FR,SA'
+      dtstart = Date.parse('Thu Jan  1 1998')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.all).to match_array([
+        Date.parse('Thu Jan  1 1998'),
+        Date.parse('Fri Jan  2 1998'),
+        Date.parse('Sat Jan  3 1998'),
+        Date.parse('Sun Jan  4 1998'),
+        Date.parse('Mon Jan  5 1998'),
+        Date.parse('Tue Jan  6 1998'),
+        Date.parse('Wed Jan  7 1998'),
+        Date.parse('Thu Jan  8 1998'),
+        Date.parse('Fri Jan  9 1998'),
+        Date.parse('Sat Jan 10 1998'),
+        Date.parse('Sun Jan 11 1998'),
+        Date.parse('Mon Jan 12 1998'),
+        Date.parse('Tue Jan 13 1998'),
+        Date.parse('Wed Jan 14 1998'),
+        Date.parse('Thu Jan 15 1998'),
+        Date.parse('Fri Jan 16 1998'),
+        Date.parse('Sat Jan 17 1998'),
+        Date.parse('Sun Jan 18 1998'),
+        Date.parse('Mon Jan 19 1998'),
+        Date.parse('Tue Jan 20 1998'),
+        Date.parse('Wed Jan 21 1998'),
+        Date.parse('Thu Jan 22 1998'),
+        Date.parse('Fri Jan 23 1998'),
+        Date.parse('Sat Jan 24 1998'),
+        Date.parse('Sun Jan 25 1998'),
+        Date.parse('Mon Jan 26 1998'),
+        Date.parse('Tue Jan 27 1998'),
+        Date.parse('Wed Jan 28 1998'),
+        Date.parse('Thu Jan 29 1998'),
+        Date.parse('Fri Jan 30 1998'),
+        Date.parse('Sat Jan 31 1998'),
+        Date.parse('Fri Jan  1 1999'),
+        Date.parse('Sat Jan  2 1999'),
+        Date.parse('Sun Jan  3 1999'),
+        Date.parse('Mon Jan  4 1999'),
+        Date.parse('Tue Jan  5 1999'),
+        Date.parse('Wed Jan  6 1999'),
+        Date.parse('Thu Jan  7 1999'),
+        Date.parse('Fri Jan  8 1999'),
+        Date.parse('Sat Jan  9 1999'),
+        Date.parse('Sun Jan 10 1999'),
+        Date.parse('Mon Jan 11 1999'),
+        Date.parse('Tue Jan 12 1999'),
+        Date.parse('Wed Jan 13 1999'),
+        Date.parse('Thu Jan 14 1999'),
+        Date.parse('Fri Jan 15 1999'),
+        Date.parse('Sat Jan 16 1999'),
+        Date.parse('Sun Jan 17 1999'),
+        Date.parse('Mon Jan 18 1999'),
+        Date.parse('Tue Jan 19 1999'),
+        Date.parse('Wed Jan 20 1999'),
+        Date.parse('Thu Jan 21 1999'),
+        Date.parse('Fri Jan 22 1999'),
+        Date.parse('Sat Jan 23 1999'),
+        Date.parse('Sun Jan 24 1999'),
+        Date.parse('Mon Jan 25 1999'),
+        Date.parse('Tue Jan 26 1999'),
+        Date.parse('Wed Jan 27 1999'),
+        Date.parse('Thu Jan 28 1999'),
+        Date.parse('Fri Jan 29 1999'),
+        Date.parse('Sat Jan 30 1999'),
+        Date.parse('Sun Jan 31 1999'),
+        Date.parse('Sat Jan  1 2000'),
+        Date.parse('Sun Jan  2 2000'),
+        Date.parse('Mon Jan  3 2000'),
+        Date.parse('Tue Jan  4 2000'),
+        Date.parse('Wed Jan  5 2000'),
+        Date.parse('Thu Jan  6 2000'),
+        Date.parse('Fri Jan  7 2000'),
+        Date.parse('Sat Jan  8 2000'),
+        Date.parse('Sun Jan  9 2000'),
+        Date.parse('Mon Jan 10 2000'),
+        Date.parse('Tue Jan 11 2000'),
+        Date.parse('Wed Jan 12 2000'),
+        Date.parse('Thu Jan 13 2000'),
+        Date.parse('Fri Jan 14 2000'),
+        Date.parse('Sat Jan 15 2000'),
+        Date.parse('Sun Jan 16 2000'),
+        Date.parse('Mon Jan 17 2000'),
+        Date.parse('Tue Jan 18 2000'),
+        Date.parse('Wed Jan 19 2000'),
+        Date.parse('Thu Jan 20 2000'),
+        Date.parse('Fri Jan 21 2000'),
+        Date.parse('Sat Jan 22 2000'),
+        Date.parse('Sun Jan 23 2000'),
+        Date.parse('Mon Jan 24 2000'),
+        Date.parse('Tue Jan 25 2000'),
+        Date.parse('Wed Jan 26 2000'),
+        Date.parse('Thu Jan 27 2000'),
+        Date.parse('Fri Jan 28 2000'),
+        Date.parse('Sat Jan 29 2000'),
+        Date.parse('Sun Jan 30 2000'),
+        Date.parse('Mon Jan 31 2000'),
+      ])
+    end
   end
 
   describe 'validation' do

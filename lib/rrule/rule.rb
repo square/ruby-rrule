@@ -8,7 +8,7 @@ module RRule
 
     def initialize(rrule, dtstart: Time.now, tzid: 'UTC', exdate: [], max_year: nil)
       @tz = tzid
-      @dtstart = floor_to_seconds_in_timezone(dtstart)
+      @dtstart = dtstart.is_a?(Date) ? dtstart : floor_to_seconds_in_timezone(dtstart)
       @exdate = exdate
       @options = parse_options(rrule)
       @frequency_type = Frequency.for_options(options)
@@ -111,7 +111,9 @@ module RRule
           raise InvalidRRule, 'COUNT must be a non-negative integer' if i < 0
           options[:count] = i
         when 'UNTIL'
-          options[:until] = Time.parse(value)
+          # The value of the UNTIL rule part MUST have the same
+          # value type as the "DTSTART" property.
+          options[:until] = @dtstart.is_a?(Date) ? Date.parse(value) : Time.parse(value)
         when 'INTERVAL'
           i = Integer(value) rescue 0
           raise InvalidRRule, 'INTERVAL must be a positive integer' unless i > 0
@@ -154,7 +156,11 @@ module RRule
 
       options[:byweekday], options[:bynweekday] = options[:byweekday].partition { |wday| wday.ordinal.nil? } unless options[:byweekday].nil?
 
-      options[:timeset] = [{ hour: (options[:byhour].presence || dtstart.hour), minute: (options[:byminute].presence || dtstart.min), second: (options[:bysecond].presence || dtstart.sec) }]
+      # The BYSECOND, BYMINUTE and BYHOUR rule parts MUST NOT be specified
+      # when the associated "DTSTART" property has a DATE value type.
+      # These rule parts MUST be ignored in RECUR value that violate the
+      # above requirement
+      options[:timeset] = [{ hour: (options[:byhour].presence || dtstart.hour), minute: (options[:byminute].presence || dtstart.min), second: (options[:bysecond].presence || dtstart.sec) }] unless dtstart.is_a?(Date)
 
       options
     end
