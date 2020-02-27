@@ -1692,7 +1692,7 @@ describe RRule::Rule do
       ])
     end
 
-    xit 'returns the correct result with an rrule of FREQ=YEARLY;INTERVAL=1;BYDAY=MO,-1TU;UNTIL=20160901T200000Z' do
+    it 'returns the correct result with an rrule of FREQ=YEARLY;INTERVAL=1;BYDAY=MO,-1TU;UNTIL=20160901T200000Z' do
       rrule = 'FREQ=YEARLY;INTERVAL=1;BYDAY=MO,-1TU;UNTIL=20160901T200000Z'
       dtstart = Time.parse('Mon Sep  1 19:00:00 PDT 2014')
       timezone = 'America/Los_Angeles'

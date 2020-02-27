@@ -8,17 +8,17 @@ module RRule
     end
 
     def reject?(i)
-      masked?(i) || !matches_by_week_days?(i)
+      masked?(i) && !matches_by_week_days?(i)
     end
 
     private
 
     def masked?(i)
-      context.day_of_year_mask && !context.day_of_year_mask[i]
+      context.day_of_year_mask.blank? || !context.day_of_year_mask[i]
     end
 
     def matches_by_week_days?(i)
-      by_week_days.empty? || by_week_days.include?(context.weekday_by_day_of_year[i])
+      by_week_days.present? && by_week_days.include?(context.weekday_by_day_of_year[i])
     end
 
     attr_reader :by_week_days, :context
