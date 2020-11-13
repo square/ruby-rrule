@@ -3,4 +3,4 @@ Gemfile.lock
 *.gem
 *.sublime-project
 *.sublime-workspace
-Gemfile.lock
+.ruby-version

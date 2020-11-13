@@ -2339,6 +2339,19 @@ describe RRule::Rule do
       ])
     end
 
+    it 'returns the correct result with an rrule of FREQ=WEEKLY;INTERVAL=1;WKST=SU and a limit' do
+      rrule = 'FREQ=WEEKLY;INTERVAL=1;WKST=SU'
+      dtstart = Date.parse('Fri Sep  5 1997')
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart)
+      expect(rrule.all(limit: 4)).to match_array([
+         Date.parse('Fri Sep  5 1997'),
+         Date.parse('Fri Sep  12 1997'),
+         Date.parse('Fri Sep  19 1997'),
+         Date.parse('Fri Sep  26 1997'),
+       ])
+    end
+
     it 'returns the correct result with an rrule of FREQ=MONTHLY;UNTIL=19971224;BYDAY=1FR' do
       rrule = 'FREQ=MONTHLY;UNTIL=19971224;BYDAY=1FR'
       dtstart = Date.parse('Fri Sep  5 1997')
