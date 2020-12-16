@@ -19,6 +19,16 @@ describe RRule::SimpleWeekly do
         expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 1, 8)]
         expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 1, 15)]
       end
+
+      context 'with no timeset' do
+        let(:timeset) { nil }
+
+        it 'returns occurrences every week' do
+          expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 1, 1)]
+          expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 1, 8)]
+          expect(frequency.next_occurrences).to eql [Time.zone.local(1997, 1, 15)]
+        end
+      end
     end
 
     context 'with an interval of 2' do

@@ -9,7 +9,7 @@ module RRule
     end
 
     def process_timeset(date, timeset)
-      return date if timeset.blank?
+      return [date] if timeset.blank?
 
       timeset.map do |time|
         hour_sets = (

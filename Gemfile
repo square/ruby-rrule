@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'pry'
+gem 'pry', '~> 0.12.2'
 gem 'rake'
 gem 'rspec', '~> 3.8'
 gem 'rubocop', '0.63.1'
