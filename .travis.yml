@@ -1,8 +1,28 @@
 language: ruby
 sudo: false
 rvm:
-  - 2.3.8
-  - 2.4.5
-  - 2.5.3
-  - 2.6.0
-  - ruby-head
+  - 2.6.5
+  - 2.7.0
+  - 3.0.0
+
+gemfile:
+  - gemfiles/activesupport_2.3_LTS.gemfile
+  - gemfiles/activesupport_3.gemfile
+  - gemfiles/activesupport_4.gemfile
+  - gemfiles/activesupport_5.gemfile
+  - gemfiles/activesupport_6.gemfile
+
+jobs:
+  exclude:
+  - rvm: 2.7.0
+    gemfile: gemfiles/activesupport_3.gemfile
+  - rvm: 2.7.0
+    gemfile: gemfiles/activesupport_4.gemfile
+  - rvm: 3.0.0
+    gemfile: gemfiles/activesupport_3.gemfile
+  - rvm: 3.0.0
+    gemfile: gemfiles/activesupport_4.gemfile
+
+before_install:
+  - yes | gem update --system --force
+  - gem install bundler
