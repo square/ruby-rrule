@@ -3,6 +3,18 @@
 require 'spec_helper'
 
 describe RRule::Rule do
+  describe '#has_ended?' do
+    it 'returns true when there are no more events' do
+      rrule = RRule.parse 'DTSTART:20210805T122300Z;FREQ=DAILY;UNTIL=20210818T121000Z'
+
+      expect(rrule.has_ended?).to be true
+    end
+    it 'returns false when there are more events' do
+      rrule = RRule.parse 'FREQ=DAILY'
+
+      expect(rrule.has_ended?).to be false
+    end
+  end
   describe '#next' do
     it 'can sequentially return values' do
       rrule = 'FREQ=DAILY;COUNT=10'
@@ -14,6 +26,12 @@ describe RRule::Rule do
       expect(rrule.next).to eql Time.parse('Tue Sep  2 06:00:00 PDT 1997')
       expect(rrule.next).to eql Time.parse('Wed Sep  3 06:00:00 PDT 1997')
       expect(rrule.next).to eql Time.parse('Thu Sep  4 06:00:00 PDT 1997')
+    end
+    it 'returns nil when there are no more events' do
+      rrule = RRule.parse 'DTSTART:20210805T122300Z;FREQ=DAILY;UNTIL=20210818T121000Z'
+
+      expect { rrule.next }.not_to raise_error
+      expect(rrule.next).to be_nil
     end
   end
 

@@ -70,7 +70,11 @@ module RRule
     end
 
     def next
-      enumerator.next
+      enumerator.next unless has_ended?
+    end
+
+    def has_ended?
+      all(limit: 1).empty?
     end
 
     private
