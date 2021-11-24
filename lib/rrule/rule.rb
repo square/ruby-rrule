@@ -95,7 +95,8 @@ module RRule
     def parse_options(rule)
       options = { interval: 1, wkst: 1 }
 
-      params = rule.split(';')
+      # Remove RRULE: prefix to prevent parsing options incorrectly.
+      params = rule.delete_prefix('RRULE:').split(';')
       params.each do |param|
         option, value = param.split('=')
 
