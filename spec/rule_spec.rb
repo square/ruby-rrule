@@ -2504,4 +2504,16 @@ describe RRule::Rule do
       expect { RRule::Rule.new('FREQ=DAILY;COUNT=-1', dtstart: dtstart, tzid: timezone) }.to raise_error(RRule::InvalidRRule)
     end
   end
+
+  it "correctly parses rule strings with an 'RRULE:' prefix" do
+    rrule = 'RRULE:INTERVAL=2;FREQ=DAILY;COUNT=10'
+    dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+    timezone = 'America/New_York'
+
+    rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+    expect(rrule.next).to eql Time.parse('Tue Sep  2 06:00:00 PDT 1997')
+    expect(rrule.next).to eql Time.parse('Wed Sep  4 06:00:00 PDT 1997')
+    expect(rrule.next).to eql Time.parse('Thu Sep  6 06:00:00 PDT 1997')
+  end
 end
