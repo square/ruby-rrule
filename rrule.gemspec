@@ -22,6 +22,6 @@ Gem::Specification.new do |s|
   }
 
   s.required_ruby_version = '>= 2.6.0'
-  s.add_runtime_dependency 'activesupport', '>= 2.3', '< 7'
+  s.add_runtime_dependency 'activesupport', '>= 2.3'
   s.add_development_dependency 'appraisal'
 end
