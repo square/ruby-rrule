@@ -11,6 +11,7 @@ gemfile:
   - gemfiles/activesupport_4.gemfile
   - gemfiles/activesupport_5.gemfile
   - gemfiles/activesupport_6.gemfile
+  - gemfiles/activesupport_7.gemfile
 
 jobs:
   exclude:
