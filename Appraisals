@@ -21,3 +21,7 @@ end
 appraise 'activesupport-6' do
   gem 'activesupport', '~> 6'
 end
+
+appraise 'activesupport-7' do
+  gem 'activesupport', '~> 7'
+end
