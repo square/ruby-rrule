@@ -4,6 +4,7 @@ rvm:
   - 2.6.5
   - 2.7.0
   - 3.0.0
+  - 3.1.0
 
 gemfile:
   - gemfiles/activesupport_2.3_LTS.gemfile
@@ -15,6 +16,8 @@ gemfile:
 
 jobs:
   exclude:
+  - rvm: 2.6.5
+    gemfile: gemfiles/activesupport_7.gemfile
   - rvm: 2.7.0
     gemfile: gemfiles/activesupport_3.gemfile
   - rvm: 2.7.0
@@ -22,6 +25,10 @@ jobs:
   - rvm: 3.0.0
     gemfile: gemfiles/activesupport_3.gemfile
   - rvm: 3.0.0
+    gemfile: gemfiles/activesupport_4.gemfile
+  - rvm: 3.1.0
+    gemfile: gemfiles/activesupport_3.gemfile
+  - rvm: 3.1.0
     gemfile: gemfiles/activesupport_4.gemfile
 
 before_install:
