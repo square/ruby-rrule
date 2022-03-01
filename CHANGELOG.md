@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 0.4.4 *(2022-03-01)*
+----------------------------
+Remove constraint on ActiveSupport version
+
 Version 0.4.3 *(2021-08-10)*
 ----------------------------
 Adding support for multiple versions of ActiveSupport, up until at least ActiveSupport 6
