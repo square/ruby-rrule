@@ -89,7 +89,14 @@ module RRule
     end
 
     def all_until(start_date: nil, end_date: max_date, limit: nil)
-      limit ? take(limit) : each(floor_date: start_date).take_while { |date| date <= end_date }
+      count = 0
+      each(floor_date: start_date).take_while do |date|
+        if limit
+          date <= end_date && (count += 1) <= limit
+        else
+          date <= end_date
+        end
+      end
     end
 
     def parse_options(rule)

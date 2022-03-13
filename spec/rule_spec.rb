@@ -1848,6 +1848,44 @@ describe RRule::Rule do
       ])
     end
 
+    it 'returns the correct result with an rrule of FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU starting beyond the beginning of the result' do
+      rrule = 'FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU'
+      dtstart = Time.parse('2018-02-04 04:00:00 +1000')
+      timezone = 'Brisbane'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.between(Time.parse('Sun, 13 May 2018 23:59:59 +1000'), Time.parse('Fri, 08 Jun 2018 23:59:59 +0000'))).to match_array([
+        Time.parse('Sun, 13 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 20 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 27 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 03 Jun 2018 23:59:59 +1000'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU with a limit' do
+      rrule = 'FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU'
+      dtstart = Time.parse('2018-02-04 04:00:00 +1000')
+      timezone = 'Brisbane'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.between(Time.parse('Sun, 08 Apr 2018 00:00:00 +0000'), Time.parse('Fri, 08 Jun 2018 23:59:59 +0000'), limit: 2)).to match_array([
+        Time.parse('Sun, 08 Apr 2018 23:59:59 +1000'),
+        Time.parse('Sun, 15 Apr 2018 23:59:59 +1000'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU starting beyond the beginning of the result with a limit' do
+      rrule = 'FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU'
+      dtstart = Time.parse('2018-02-04 04:00:00 +1000')
+      timezone = 'Brisbane'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.between(Time.parse('Sun, 13 May 2018 23:59:59 +1000'), Time.parse('Fri, 08 Jun 2018 23:59:59 +0000'), limit: 2)).to match_array([
+        Time.parse('Sun, 13 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 20 May 2018 23:59:59 +1000'),
+      ])
+    end
+
     it 'returns the correct result with an rrule of FREQ=DAILY;INTERVAL=2' do
       rrule = 'FREQ=DAILY;INTERVAL=2'
       dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
