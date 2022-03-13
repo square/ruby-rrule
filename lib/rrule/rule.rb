@@ -26,6 +26,11 @@ module RRule
       all_until(start_date: floored_start_date, end_date: floored_end_date, limit: limit).reject { |instance| instance < floored_start_date }
     end
 
+    def from(start_date, limit:)
+      floored_start_date = floor_to_seconds_in_timezone(start_date)
+      all_until(start_date: floored_start_date, limit: limit).reject { |instance| instance < floored_start_date }
+    end
+
     def each(floor_date: nil)
       # If we have a COUNT or INTERVAL option, we have to start at dtstart, because those are relative to dtstart
       floor_date = dtstart if count_or_interval_present? || floor_date.nil? || dtstart > floor_date

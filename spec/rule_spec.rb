@@ -2298,6 +2298,43 @@ describe RRule::Rule do
     end
   end
 
+  describe '#from' do
+    it 'returns the correct result with an rrule of FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU' do
+      rrule = 'FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU'
+      dtstart = Time.parse('2018-02-04 04:00:00 +1000')
+      timezone = 'Brisbane'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.from(Time.parse('Sun, 08 Apr 2018 00:00:00 +0000'), limit: 9))
+        .to match_array([
+        Time.parse('Sun, 08 Apr 2018 23:59:59 +1000'),
+        Time.parse('Sun, 15 Apr 2018 23:59:59 +1000'),
+        Time.parse('Sun, 22 Apr 2018 23:59:59 +1000'),
+        Time.parse('Sun, 29 Apr 2018 23:59:59 +1000'),
+        Time.parse('Sun, 06 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 13 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 20 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 27 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 03 Jun 2018 23:59:59 +1000'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU starting beyond the beginning of the result' do
+      rrule = 'FREQ=WEEKLY;BYSECOND=59;BYMINUTE=59;BYHOUR=23;WKST=SU'
+      dtstart = Time.parse('2018-02-04 04:00:00 +1000')
+      timezone = 'Brisbane'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.from(Time.parse('Sun, 13 May 2018 23:59:59 +1000'), limit: 4))
+        .to match_array([
+        Time.parse('Sun, 13 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 20 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 27 May 2018 23:59:59 +1000'),
+        Time.parse('Sun, 03 Jun 2018 23:59:59 +1000'),
+      ])
+    end
+  end
+
   it 'returns the correct result with an rrule of FREQ=WEEKLY;BYMONTH=1,3;COUNT=4;BYHOUR=2' do
     rrule = 'FREQ=WEEKLY;BYMONTH=1,3;COUNT=4;BYHOUR=2'
     dtstart = Time.parse('Tue Sep  2 09:00:00 PDT 1997')
