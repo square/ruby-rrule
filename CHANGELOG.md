@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 0.5.0 *(2022-03-14)*
+----------------------------
+Add #from method to Rule object
+
 Version 0.4.4 *(2022-03-01)*
 ----------------------------
 Remove constraint on ActiveSupport version
