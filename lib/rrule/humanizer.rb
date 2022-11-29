@@ -1,4 +1,6 @@
 module RRule
+  # Based off https://github.com/jakubroztocil/rrule/blob/master/src/nlp/totext.ts
+  #
   class Humanizer
     attr_reader :rrule, :options
 
