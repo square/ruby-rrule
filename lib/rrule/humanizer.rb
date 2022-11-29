@@ -57,14 +57,14 @@ module RRule
         end
 
         case
-        when byweekday_option && weekdays?(byweekday_option)
+        when byweekday_option && weekdays?
           if interval_option == 1
             add plural?(interval_option) ? 'weekdays' : 'weekday'
           else
             add 'on'
             add 'weekdays'
           end
-        when byweekday_option && every_day?(byweekday_option)
+        when byweekday_option && every_day?
           add plural?(interval_option) ? 'days' : 'day'
         else
           add 'week' if interval_option == 1
@@ -100,7 +100,7 @@ module RRule
 
         if bymonthday_option
           _bymonthday
-        elsif byweekday_option && weekdays?(byweekday_option)
+        elsif byweekday_option && weekdays?
           add 'on'
           add 'weekdays'
         elsif byweekday_option || bynweekday_option
@@ -114,14 +114,14 @@ module RRule
         [day.ordinal && day.nth, day.full_name].compact.join(' ')
       end
 
-      def every_day? days
-        days.sort_by { |d| d.index }.map(&:short_name) == RRule::WEEKDAYS
+      def every_day?
+        byweekday_option.sort_by { |d| d.index }.map(&:short_name) == RRule::WEEKDAYS
       end
 
-      def weekdays? days
-        return false if days.none?
+      def weekdays?
+        return false if byweekday_option.none?
 
-        days.sort_by { |d| d.index }.map(&:short_name) == RRule::WEEKDAYS - %w(SA SU)
+        byweekday_option.sort_by { |d| d.index }.map(&:short_name) == RRule::WEEKDAYS - %w(SA SU)
       end
 
       def _bymonth
