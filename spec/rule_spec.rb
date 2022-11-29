@@ -2616,6 +2616,12 @@ describe RRule::Rule do
       it { expect(rrule.humanize).to eq 'every week on Tuesday, Thursday' }
     end
 
+    context 'every 2 weeks on Tuesday, Thursday' do
+      let(:rule) { 'FREQ=WEEKLY;INTERVAL=2;BYDAY=TU,TH' }
+
+      it { expect(rrule.humanize).to eq 'every 2 weeks on Tuesday, Thursday' }
+    end
+
     context 'every month on the last Friday for 7 times' do
       let(:rule) { 'FREQ=MONTHLY;BYDAY=-1FR;COUNT=7' }
 
