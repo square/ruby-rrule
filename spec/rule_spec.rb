@@ -2627,5 +2627,11 @@ describe RRule::Rule do
 
       it { expect(rrule.humanize).to eq 'every month on the last Friday for 7 times' }
     end
+
+    context 'every month on the first Monday and last Friday for 7 times' do
+      let(:rule) { 'FREQ=MONTHLY;BYDAY=1MO,-1FR;COUNT=7' }
+
+      it { expect(rrule.humanize).to eq 'every month on the 1st Monday and last Friday for 7 times' }
+    end
   end
 end

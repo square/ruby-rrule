@@ -8,13 +8,11 @@ module RRule
       @rrule, @options = rrule, options
 
       # Define instance method for each of the options.
-      options.each do |name, value|
-        define_singleton_method("#{name}_option") { value }
-      end
+      options.each { |name, value| define_singleton_method("#{name}_option") { value } }
     end
 
     def to_s
-      @text = 'every'
+      @buffer = 'every'
 
       send freq_option.downcase
 
@@ -26,10 +24,10 @@ module RRule
         add plural?(count_option) ? 'times' : 'time'
       end
 
-      @text
+      @buffer
     end
 
-    # Get crazy with it.
+    # Return nil if we're trying to access an option that isn't present.
     def method_missing method_name, *args
       if method_name.to_s.match?(/_option/)
         nil
@@ -40,12 +38,18 @@ module RRule
 
     protected
 
-      def list(arr, formatter, finalDelim = nil, delim: ',')
-        arr.map(&formatter).join(delim + ' ')
+      def list(arr, formatter, final_delimiter = nil, delimiter: ',')
+        *rest, middle, tail = arr.map(&formatter)
+
+        if final_delimiter
+          [*rest, [middle, tail].compact.join(" #{final_delimiter} ")].join(delimiter + ' ')
+        else
+          [*rest, middle, tail].compact.join(delimiter + ' ')
+        end
       end
 
       def add string
-        @text += " #{string}"
+        @buffer += " #{string}"
       end
 
       def plural? n
@@ -110,10 +114,12 @@ module RRule
         end
       end
 
-    private
-
       def weekdaytext day
         [day.ordinal && day.nth, day.full_name].compact.join(' ')
+      end
+
+      def all_weeks?
+        bynweekday_option.all? { |option| option.ordinal.nil? }
       end
 
       def every_day?
@@ -137,6 +143,7 @@ module RRule
         end
 
         if bynweekday_option.any?
+          add 'and' if all_weeks?
           add 'on the'
           add list(bynweekday_option, method(:weekdaytext), 'and')
         end

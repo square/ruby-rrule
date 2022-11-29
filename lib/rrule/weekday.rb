@@ -40,13 +40,13 @@ module RRule
       nth =
         case npos = ordinal.abs
         when 1, 21, 31
-          npos + 'st'
+          "#{npos}st"
         when 2, 22
-          npos + 'nd'
+          "#{npos}nd"
         when 3, 23
-          npos + 'rd'
+          "#{npos}rd"
         else
-          npos + 'th'
+          "#{npos}th"
         end
 
       ordinal < 0 ? nth + ' ' + 'last' : nth
