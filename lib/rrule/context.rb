@@ -17,7 +17,9 @@ module RRule
 
       if options[:bynweekday] && !options[:bynweekday].empty? && (month != last_month || year != last_year)
         possible_date_ranges = []
-        if options[:freq] == 'YEARLY'
+
+        case options[:freq]
+        when 'YEARLY'
           if options[:bymonth]
             options[:bymonth].each do |mon|
               possible_date_ranges.push(elapsed_days_in_year_by_month[(mon - 1)..mon])
@@ -25,7 +27,7 @@ module RRule
           else
             possible_date_ranges = [[0, year_length_in_days]]
           end
-        elsif options[:freq] == 'MONTHLY'
+        when 'MONTHLY'
           possible_date_ranges = [elapsed_days_in_year_by_month[(month - 1)..month]]
         end
 
