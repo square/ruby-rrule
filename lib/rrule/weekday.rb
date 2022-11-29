@@ -30,6 +30,10 @@ module RRule
       DAY_NAMES[index]
     end
 
+    def short_name
+      WEEKDAYS[index]
+    end
+
     def nth
       return 'last' if ordinal == -1
 

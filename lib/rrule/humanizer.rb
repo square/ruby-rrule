@@ -4,17 +4,21 @@ module RRule
 
     def initialize rrule, options
       @rrule, @options = rrule, options
-      @text = ''
+
+      # Define instance method for each of the options.
+      options.each do |name, value|
+        define_singleton_method("#{name}_option") { value }
+      end
     end
 
     def to_s
       @text = 'every'
 
-      send options[:freq].downcase
+      send freq_option.downcase
 
-      if until_option = options[:until]
+      if until_option
         raise 'Implement Until'
-      elsif count_option = options[:count]
+      elsif count_option
         add 'for'
         add count_option
         add plural?(count_option) ? 'times' : 'time'
@@ -23,9 +27,18 @@ module RRule
       @text
     end
 
+    # Get crazy with it.
+    def method_missing method_name, *args
+      if method_name.to_s.match?(/_option/)
+        nil
+      else
+        super
+      end
+    end
+
     protected
 
-      def list(arr, formatter, finalDelim, delim: ',')
+      def list(arr, formatter, finalDelim = nil, delim: ',')
         arr.map(&formatter).join(delim + ' ')
       end
 
@@ -38,31 +51,59 @@ module RRule
       end
 
       def weekly
+        if interval_option != 1
+          add interval_option
+          add plural?(interval_option) ? 'weeks' : 'week'
+        end
+
+        case
+        when byweekday_option && weekdays?(byweekday_option)
+          if interval_option == 1
+            add plural?(interval_option) ? 'weekdays' : 'weekday'
+          else
+            add 'on'
+            add 'weekdays'
+          end
+        when byweekday_option && every_day?(byweekday_option)
+          add plural?(interval_option) ? 'days' : 'day'
+        else
+          add 'week' if interval_option == 1
+
+          if bymonth_option
+            add 'in'
+            _bymonth
+          end
+
+          case
+          when bymonthday_option
+            _bymonthday
+          when byweekday_option
+            _byweekday
+          end
+        end
       end
 
       def monthly
-        interval = options[:interval]
-
-        if bymonth = options[:bymonth]
-          if interval != 1
-            add interval
+        if bymonth_option
+          if interval_option != 1
+            add interval_option
             add 'months'
-            add 'in' if plural?(interval)
+            add 'in' if plural?(interval_option)
           end
 
           _bymonth
         else
-          add interval if interval != 1
+          add interval_option if interval_option != 1
 
-          add plural?(interval) ? 'months' : 'month'
+          add plural?(interval_option) ? 'months' : 'month'
         end
 
-        if options[:bymonthday]
+        if bymonthday_option
           _bymonthday
-        elsif options[:byweekday] && weekdays?(options[:byweekday])
+        elsif byweekday_option && weekdays?(byweekday_option)
           add 'on'
           add 'weekdays'
-        elsif options[:byweekday] || options[:bynweekday]
+        elsif byweekday_option || bynweekday_option
           _byweekday
         end
       end
@@ -70,13 +111,17 @@ module RRule
     private
 
       def weekdaytext day
-        "#{day.nth} #{day.full_name}"
+        [day.ordinal && day.nth, day.full_name].compact.join(' ')
       end
 
-      def weekdays? byweekday
-        return false if byweekday.none?
+      def every_day? days
+        days.sort_by { |d| d.index }.map(&:short_name) == RRule::WEEKDAYS
+      end
 
-        raise 'Implement Weekdays'
+      def weekdays? days
+        return false if days.none?
+
+        days.sort_by { |d| d.index }.map(&:short_name) == RRule::WEEKDAYS - %w(SA SU)
       end
 
       def _bymonth
@@ -84,9 +129,14 @@ module RRule
       end
 
       def _byweekday
-        if options[:bynweekday]
+        if byweekday_option.any?
+          add 'on'
+          add list(byweekday_option, method(:weekdaytext))
+        end
+
+        if bynweekday_option.any?
           add 'on the'
-          add list(options[:bynweekday], method(:weekdaytext), 'and')
+          add list(bynweekday_option, method(:weekdaytext), 'and')
         end
       end
   end
