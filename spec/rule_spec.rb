@@ -2598,4 +2598,28 @@ describe RRule::Rule do
 
     expect(rrule.to_s).to eql rrule_string
   end
+
+  describe '#humanize' do
+    let(:dtstart) { Time.parse('Tue Sep  2 06:00:00 PDT 1997') }
+    let(:timezone) { 'America/New_York' }
+    let(:rrule) { RRule::Rule.new(rule, dtstart: dtstart, tzid: timezone) }
+
+    context 'every day' do
+      let(:rule) { 'RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU' }
+
+      it { expect(rrule.humanize).to eq 'every day' }
+    end
+
+    context 'every week on Tuesday, Thursday' do
+      let(:rule) { 'FREQ=WEEKLY;INTERVAL=1;BYDAY=TU,TH' }
+
+      it { expect(rrule.humanize).to eq 'every week on Tuesday, Thursday' }
+    end
+
+    context 'every month on the last Friday for 7 times' do
+      let(:rule) { 'FREQ=MONTHLY;BYDAY=-1FR;COUNT=7' }
+
+      it { expect(rrule.humanize).to eq 'every month on the last Friday for 7 times' }
+    end
+  end
 end
