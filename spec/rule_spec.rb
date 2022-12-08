@@ -2591,4 +2591,11 @@ describe RRule::Rule do
     expect(rrule.next).to eql Time.parse('Wed Sep  4 06:00:00 PDT 1997')
     expect(rrule.next).to eql Time.parse('Thu Sep  6 06:00:00 PDT 1997')
   end
+
+  it 'correctly returns the parsed rule when invoking the to_s method' do
+    rrule_string = 'RRULE:INTERVAL=2;FREQ=DAILY;COUNT=10'
+    rrule = RRule::Rule.new(rrule_string)
+
+    expect(rrule.to_s).to eql rrule_string
+  end
 end

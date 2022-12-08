@@ -8,12 +8,17 @@ module RRule
 
     def initialize(rrule, dtstart: Time.now, tzid: 'UTC', exdate: [], max_year: nil)
       @tz = tzid
+      @rrule = rrule
       @dtstart = dtstart.is_a?(Date) ? dtstart : floor_to_seconds_in_timezone(dtstart)
       @exdate = exdate
       @options = parse_options(rrule)
       @frequency_type = Frequency.for_options(options)
       @max_year = max_year || 9999
       @max_date = DateTime.new(@max_year)
+    end
+
+    def to_s
+      @rrule
     end
 
     def all(limit: nil)
