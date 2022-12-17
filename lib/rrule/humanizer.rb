@@ -8,6 +8,16 @@ module RRule
 
     OPTION_ATTRIBUTE_RE = /_option/.freeze
 
+    DAY_NAMES = %w[
+      Sunday
+      Monday
+      Tuesday
+      Wednesday
+      Thursday
+      Friday
+      Saturday
+    ].freeze
+
     def initialize(rrule, options)
       @rrule = rrule
       @options = options
@@ -145,7 +155,7 @@ module RRule
       end
 
       def weekdaytext(day)
-        [day.ordinal && day.nth, day.full_name].compact.join(' ')
+        [day.ordinal && nth(day.ordinal), DAY_NAMES[day.index]].compact.join(' ')
       end
 
       def all_weeks?
@@ -153,13 +163,13 @@ module RRule
       end
 
       def every_day?
-        byweekday_option.sort_by(&:index).map(&:short_name) == RRule::WEEKDAYS
+        byweekday_option.sort_by(&:index).map { |day| WEEKDAYS[day.index]} == RRule::WEEKDAYS
       end
 
       def weekdays?
         return false if byweekday_option.none?
 
-        byweekday_option.sort_by(&:index).map(&:short_name) == RRule::WEEKDAYS - %w[SA SU]
+        byweekday_option.sort_by(&:index).map { |day| WEEKDAYS[day.index]} == RRule::WEEKDAYS - %w[SA SU]
       end
 
       def _bymonth
@@ -182,6 +192,24 @@ module RRule
       def _byhour
         add 'at'
         add list byhour_option, :to_s, 'and'
+      end
+
+      def nth(ordinal)
+        return 'last' if ordinal == -1
+
+        nth =
+          case npos = ordinal.abs
+          when 1, 21, 31
+            "#{npos}st"
+          when 2, 22
+            "#{npos}nd"
+          when 3, 23
+            "#{npos}rd"
+          else
+            "#{npos}th"
+          end
+
+        ordinal < 0 ? "#{nth} last" : nth
       end
   end
 end
