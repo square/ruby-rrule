@@ -2605,6 +2605,18 @@ describe RRule::Rule do
     let(:rrule) { RRule::Rule.new(rule, dtstart: dtstart, tzid: timezone) }
 
     context 'every day' do
+      let(:rule) { 'RRULE:FREQ=DAILY;INTERVAL=1' }
+
+      it { expect(rrule.humanize).to eq 'every day' }
+    end
+
+    context 'every day at 1' do
+      let(:rule) { 'RRULE:FREQ=DAILY;INTERVAL=1;BYHOUR=1' }
+
+      it { expect(rrule.humanize).to eq 'every day at 1' }
+    end
+
+    context 'every day weekly' do
       let(:rule) { 'RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU' }
 
       it { expect(rrule.humanize).to eq 'every day' }

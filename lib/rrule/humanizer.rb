@@ -56,6 +56,29 @@ module RRule
         n.to_i % 100 != 1
       end
 
+      def daily
+        add interval_option if interval_option != 1
+
+        if byweekday_option && weekdays?
+          add plural?(interval_option) ? 'weekdays' : 'weekday'
+        else
+          add plural?(interval_option) ? 'days' : 'day'
+        end
+
+        if bymonth_option
+          add 'in'
+          _bymonth
+        end
+
+        if bymonthday_option
+          _bymonthday
+        elsif byweekday_option
+          _byweekday
+        elsif byhour_option
+          _byhour
+        end
+      end
+
       def weekly
         if interval_option != 1
           add interval_option
@@ -147,6 +170,11 @@ module RRule
           add 'on the'
           add list(bynweekday_option, method(:weekdaytext), 'and')
         end
+      end
+
+      def _byhour
+        add 'at'
+        add list byhour_option, :to_s, 'and'
       end
   end
 end
