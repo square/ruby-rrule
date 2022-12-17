@@ -22,7 +22,7 @@ module RRule
     def self.parse(weekday)
       match = /([+-]?\d+)?([A-Z]{2})/.match(weekday)
       index = RRule::WEEKDAYS.index(match[2])
-      ordinal = match[1] ? match[1].to_i : nil
+      ordinal = match[1]&.to_i
       new(index, ordinal)
     end
 
@@ -49,7 +49,7 @@ module RRule
           "#{npos}th"
         end
 
-      ordinal < 0 ? nth + ' ' + 'last' : nth
+      ordinal < 0 ? "#{nth} last" : nth
     end
   end
 end

@@ -1,11 +1,16 @@
+# frozen_string_literal: true
+
 module RRule
   # Based off https://github.com/jakubroztocil/rrule/blob/master/src/nlp/totext.ts
   #
   class Humanizer
     attr_reader :rrule, :options
 
-    def initialize rrule, options
-      @rrule, @options = rrule, options
+    OPTION_ATTRIBUTE_RE = /_option/.freeze
+
+    def initialize(rrule, options)
+      @rrule = rrule
+      @options = options
 
       # Define instance method for each of the options.
       options.each { |name, value| define_singleton_method("#{name}_option") { value } }
@@ -28,12 +33,16 @@ module RRule
     end
 
     # Return nil if we're trying to access an option that isn't present.
-    def method_missing method_name, *args
-      if method_name.to_s.match?(/_option/)
+    def method_missing(method_name, *args)
+      if method_name.to_s.match?(OPTION_ATTRIBUTE_RE)
         nil
       else
         super
       end
+    end
+
+    def respond_to_missing?(method_name)
+      super || method_name.to_s.match?(OPTION_ATTRIBUTE_RE)
     end
 
     protected
@@ -42,18 +51,18 @@ module RRule
         *rest, middle, tail = arr.map(&formatter)
 
         if final_delimiter
-          [*rest, [middle, tail].compact.join(" #{final_delimiter} ")].join(delimiter + ' ')
+          [*rest, [middle, tail].compact.join(" #{final_delimiter} ")].join("#{delimiter} ")
         else
-          [*rest, middle, tail].compact.join(delimiter + ' ')
+          [*rest, middle, tail].compact.join("#{delimiter} ")
         end
       end
 
-      def add string
+      def add(string)
         @buffer += " #{string}"
       end
 
-      def plural? n
-        n.to_i % 100 != 1
+      def plural?(num)
+        num.to_i % 100 != 1
       end
 
       def daily
@@ -85,15 +94,14 @@ module RRule
           add plural?(interval_option) ? 'weeks' : 'week'
         end
 
-        case
-        when byweekday_option && weekdays?
+        if byweekday_option && weekdays?
           if interval_option == 1
             add plural?(interval_option) ? 'weekdays' : 'weekday'
           else
             add 'on'
             add 'weekdays'
           end
-        when byweekday_option && every_day?
+        elsif byweekday_option && every_day?
           add plural?(interval_option) ? 'days' : 'day'
         else
           add 'week' if interval_option == 1
@@ -103,10 +111,9 @@ module RRule
             _bymonth
           end
 
-          case
-          when bymonthday_option
+          if bymonthday_option
             _bymonthday
-          when byweekday_option
+          elsif byweekday_option
             _byweekday
           end
         end
@@ -137,7 +144,7 @@ module RRule
         end
       end
 
-      def weekdaytext day
+      def weekdaytext(day)
         [day.ordinal && day.nth, day.full_name].compact.join(' ')
       end
 
@@ -146,13 +153,13 @@ module RRule
       end
 
       def every_day?
-        byweekday_option.sort_by { |d| d.index }.map(&:short_name) == RRule::WEEKDAYS
+        byweekday_option.sort_by(&:index).map(&:short_name) == RRule::WEEKDAYS
       end
 
       def weekdays?
         return false if byweekday_option.none?
 
-        byweekday_option.sort_by { |d| d.index }.map(&:short_name) == RRule::WEEKDAYS - %w(SA SU)
+        byweekday_option.sort_by(&:index).map(&:short_name) == RRule::WEEKDAYS - %w[SA SU]
       end
 
       def _bymonth
@@ -165,11 +172,11 @@ module RRule
           add list(byweekday_option, method(:weekdaytext))
         end
 
-        if bynweekday_option.any?
-          add 'and' if all_weeks?
-          add 'on the'
-          add list(bynweekday_option, method(:weekdaytext), 'and')
-        end
+        return unless bynweekday_option.any?
+
+        add 'and' if all_weeks?
+        add 'on the'
+        add list(bynweekday_option, method(:weekdaytext), 'and')
       end
 
       def _byhour
