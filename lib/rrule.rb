@@ -6,6 +6,7 @@ module RRule
   autoload :Rule, 'rrule/rule'
   autoload :Context, 'rrule/context'
   autoload :Weekday, 'rrule/weekday'
+  autoload :Humanizer, 'rrule/humanizer'
 
   autoload :Frequency, 'rrule/frequencies/frequency'
   autoload :Daily, 'rrule/frequencies/daily'
