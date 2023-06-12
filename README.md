@@ -30,6 +30,16 @@ rrule.between(Time.new(2016, 6, 23), Time.new(2016, 6, 24))
 => [2016-06-23 16:45:32 -0700]
 ```
 
+You can generate all instances starting from a specified date with the `#from` method:
+
+```ruby
+rrule = RRule::Rule.new('FREQ=DAILY;COUNT=3', dtstart: Time.new(2016, 1, 1))
+rrule.all
+=> [2016-01-01 16:45:32 -0700, 2016-01-02 16:45:32 -0700, 2016-01-03 16:45:32 -0700]
+rrule.from(Time.new(2016, 1, 2))
+=> [2016-01-02 16:45:32 -0700, 2016-01-03 16:45:32 -0700]
+```
+
 You can limit the number of instances that are returned with the `limit` option:
 
 ```ruby
