@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 0.5.0 *(2022-03-14)*
+----------------------------
+Added `#from` method. Added test support for Ruby 3.1. Fixed bug in `#between` method when `limit` was provided.
+
 Version 0.4.4 *(2022-03-01)*
 ----------------------------
 Remove constraint on ActiveSupport version
