@@ -6,6 +6,19 @@ module RRule
   class Humanizer
     attr_reader :rrule, :options
 
+    module Refinements
+      refine String do
+        if RUBY_VERSION <= "2.3.8"
+
+          def match?(*args)
+            !!match(*args)
+          end
+        end
+      end
+    end
+    
+    using Refinements
+
     OPTION_ATTRIBUTE_RE = /_option/.freeze
 
     DAY_NAMES = %w[

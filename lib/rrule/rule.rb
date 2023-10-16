@@ -6,6 +6,19 @@ module RRule
 
     attr_reader :dtstart, :tz, :exdate
 
+    module Refinements
+      refine String do
+        if RUBY_VERSION <= "2.3.8"
+
+          def delete_prefix(pref)
+            self.gsub(Regexp.new("^#{pref}"), '')
+          end
+        end
+      end
+    end
+    
+    using Refinements
+
     def initialize(rrule, dtstart: Time.now, tzid: 'UTC', exdate: [], max_year: nil)
       @tz = tzid
       @rrule = rrule

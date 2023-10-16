@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
     'changelog_uri' => 'https://github.com/square/ruby-rrule/blob/master/CHANGELOG.md'
   }
 
-  s.required_ruby_version = '>= 2.6.0'
+  s.required_ruby_version = '>= 2.3.8'
   s.add_runtime_dependency 'activesupport', '>= 2.3'
   s.add_development_dependency 'appraisal'
 end
