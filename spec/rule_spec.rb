@@ -2646,4 +2646,36 @@ describe RRule::Rule do
       it { expect(rrule.humanize).to eq 'every month on the 1st Monday and last Friday for 7 times' }
     end
   end
+
+  describe "#has_end_limit?" do
+    subject { rrule.has_end_limit? }
+
+    let(:rrule) { RRule::Rule.new(rule, dtstart: dtstart, tzid: timezone) }
+    let(:dtstart) { Time.parse('Tue Sep 2 06:00:00 PDT 1997') }
+    let(:timezone) { "Australia/Melbourne"}
+
+    context "never ends" do
+      let(:rule) { "RRULE:FREQ=DAILY;INTERVAL=1" }
+
+      it { expect(subject).to eq(false) }
+    end
+
+    context "ends after N times" do
+      let(:rule) { "RRULE:FREQ=DAILY;INTERVAL=1;COUNT=3" }
+
+      it { expect(subject).to eq(true) }
+    end
+
+    context "ends after end date" do
+      let(:rule) { "RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20240501T010000Z" }
+
+      it { expect(subject).to eq(true) }
+    end
+
+    context "both COUNT and UNTIL are present" do
+      let(:rule) { "RRULE:FREQ=DAILY;INTERVAL=1;COUNT=3;UNTIL=20240501T010000Z" }
+
+      it { expect(subject).to eq(true) }
+    end
+  end
 end

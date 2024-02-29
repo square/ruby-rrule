@@ -87,6 +87,10 @@ module RRule
       Humanizer.new(self, options).to_s
     end
 
+    def has_end_limit?
+      [:count, :until].any? { |opt| options.include?(opt) }
+    end
+
     private
 
     attr_reader :options, :max_year, :max_date, :frequency_type
