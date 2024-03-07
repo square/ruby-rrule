@@ -87,6 +87,11 @@ module RRule
       Humanizer.new(self, options).to_s
     end
 
+    def is_finite?
+      keys = %i[count until] & options.keys
+      !keys.empty?
+    end
+
     private
 
     attr_reader :options, :max_year, :max_date, :frequency_type

@@ -8,7 +8,7 @@ gem 'rspec', '~> 3.8'
 gem 'rubocop', '0.63.1'
 
 platform :mri do
-  gem 'pry-byebug'
+  gem 'pry-byebug', '~> 3.10.1'
 end
 
 gemspec
