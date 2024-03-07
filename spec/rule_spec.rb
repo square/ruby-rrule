@@ -2647,33 +2647,33 @@ describe RRule::Rule do
     end
   end
 
-  describe "#is_finite?" do
+  describe '#is_finite?' do
     subject { rrule.is_finite? }
 
     let(:rrule) { RRule::Rule.new(rule, dtstart: dtstart, tzid: timezone) }
     let(:dtstart) { Time.parse('Tue Sep 2 06:00:00 PDT 1997') }
-    let(:timezone) { "Australia/Melbourne"}
+    let(:timezone) { 'Australia/Melbourne'}
 
-    context "never ends" do
-      let(:rule) { "RRULE:FREQ=DAILY;INTERVAL=1" }
+    context 'never ends' do
+      let(:rule) { 'RRULE:FREQ=DAILY;INTERVAL=1' }
 
       it { expect(subject).to eq(false) }
     end
 
-    context "ends after N times" do
-      let(:rule) { "RRULE:FREQ=DAILY;INTERVAL=1;COUNT=3" }
+    context 'ends after N times' do
+      let(:rule) { 'RRULE:FREQ=DAILY;INTERVAL=1;COUNT=3' }
 
       it { expect(subject).to eq(true) }
     end
 
-    context "ends after end date" do
-      let(:rule) { "RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20240501T010000Z" }
+    context 'ends after end date' do
+      let(:rule) { 'RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20240501T010000Z' }
 
       it { expect(subject).to eq(true) }
     end
 
-    context "both COUNT and UNTIL are present" do
-      let(:rule) { "RRULE:FREQ=DAILY;INTERVAL=1;COUNT=3;UNTIL=20240501T010000Z" }
+    context 'both COUNT and UNTIL are present' do
+      let(:rule) { 'RRULE:FREQ=DAILY;INTERVAL=1;COUNT=3;UNTIL=20240501T010000Z' }
 
       it { expect(subject).to eq(true) }
     end

@@ -88,7 +88,8 @@ module RRule
     end
 
     def is_finite?
-      ([:count, :until] & options.keys).size > 0
+      keys = %i[count until] & options.keys
+      !keys.empty?
     end
 
     private
