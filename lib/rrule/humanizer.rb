@@ -31,9 +31,8 @@ module RRule
 
       send freq_option.downcase
 
-      if until_option
-        raise 'Implement Until'
-      elsif count_option
+      raise 'Implement Until' if until_option
+      if count_option
         add 'for'
         add count_option
         add plural?(count_option) ? 'times' : 'time'
