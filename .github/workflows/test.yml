@@ -1,0 +1,41 @@
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby:
+          - 3.0.0
+          - 3.1.0
+          - 3.2.0
+          - 3.3.0
+        gemfile:
+          - gemfiles/activesupport_6_1.gemfile
+          - gemfiles/activesupport_7_0.gemfile
+          - gemfiles/activesupport_7_1.gemfile
+
+    name: Ruby ${{ matrix.ruby }} using Gemfile ${{ matrix.gemfile }}
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - name: 'Update gem command'
+        run: yes | gem update --system --force
+      - name: 'Update Bundler'
+        run: gem install bundler
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - run: bundle install
+      - run: bundle exec rake
