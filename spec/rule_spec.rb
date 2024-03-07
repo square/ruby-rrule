@@ -2647,8 +2647,8 @@ describe RRule::Rule do
     end
   end
 
-  describe "#has_end_limit?" do
-    subject { rrule.has_end_limit? }
+  describe "#is_finite?" do
+    subject { rrule.is_finite? }
 
     let(:rrule) { RRule::Rule.new(rule, dtstart: dtstart, tzid: timezone) }
     let(:dtstart) { Time.parse('Tue Sep 2 06:00:00 PDT 1997') }

@@ -87,8 +87,8 @@ module RRule
       Humanizer.new(self, options).to_s
     end
 
-    def has_end_limit?
-      [:count, :until].any? { |opt| options.include?(opt) }
+    def is_finite?
+      ([:count, :until] & options.keys).size > 0
     end
 
     private
