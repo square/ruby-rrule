@@ -2,12 +2,11 @@
 
 source "https://rubygems.org"
 
-gem "pry", "~> 0.12.2"
+gem "pry", "~> 0.14.1"
 gem "rake"
 gem "rspec", "~> 3.8"
 gem "rubocop", "0.63.1"
-gem "rexml"
-gem "activesupport", ">= 2", git: "https://github.com/makandra/rails.git", branch: "2-3-lts"
+gem "activesupport", "~> 6.1"
 
 platforms :mri do
   gem "pry-byebug"
