@@ -188,6 +188,11 @@ module RRule
         add list(bynweekday_option, method(:weekdaytext), 'and')
       end
 
+      def _bymonthday
+        add 'on the'
+        add list (bymonthday_option.map { |o| nth(o) }), :to_s, 'and'
+      end
+
       def _byhour
         add 'at'
         add list byhour_option, :to_s, 'and'
