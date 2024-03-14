@@ -21,6 +21,9 @@ RSpec.configure do |config|
     # `true` in RSpec 4.
     mocks.verify_partial_doubles = true
   end
+
+  # Focus with fit, fdescribe, and fcontext
+  config.filter_run_when_matching :focus
 end
 
 Time.zone = 'America/Los_Angeles'

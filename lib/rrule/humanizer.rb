@@ -113,14 +113,20 @@ module RRule
       end
 
       def yearly
-        if interval_option != 1
-          add interval_option
-          add plural?(interval_option) ? 'years' : 'year'
+        add interval_option if interval_option != 1
+        add plural?(interval_option) ? 'years' : 'year'
+
+        if bymonthday_option || bymonth_option
+          add 'on'
         end
 
-        add 'yearly'
-        add 'every'
-        add monthly
+        if bymonth_option
+          add list(options.fetch(:bymonth), method(:monthtext), 'and')
+        end
+
+        if bymonthday_option
+          add list (bymonthday_option.map { |o| nth(o) }), :to_s, 'and'
+        end
       end
 
       def weekly
@@ -184,7 +190,7 @@ module RRule
       end
 
       def monthtext(month)
-        MONTH_NAMES[month]
+        MONTH_NAMES[month - 1]
       end
 
       def all_weeks?
@@ -216,6 +222,11 @@ module RRule
         add 'and' if all_weeks?
         add 'on the'
         add list(bynweekday_option, method(:weekdaytext), 'and')
+      end
+
+      def _bymonthday
+        add 'on the'
+        add list (bymonthday_option.map { |o| nth(o) }), :to_s, 'and'
       end
 
       def _byhour
