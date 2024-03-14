@@ -116,17 +116,11 @@ module RRule
         add interval_option if interval_option != 1
         add plural?(interval_option) ? 'years' : 'year'
 
-        if bymonthday_option || bymonth_option
-          add 'on'
-        end
+        add 'on' if bymonthday_option || bymonth_option
 
-        if bymonth_option
-          add list(options.fetch(:bymonth), method(:monthtext), 'and')
-        end
+        add list(options.fetch(:bymonth), method(:monthtext), 'and') if bymonth_option
 
-        if bymonthday_option
-          add list (bymonthday_option.map { |o| nth(o) }), :to_s, 'and'
-        end
+        add list (bymonthday_option.map { |o| nth(o) }), :to_s, 'and' if bymonthday_option
       end
 
       def weekly
