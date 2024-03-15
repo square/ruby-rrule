@@ -1,27 +1,13 @@
 # frozen_string_literal: true
 
-appraise 'activesupport-2.3-LTS' do
-  gem 'rexml'
-  gem 'activesupport', '>= 2', git: 'https://github.com/makandra/rails.git', branch: '2-3-lts'
+appraise 'activesupport-6_1' do
+  gem 'activesupport', '~> 6.1'
 end
 
-appraise 'activesupport-3' do
-  gem 'activesupport', '~> 3'
-  gem 'tzinfo', '~> 1.2'
+appraise 'activesupport-7_0' do
+  gem 'activesupport', '~> 7.0'
 end
 
-appraise 'activesupport-4' do
-  gem 'activesupport', '~> 4'
-end
-
-appraise 'activesupport-5' do
-  gem 'activesupport', '~> 5'
-end
-
-appraise 'activesupport-6' do
-  gem 'activesupport', '~> 6'
-end
-
-appraise 'activesupport-7' do
-  gem 'activesupport', '~> 7'
+appraise 'activesupport-7_1' do
+  gem 'activesupport', '~> 7.1'
 end

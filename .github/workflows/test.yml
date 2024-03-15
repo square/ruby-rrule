@@ -14,14 +14,8 @@ jobs:
           - 3.1.0
           - 3.2.0
           - 3.3.0
-        gemfile:
-          - gemfiles/activesupport_6_1.gemfile
-          - gemfiles/activesupport_7_0.gemfile
-          - gemfiles/activesupport_7_1.gemfile
 
-    name: Ruby ${{ matrix.ruby }} using Gemfile ${{ matrix.gemfile }}
-    env:
-      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+    name: Ruby ${{ matrix.ruby }}
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
@@ -38,4 +32,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gems-
       - run: bundle install
-      - run: bundle exec rake
+      - name: 'Ensure appraisals are up to date'
+        run: appraisal clean && appraisal generate && git diff --exit-code
+      - run: appraisal install
+      - run: appraisal rake
