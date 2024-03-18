@@ -2645,6 +2645,12 @@ describe RRule::Rule do
 
       it { expect(rrule.humanize).to eq 'every month on the 1st Monday and last Friday for 7 times' }
     end
+
+    context 'every month on the 14th' do
+      let(:rule) { 'FREQ=MONTHLY;INTERVAL=1;BYMONTHDAY=14,15' }
+
+      it { expect(rrule.humanize).to eq 'every month on the 14th and 15th' }
+    end
   end
 
   describe '#is_finite?' do
