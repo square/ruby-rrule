@@ -18,6 +18,21 @@ module RRule
       Saturday
     ].freeze
 
+    MONTH_NAMES = %w[
+      January
+      February
+      March
+      April
+      May
+      June
+      July
+      August
+      September
+      October
+      November
+      December
+    ].freeze
+
     def initialize(rrule, options)
       @rrule = rrule
       @options = options
@@ -97,6 +112,17 @@ module RRule
         end
       end
 
+      def yearly
+        add interval_option if interval_option != 1
+        add plural?(interval_option) ? 'years' : 'year'
+
+        add 'on' if bymonthday_option || bymonth_option
+
+        add list(options.fetch(:bymonth), method(:monthtext), 'and') if bymonth_option
+
+        add list (bymonthday_option.map { |o| nth(o) }), :to_s, 'and' if bymonthday_option
+      end
+
       def weekly
         if interval_option != 1
           add interval_option
@@ -157,6 +183,10 @@ module RRule
         [day.ordinal && nth(day.ordinal), DAY_NAMES[day.index]].compact.join(' ')
       end
 
+      def monthtext(month)
+        MONTH_NAMES[month - 1]
+      end
+
       def all_weeks?
         bynweekday_option.all? { |option| option.ordinal.nil? }
       end
@@ -172,7 +202,7 @@ module RRule
       end
 
       def _bymonth
-        add list(this.options.bymonth, method(:monthtext), 'and')
+        add list(options.fetch(:bymonth), method(:monthtext), 'and')
       end
 
       def _byweekday
