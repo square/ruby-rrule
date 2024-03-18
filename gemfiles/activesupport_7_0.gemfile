@@ -9,7 +9,7 @@ gem "rubocop", "0.63.1"
 gem "activesupport", "~> 7.0"
 
 platforms :mri do
-  gem "pry-byebug"
+  gem "pry-byebug", "~> 3.10.1"
 end
 
 gemspec path: "../"
