@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
-require 'active_support/all'
+require 'active_support'
+require 'active_support/core_ext/time'
+require 'active_support/core_ext/object/blank'
+require 'active_support/core_ext/integer/time'
+require 'active_support/core_ext/array/wrap'
 
 module RRule
   autoload :Rule, 'rrule/rule'
