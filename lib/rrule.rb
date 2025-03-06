@@ -13,6 +13,9 @@ module RRule
   autoload :Humanizer, 'rrule/humanizer'
 
   autoload :Frequency, 'rrule/frequencies/frequency'
+  autoload :Secondly, 'rrule/frequencies/secondly'
+  autoload :Minutely, 'rrule/frequencies/minutely'
+  autoload :Hourly, 'rrule/frequencies/hourly'
   autoload :Daily, 'rrule/frequencies/daily'
   autoload :Weekly, 'rrule/frequencies/weekly'
   autoload :SimpleWeekly, 'rrule/frequencies/simple_weekly'

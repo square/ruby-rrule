@@ -127,6 +127,159 @@ describe RRule::Rule do
   end
 
   describe '#all' do
+    it 'returns the correct result with an rrule of FREQ=SECONDLY;COUNT=10' do
+      rrule = 'FREQ=SECONDLY;COUNT=10'
+      dtstart = Time.parse('Tue Sep 2 06:00:00 PDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+      expect(rrule.all).to match_array([
+        Time.parse('Tue Sep 2 06:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:01 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:02 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:03 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:04 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:05 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:06 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:07 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:08 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:09 PDT 1997'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=SECONDLY;INTERVAL=10;COUNT=5' do
+      rrule = 'FREQ=SECONDLY;INTERVAL=10;COUNT=5'
+      dtstart = Time.parse('Tue Sep 2 06:00:00 PDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+      expect(rrule.all).to match_array([
+        Time.parse('Tue Sep 2 06:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:10 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:20 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:30 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:40 PDT 1997'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=MINUTELY;COUNT=10' do
+      rrule = 'FREQ=MINUTELY;COUNT=10'
+      dtstart = Time.parse('Tue Sep 2 06:00:00 PDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+      expect(rrule.all).to match_array([
+        Time.parse('Tue Sep 2 06:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:01:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:02:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:03:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:04:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:05:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:06:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:07:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:08:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:09:00 PDT 1997'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=MINUTELY;INTERVAL=10;COUNT=5' do
+      rrule = 'FREQ=MINUTELY;INTERVAL=10;COUNT=5'
+      dtstart = Time.parse('Tue Sep 2 06:00:00 PDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+      expect(rrule.all).to match_array([
+        Time.parse('Tue Sep 2 06:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:10:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:20:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:30:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:40:00 PDT 1997'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=MINUTELY;BYSECOND=0,15,30,45;COUNT=10' do
+      rrule = 'FREQ=MINUTELY;BYSECOND=0,15,30,45;COUNT=10'
+      dtstart = Time.parse('Tue Sep 2 06:00:00 PDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+      expect(rrule.all).to match_array([
+        Time.parse('Tue Sep 2 06:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:15 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:30 PDT 1997'),
+        Time.parse('Tue Sep 2 06:00:45 PDT 1997'),
+        Time.parse('Tue Sep 2 06:01:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:01:15 PDT 1997'),
+        Time.parse('Tue Sep 2 06:01:30 PDT 1997'),
+        Time.parse('Tue Sep 2 06:01:45 PDT 1997'),
+        Time.parse('Tue Sep 2 06:02:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:02:15 PDT 1997'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=HOURLY;COUNT=10' do
+      rrule = 'FREQ=HOURLY;COUNT=10'
+      dtstart = Time.parse('Tue Sep 2 06:00:00 PDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+      expect(rrule.all).to match_array([
+        Time.parse('Tue Sep 2 06:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 07:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 08:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 09:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 10:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 11:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 12:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 13:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 14:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 15:00:00 PDT 1997'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=HOURLY;INTERVAL=10;COUNT=5' do
+      rrule = 'FREQ=HOURLY;INTERVAL=10;COUNT=5'
+      dtstart = Time.parse('Tue Sep 2 06:00:00 PDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+      expect(rrule.all).to match_array([
+        Time.parse('Tue Sep 2 06:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 16:00:00 PDT 1997'),
+        Time.parse('Tue Sep 3 02:00:00 PDT 1997'),
+        Time.parse('Fri Sep 3 12:00:00 PDT 1997'),
+        Time.parse('Fri Sep 3 22:00:00 PDT 1997'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=HOURLY;BYMINUTE=0,30;COUNT=10' do
+      rrule = 'FREQ=HOURLY;BYMINUTE=0,30;COUNT=10'
+      dtstart = Time.parse('Tue Sep 2 06:00:00 PDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+      expect(rrule.all).to match_array([
+        Time.parse('Tue Sep 2 06:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 06:30:00 PDT 1997'),
+        Time.parse('Tue Sep 2 07:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 07:30:00 PDT 1997'),
+        Time.parse('Tue Sep 2 08:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 08:30:00 PDT 1997'),
+        Time.parse('Tue Sep 2 09:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 09:30:00 PDT 1997'),
+        Time.parse('Tue Sep 2 10:00:00 PDT 1997'),
+        Time.parse('Tue Sep 2 10:30:00 PDT 1997'),
+      ])
+    end
+
     it 'returns the correct result with an rrule of FREQ=DAILY;COUNT=10' do
       rrule = 'FREQ=DAILY;COUNT=10'
       dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')
