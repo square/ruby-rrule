@@ -34,6 +34,12 @@ module RRule
 
     def self.for_options(options)
       case options[:freq]
+      when 'SECONDLY'
+        Secondly
+      when 'MINUTELY'
+        Minutely
+      when 'HOURLY'
+        Hourly
       when 'DAILY'
         Daily
       when 'WEEKLY'

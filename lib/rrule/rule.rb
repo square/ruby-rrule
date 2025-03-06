@@ -187,7 +187,7 @@ module RRule
       # when the associated "DTSTART" property has a DATE value type.
       # These rule parts MUST be ignored in RECUR value that violate the
       # above requirement
-      options[:timeset] = [{ hour: (options[:byhour].presence || dtstart.hour), minute: (options[:byminute].presence || dtstart.min), second: (options[:bysecond].presence || dtstart.sec) }] unless dtstart.is_a?(Date)
+      options[:timeset] = [{ hour: options[:byhour].presence || dtstart.hour, minute: options[:byminute].presence || dtstart.min, second: options[:bysecond].presence || dtstart.sec }] unless dtstart.is_a?(Date)
 
       options
     end
