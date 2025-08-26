@@ -5,3 +5,4 @@ Gemfile.lock
 *.sublime-workspace
 .ruby-version
 gemfiles/*.lock
+.idea

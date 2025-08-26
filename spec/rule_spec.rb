@@ -2183,6 +2183,20 @@ describe RRule::Rule do
       ])
     end
 
+    it 'returns the correct result with an rrule of FREQ=YEARLY;BYMONTHDAY=25' do
+      rrule = 'FREQ=YEARLY;BYMONTHDAY=25'
+      dtstart = Time.parse('Mon Apr 1 19:00:00 PDT 2024')
+      timezone = 'America/Los_Angeles'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+      expect(rrule.between(Time.parse('Thu Mar 13 06:00:00 PST 2024'), Time.parse('Thu Mar 25 06:00:00 PST 2028'))).to match_array([
+                                               Time.parse('Mon Apr 25 19:00:00 PDT 2024'),
+                                               Time.parse('Mon Apr 25 19:00:00 PDT 2025'),
+                                               Time.parse('Mon Apr 25 19:00:00 PDT 2026'),
+                                               Time.parse('Mon Apr 25 19:00:00 PDT 2027'),
+                                             ])
+    end
+
     it 'returns the correct result with an rrule of FREQ=YEARLY;BYMONTH=3;BYDAY=TH' do
       rrule = 'FREQ=YEARLY;BYMONTH=3;BYDAY=TH'
       dtstart = Time.parse('Thu Mar 13 06:00:00 PST 1997')
