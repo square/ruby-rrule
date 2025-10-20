@@ -2,13 +2,10 @@
 
 source 'https://rubygems.org'
 
-gem 'pry', '~> 0.14.1'
+gem 'appraisal'
+gem 'pry-byebug'
 gem 'rake'
-gem 'rspec', '~> 3.8'
+gem 'rspec'
 gem 'rubocop', '0.63.1'
-
-platform :mri do
-  gem 'pry-byebug', '~> 3.10.1'
-end
 
 gemspec

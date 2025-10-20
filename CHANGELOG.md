@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.7.0 *(2025-10-20)*
+----------------------------
+## What's Changed
+* Add support for `YEARLY` `BYMONTHDAY` https://github.com/square/ruby-rrule/pull/69
+
 Version 0.6.0 *(2024-03-07)*
 ----------------------------
 ## What's Changed
