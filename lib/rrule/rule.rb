@@ -168,13 +168,13 @@ module RRule
         end
       end
 
-      unless options[:byweekno] || options[:byyearday] || options[:bymonthday] || options[:byweekday]
+      unless options[:byweekno] || options[:byyearday] || options[:byweekday]
         case options[:freq]
         when 'YEARLY'
-          options[:bymonth] = [dtstart.month] unless options[:bymonth]
-          options[:bymonthday] = [dtstart.day]
+          options[:bymonth] = [dtstart.month] unless options[:bymonth] || (options[:bymonthday] && options[:count])
+          options[:bymonthday] = [dtstart.day] unless options[:bymonthday]
         when 'MONTHLY'
-          options[:bymonthday] = [dtstart.day]
+          options[:bymonthday] = [dtstart.day] unless options[:bymonthday]
         when 'WEEKLY'
           options[:simple_weekly] = true
           options[:byweekday] = [Weekday.new(dtstart.wday)]
