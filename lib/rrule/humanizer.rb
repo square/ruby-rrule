@@ -48,7 +48,7 @@ module RRule
 
       raise 'Implement Until' if until_option
       if count_option
-        add 'for'
+        add 'for' unless subdaily?
         add count_option
         add plural?(count_option) ? 'times' : 'time'
       end
@@ -87,6 +87,25 @@ module RRule
 
       def plural?(num)
         num.to_i % 100 != 1
+      end
+
+      def subdaily?
+        %w[HOURLY MINUTELY SECONDLY].include?(freq_option)
+      end
+
+      def hourly
+        add interval_option if interval_option != 1
+        add plural?(interval_option) ? 'hours' : 'hour'
+      end
+
+      def minutely
+        add interval_option if interval_option != 1
+        add plural?(interval_option) ? 'minutes' : 'minute'
+      end
+
+      def secondly
+        add interval_option if interval_option != 1
+        add plural?(interval_option) ? 'seconds' : 'second'
       end
 
       def daily

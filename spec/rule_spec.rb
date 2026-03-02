@@ -2824,6 +2824,60 @@ describe RRule::Rule do
 
       it { expect(rrule.humanize).to eq 'every month on the 14th and 15th' }
     end
+
+    context 'every hour' do
+      let(:rule) { 'FREQ=HOURLY;INTERVAL=1' }
+
+      it { expect(rrule.humanize).to eq 'every hour' }
+    end
+
+    context 'every 2 hours' do
+      let(:rule) { 'FREQ=HOURLY;INTERVAL=2' }
+
+      it { expect(rrule.humanize).to eq 'every 2 hours' }
+    end
+
+    context 'every 2 hours 5 times' do
+      let(:rule) { 'FREQ=HOURLY;INTERVAL=2;COUNT=5' }
+
+      it { expect(rrule.humanize).to eq 'every 2 hours 5 times' }
+    end
+
+    context 'every minute' do
+      let(:rule) { 'FREQ=MINUTELY;INTERVAL=1' }
+
+      it { expect(rrule.humanize).to eq 'every minute' }
+    end
+
+    context 'every 30 minutes' do
+      let(:rule) { 'FREQ=MINUTELY;INTERVAL=30' }
+
+      it { expect(rrule.humanize).to eq 'every 30 minutes' }
+    end
+
+    context 'every 15 minutes 10 times' do
+      let(:rule) { 'FREQ=MINUTELY;INTERVAL=15;COUNT=10' }
+
+      it { expect(rrule.humanize).to eq 'every 15 minutes 10 times' }
+    end
+
+    context 'every second' do
+      let(:rule) { 'FREQ=SECONDLY;INTERVAL=1' }
+
+      it { expect(rrule.humanize).to eq 'every second' }
+    end
+
+    context 'every 30 seconds' do
+      let(:rule) { 'FREQ=SECONDLY;INTERVAL=30' }
+
+      it { expect(rrule.humanize).to eq 'every 30 seconds' }
+    end
+
+    context 'every hour 1 time' do
+      let(:rule) { 'FREQ=HOURLY;INTERVAL=1;COUNT=1' }
+
+      it { expect(rrule.humanize).to eq 'every hour 1 time' }
+    end
   end
 
   describe '#is_finite?' do
