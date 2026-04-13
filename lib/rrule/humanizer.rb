@@ -120,7 +120,7 @@ module RRule
 
         add list(options.fetch(:bymonth), method(:monthtext), 'and') if bymonth_option
 
-        add list (bymonthday_option.map { |o| nth(o) }), :to_s, 'and' if bymonthday_option
+        add list(bymonthday_option.map { |o| nth(o) }, :to_s, 'and') if bymonthday_option
       end
 
       def weekly
@@ -220,7 +220,7 @@ module RRule
 
       def _bymonthday
         add 'on the'
-        add list (bymonthday_option.map { |o| nth(o) }), :to_s, 'and'
+        add list(bymonthday_option.map { |o| nth(o) }, :to_s, 'and')
       end
 
       def _byhour
