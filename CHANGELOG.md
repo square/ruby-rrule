@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 0.8.0 *(2026-04-13)*
+----------------------------
+## What's Changed
+* Add humanizer support for hourly, minutely, and secondly frequencies https://github.com/square/ruby-rrule/pull/73
+* Update rubocop version https://github.com/square/ruby-rrule/pull/72
+
 Version 0.7.0 *(2025-10-20)*
 ----------------------------
 ## What's Changed
