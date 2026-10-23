@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.description = 'A gem for expanding dates according to the RRule specification'
   s.authors = ['Ryan Mitchell']
   s.email = 'rmitchell@squareup.com'
+  s.license = 'Apache-2.0'
   s.files = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   s.require_paths = ['lib']
   s.homepage = 'https://rubygems.org/gems/rrule'
