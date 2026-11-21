@@ -280,6 +280,49 @@ describe RRule::Rule do
       ])
     end
 
+    it 'returns the correct result with an rrule of FREQ=HOURLY;BYHOUR=9,17;COUNT=4' do
+      rrule = 'FREQ=HOURLY;BYHOUR=9,17;COUNT=4'
+      dtstart = Time.parse('Tue Sep 2 09:00:00 EDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+      expect(rrule.all).to match_array([
+        Time.parse('Tue Sep 2 09:00:00 EDT 1997'),
+        Time.parse('Tue Sep 2 17:00:00 EDT 1997'),
+        Time.parse('Wed Sep 3 09:00:00 EDT 1997'),
+        Time.parse('Wed Sep 3 17:00:00 EDT 1997'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=MINUTELY;BYHOUR=9;BYMINUTE=0,30;COUNT=4' do
+      rrule = 'FREQ=MINUTELY;BYHOUR=9;BYMINUTE=0,30;COUNT=4'
+      dtstart = Time.parse('Tue Sep 2 09:00:00 EDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+      expect(rrule.all).to match_array([
+        Time.parse('Tue Sep 2 09:00:00 EDT 1997'),
+        Time.parse('Tue Sep 2 09:30:00 EDT 1997'),
+        Time.parse('Wed Sep 3 09:00:00 EDT 1997'),
+        Time.parse('Wed Sep 3 09:30:00 EDT 1997'),
+      ])
+    end
+
+    it 'returns the correct result with an rrule of FREQ=SECONDLY;BYHOUR=9;BYMINUTE=0;BYSECOND=0,30;COUNT=2' do
+      rrule = 'FREQ=SECONDLY;BYHOUR=9;BYMINUTE=0;BYSECOND=0,30;COUNT=2'
+      dtstart = Time.parse('Tue Sep 2 08:59:50 EDT 1997')
+      timezone = 'America/New_York'
+
+      rrule = RRule::Rule.new(rrule, dtstart: dtstart, tzid: timezone)
+
+      expect(rrule.all).to match_array([
+        Time.parse('Tue Sep 2 09:00:00 EDT 1997'),
+        Time.parse('Tue Sep 2 09:00:30 EDT 1997'),
+      ])
+    end
+
     it 'returns the correct result with an rrule of FREQ=DAILY;COUNT=10' do
       rrule = 'FREQ=DAILY;COUNT=10'
       dtstart = Time.parse('Tue Sep  2 06:00:00 PDT 1997')

@@ -61,6 +61,13 @@ module RRule
 
     attr_reader :context
 
+    # For sub-daily frequencies BYHOUR, BYMINUTE and BYSECOND limit the
+    # occurrences instead of expanding them (RFC 5545 section 3.3.10).
+    def time_allowed?(option, value)
+      allowed = context.options[option]
+      allowed.blank? || allowed.include?(value)
+    end
+
     def same_month(first_date, second_date)
       first_date.month == second_date.month && first_date.year == second_date.year
     end
