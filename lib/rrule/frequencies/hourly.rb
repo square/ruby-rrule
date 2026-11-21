@@ -3,6 +3,8 @@
 module RRule
   class Hourly < Frequency
     def possible_days
+      return [] unless time_allowed?(:byhour, current_date.hour)
+
       [current_date.yday - 1] # convert to 0-indexed
     end
 
